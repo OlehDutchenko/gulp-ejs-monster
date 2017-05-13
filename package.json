@@ -1,6 +1,6 @@
 {
   "name": "gulp-ejs-monster",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "OBT",
   "main": "lib/index.js",
   "scripts": {
@@ -12,8 +12,7 @@
   },
   "keywords": [
     "ejs",
-    "gulp",
-    "gulp4"
+    "gulp"
   ],
   "author": "Oleg Dutchenko <dutchenko.o.wezom@gmail.com>",
   "license": "MIT",
