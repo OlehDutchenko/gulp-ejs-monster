@@ -29,9 +29,14 @@ const lodash = require('lodash');
 
 const ejsMonster = require('gulp-ejs-monster');
 
-const watchAndTouch = require('gulp-watch-and-touch'); // give +100500 for incremental build
-const fileWatcher = watchAndTouch(gulp);
+// give +100500 for incremental build
 const isWatching = true;
+const watchAndTouch = require('gulp-watch-and-touch'); 
+const fileWatcher = watchAndTouch(gulp);
+
+// format
+const isProduction = true;
+const jsBeautify = require('js-beautify');
 
 // Send some data for your workflow
 const ejsData = {
@@ -49,17 +54,31 @@ const ejsData = {
 // render options
 const ejsOptions = {
     ext: '.html', // or .php, or ...
-    layouts: './src/markup/layouts', // resolve path
-    partials: './src/markup/partials', // resolve path
-    configs: './src/markup/configs', // resolve path
-    controllers: './src/markup/controllers', // resolve path
+    layouts: './src/ejs/layouts', // resolve path
+    partials: './src/ejs/partials', // resolve path
+    configs: './src/ejs/configs', // resolve path
+    controllers: './src/ejs/controllers', // resolve path
     reservedLocalsKeys: [ // protected properties from writing
         'NODE_MODULES',
         'PROJECT_STATS'
     ],
     afterRender: function(markup, file, data) {
         if (isWatching) {
+        	let filePath = file.path;
+			let sources = data.__INSTANCE.SOURCES.files[filePath] || [];
+			
             fileWatcher(filePath, filePath, sources);
+        }
+        
+        if (__ARGS.flags.production) {
+        	let beautyMarkup = jsBeautify.html(markup, {
+        		indent_level: 0,
+                eol: '\n',
+                max_preserve_newlines: 1,
+                // ...
+        	});
+        	
+        	return beautyMarkup;
         }
     }
 };
@@ -75,9 +94,7 @@ gulp.task('ejs', function(done) {
 
 --- 
 
-## features
-
-### block
+#### markup
 
 base.ejs layout
 
@@ -107,15 +124,15 @@ index.ejs view
     layout('base');
     
     importController('utils.js');
-    importController('el.js');
-    
     importConfig('main-menu.js'); 
     
     locals.View = {
         title: 'Главная страница',
     };
     
-    block('header', partial('structure/header', {headerTitle: View.title}));
+    block('header', partial('structure/header', {
+    	title: View.title
+    }));
     block('footer', partial('structure/footer'));
 -%>
 <h1>Hello world!</h1>
@@ -125,6 +142,23 @@ index.ejs view
 <%- partial('widgets/popular-services') %>  
 <%- partial('widgets/promotions') %> 
 <%- partial('widgets/reviews') %> 
+```
+
+header.ejs partial
+
+```html
+<%
+    let {
+        title = 'default header title',
+        subTitle = 'default header subtitle'
+    } = ENTRY;
+-%>
+<header>
+    <div class="center">
+        <h2 class="title"><%- title %></h2>
+        <div class="subtitle"><%- subtitle %></div>
+    </div>
+</header>
 ```
 
 
