@@ -1,10 +1,11 @@
 {
   "name": "gulp-ejs-monster",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "OBT",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "happiness \"./lib/**/*.js\" --verbose | snazzy",
+    "fix": "happiness \"./lib/**/*.js\" --verbose --fix | snazzy"
   },
   "repository": {
     "type": "git",
@@ -14,7 +15,7 @@
     "ejs",
     "gulp"
   ],
-  "author": "Oleg Dutchenko <dutchenko.o.wezom@gmail.com>",
+  "author": "Oleg Dutchenko <dutchenko.o.dev@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/dutchenkoOleg/gulp-ejs-monster/issues"
@@ -25,5 +26,9 @@
     "gulp-util": "^3.0.8",
     "lodash.clonedeep": "^4.5.0",
     "through2": "^2.0.3"
+  },
+  "devDependencies": {
+    "happiness": "^7.1.2",
+    "snazzy": "^7.0.0"
   }
 }
