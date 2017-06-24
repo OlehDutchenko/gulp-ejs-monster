@@ -13,7 +13,9 @@
   },
   "keywords": [
     "ejs",
-    "gulp"
+    "gulp",
+    "gulp-plugin",
+    "template-engine"
   ],
   "author": "Oleg Dutchenko <dutchenko.o.dev@gmail.com>",
   "license": "MIT",
