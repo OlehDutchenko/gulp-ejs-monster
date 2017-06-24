@@ -5,6 +5,7 @@
 ![es2015](https://img.shields.io/badge/ECMAScript-2015_(ES6)-blue.svg)
 ![license](https://img.shields.io/badge/License-MIT-orange.svg)
 [![Dependencies](https://www.versioneye.com/user/projects/594df60b0fb24f004a85b8c5/badge.svg?style=flat)](https://www.versioneye.com/user/projects/594df60b0fb24f004a85b8c5?child=summary) 
+ [![Build Status](https://travis-ci.org/dutchenkoOleg/gulp-ejs-monster.svg?branch=master)](https://travis-ci.org/dutchenkoOleg/gulp-ejs-monster)
 
 > _Gulp plugin for [ejs](http://ejs.co/). The project is inspired by [ejs-locals](https://github.com/RandomEtc/ejs-locals)_
 
