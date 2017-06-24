@@ -1,6 +1,6 @@
 {
   "name": "gulp-ejs-monster",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "OBT",
   "main": "lib/index.js",
   "scripts": {
