@@ -34,7 +34,7 @@ const isWatching = true;
 const watchAndTouch = require('gulp-watch-and-touch'); 
 const fileWatcher = watchAndTouch(gulp);
 
-// format
+// format on production
 const isProduction = true;
 const jsBeautify = require('js-beautify');
 
@@ -70,7 +70,7 @@ const ejsOptions = {
             fileWatcher(filePath, filePath, sources);
         }
         
-        if (__ARGS.flags.production) {
+        if (isProduction) {
         	let beautyMarkup = jsBeautify.html(markup, {
         		indent_level: 0,
                 eol: '\n',
@@ -84,9 +84,9 @@ const ejsOptions = {
 };
 
 // task
-gulp.task('ejs', function(done) {
+gulp.task('ejs', function() {
     return gulp.src('./src/ejs/*.ejs')
-        .pipe(ejsMonster(ejsData, ejsOptions))
+        .pipe(ejsMonster(ejsData, ejsOptions).on('error', ejsMonster.logError))
         /// ...
 })
 ```
