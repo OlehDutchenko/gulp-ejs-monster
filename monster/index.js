@@ -10,6 +10,7 @@
 // ----------------------------------------
 
 const setupOptions = require('./utils/setup-options');
+const setupDataInstance = require('./utils/setup-data-instance');
 
 // ----------------------------------------
 // Private
@@ -34,21 +35,22 @@ class DataSources extends DataSample {}
 
 function ejsMonster (data = {}, options = {}, file) {
 	// instance
-	if (!data.hasOwnProperty('__INSTANCE')) {
-		data.__EJS_INSTANCE = {
-			stack: new DataStack(),
-			sources: new DataSources(),
-			turnOn () {
-				this.inside = true
-			},
-			turnOff () {
-				this.inside = false
-			},
-			fileChange (val) {
-				data.fileChanged = val === true;
-				data.fileNotChanged = !data.fileChanged;
-			}
-		};
+	if (!data.hasOwnProperty('__EJS_INSTANCE')) {
+		data.__EJS_INSTANCE = setupDataInstance(data);
+		// data.__EJS_INSTANCE = {
+		// 	stack: new DataStack(),
+		// 	sources: new DataSources(),
+		// 	turnOn () {
+		// 		this.inside = true
+		// 	},
+		// 	turnOff () {
+		// 		this.inside = false
+		// 	},
+		// 	fileChange (val) {
+		// 		data.fileChanged = val === true;
+		// 		data.fileNotChanged = !data.fileChanged;
+		// 	}
+		// };
 	}
 
 	const instance = data.__EJS_INSTANCE;

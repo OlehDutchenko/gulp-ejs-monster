@@ -14,6 +14,7 @@ node_modules
 
 # temp
 tmp
+tests
 
 # fs
 .DS_Store

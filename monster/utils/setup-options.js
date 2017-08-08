@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Описание модуля
+ * Setup render options
  * @module
  */
 
@@ -22,10 +22,22 @@ function errorMsg (msg) {
 	return output.join('\n');
 }
 
+function getPath (sample) {
+	if (sample && typeof sample === 'string') {
+		return sample;
+	}
+	return '';
+}
+
 // ----------------------------------------
 // Public
 // ----------------------------------------
 
+/**
+ * Transform user options to render options
+ * @param {Object} [userOptions={}]
+ * @returns {Object}
+ */
 function setupOptions (userOptions = {}) {
 	const options = {
 		reservedLocalsKeys: []
@@ -44,7 +56,29 @@ function setupOptions (userOptions = {}) {
 		options.reservedLocalsKeys = arr;
 	}
 
-	options.locals = lodash.merge({}, userOptions.locals)
+	// locals
+	options.locals = lodash.merge({}, userOptions.locals);
+
+	// import paths
+	['partials', 'controllers', 'configs', 'files'].forEach(prop => {
+		options[prop] = getPath(userOptions[prop]);
+	});
+
+	// delimiters
+	options.delimiter = userOptions.delimiter || '%';
+	options.delimiters = {
+		start: `<${options.delimiter} `,
+		return: `<${options.delimiter}- `,
+		end: ` -${options.delimiter}>`
+	};
+
+	// ext
+	options.ext = userOptions.ext || '.html';
+
+	// ejs native options
+	options.verbose = userOptions.verbose;
+	options.debug = userOptions.debug;
+	options.strict = false;
 
 	return options;
 }
