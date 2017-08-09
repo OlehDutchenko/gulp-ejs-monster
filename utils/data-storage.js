@@ -5,29 +5,20 @@
  */
 
 // ----------------------------------------
-// Imports
-// ----------------------------------------
-
-const DataSample = require('./data-sample');
-
-// ----------------------------------------
-// Priva
-// ----------------------------------------
-
-// ----------------------------------------
 // Public
 // ----------------------------------------
 
-class DataStorage extends DataSample {
+class DataStorage {
 	constructor () {
-		super();
-		this.gap = '';
+		this.reset();
 	}
+
 	reset () {
-		super.reset();
+		this.list = [];
 		this.paths = [];
 		this.indent('<<<<');
 	}
+
 	indent (gap) {
 		switch (gap) {
 			case '>':
@@ -52,6 +43,7 @@ class DataStorage extends DataSample {
 
 		return this.gap;
 	}
+
 	push (processed, path, gap) {
 		let value = this.indent(gap) + processed;
 
@@ -59,7 +51,11 @@ class DataStorage extends DataSample {
 			this.paths.push(path);
 			value += ' - ' + path;
 		}
-		super.push(value);
+		this.list.push(value);
+	}
+
+	print () {
+		return this.list.join('\n');
 	}
 }
 

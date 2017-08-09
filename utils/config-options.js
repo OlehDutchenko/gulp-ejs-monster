@@ -77,6 +77,7 @@ function configOptions (opts = {}) {
 	});
 
 	options.extname = setExtname(opts.extname);
+	options.beautify = !!opts.beautify;
 
 	// render options
 	ejs.delimiter = setDelimiter(optsEjs.delimiter);

@@ -21,10 +21,11 @@ const ejsMonster = require('./index');
 const ejsData = {};
 const ejsOptions = {
 	partials: './examples/src/partials/',
+	beautify: true,
 	ejs: {
 		compileDebug: true,
 		delimiter: '%',
-		localsName: 'app'
+		localsName: 'App'
 	}
 };
 

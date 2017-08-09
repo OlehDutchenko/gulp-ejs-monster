@@ -33,7 +33,10 @@ function crashed (error, storage, renderOptions) {
 	if (error === null) {
 		errorMessage = 'no errors';
 	} else {
+		let errorPath = new RegExp(`(${error.path.replace(/\\/g, '\\\\').replace(/\//g, '\\/')})(:\\d+)`);
+
 		errorMessage = error.toString().replace(ejsLintRegExp, '').replace(/\n\n+/g, '');
+		errorMessage = errorMessage.replace(errorPath, (str, g1, g2) => `\n${chalk.gray(error.path + g2)}`);
 		errorMessage = errorMessage.replace(filenameRegExp, (str, g1, g2) => '\n\n' + chalk.gray(g2));
 		errorMessage = errorMessage.replace(filenameRegExpIn, '');
 	}

@@ -1,0 +1,15 @@
+<%
+	let {
+		list = []
+	} = App.entry;
+
+	if (list.length === 0) {
+		return;
+	}
+-%>
+<p>Our features:</p>
+<ul>
+	<% list.forEach(item => { -%>
+		<li><%- item %></li>
+	<% }); -%>
+</ul>

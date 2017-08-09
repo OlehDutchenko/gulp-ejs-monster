@@ -22,6 +22,7 @@ const lodash = require('lodash');
 const pkg = require('./package.json');
 const configOptions = require('./utils/config-options');
 const crashed = require('./utils/crashed');
+const beautify = require('./utils/beautify');
 const DataStorage = require('./utils/data-storage');
 
 const partialMethod = require('./locals/partial');
@@ -92,6 +93,10 @@ function gulpEjsMonster (data = {}, options = {}) {
 						crashed(err, storage, ejsOptions);
 						return isDone(err);
 					});
+				}
+
+				if (options.beautify) {
+					markup = beautify(markup);
 				}
 
 				file.contents = Buffer.from(markup);
