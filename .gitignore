@@ -22,4 +22,3 @@ thumbs.db
 
 # workflow
 examples/dist
-.travis.yml

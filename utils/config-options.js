@@ -3,12 +3,15 @@
 /**
  * Configure options
  * @module
+ * @author Oleg Dutchenko <dutchenko.o.dev@gmail.com>
+ * @version 1.0.0
  */
 
 // ----------------------------------------
 // Imports
 // ----------------------------------------
 
+const path = require('path');
 const lodash = require('lodash');
 
 // ----------------------------------------
@@ -37,16 +40,19 @@ function setLocalsName (localsName) {
 
 function setPath (sample) {
 	if (sample && typeof sample === 'string') {
-		return sample;
+		return path.resolve(sample);
 	}
-	return '';
+	return path.resolve('./');
 }
 
 function setExtname (extname) {
 	if (typeof extname === 'string') {
-		if (/^\./.test())
-		return localsName;
+		if (/^\./.test(extname)) {
+			return extname;
+		}
+		return '.' + extname;
 	}
+	return '.html';
 }
 
 // ----------------------------------------
@@ -70,15 +76,17 @@ function configOptions (opts = {}) {
 		options[prop] = setPath(opts[prop]);
 	});
 
+	options.extname = setExtname(opts.extname);
+
 	// render options
 	ejs.delimiter = setDelimiter(optsEjs.delimiter);
-	ejs.debug = !!optsEjs.debug;
-	ejs.compileDebug = ejs.debug;
+	ejs.compileDebug = !!optsEjs.compileDebug;
+	ejs.localsName = setLocalsName(optsEjs.localsName);
+	ejs.rmWhitespace = !!optsEjs.rmWhitespace;
+	ejs.debug = false;
 	ejs.client = false;
 	ejs.strict = false;
 	ejs._with = false;
-	ejs.localsName = setLocalsName(optsEjs.localsName);
-	ejs.rmWhitespace = !!optsEjs.rmWhitespace;
 
 	setMethods(ejs, 'context', optsEjs.context);
 	setMethods(ejs, 'escape', optsEjs.escape);

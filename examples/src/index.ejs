@@ -1,7 +1,5 @@
 <%
-	App.demo = true;
-	if (App.demo) {
-		console.log(999);
-	}
+	app.demo = true;
 %>
 <h1>Hello</h1>
+<%- app.partial('demo', {key: 'demo-value'}) %>

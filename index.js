@@ -13,15 +13,18 @@
 // ----------------------------------------
 
 const ejs = require('ejs');
-const through2 = require('through2');
 const chalk = require('chalk');
+const through2 = require('through2');
 const gutil = require('gulp-util');
 const notSupportedFile = require('gulp-not-supported-file');
 const lodash = require('lodash');
 
 const pkg = require('./package.json');
 const configOptions = require('./utils/config-options');
-const crashedLog = require('./utils/crashed-log');
+const crashed = require('./utils/crashed');
+const DataStorage = require('./utils/data-storage');
+
+const partialMethod = require('./locals/partial');
 
 // ----------------------------------------
 // Private
@@ -43,6 +46,8 @@ const pluginError = (data, options) => new gutil.PluginError(pkg.name, data, opt
  */
 let isNotConfigured = true;
 
+const storage = new DataStorage();
+
 // ----------------------------------------
 // Public
 // ----------------------------------------
@@ -50,7 +55,10 @@ let isNotConfigured = true;
 function gulpEjsMonster (data = {}, options = {}) {
 	if (isNotConfigured) {
 		options = configOptions(options);
+		data.partial = partialMethod(options, storage);
 	}
+	const ejsOptions = options.ejs;
+	storage.reset();
 
 	/**
 	 * Transformation of the current file
@@ -67,20 +75,33 @@ function gulpEjsMonster (data = {}, options = {}) {
 		}
 
 		function renderFile (filePath) {
-			ejs.renderFile(filePath, data, options.ejs, (error, markup) => {
+			data.fileChanged = true;
+			ejs.renderFile(filePath, data, ejsOptions, (error, markup) => {
 				if (error) {
-					crashedLog(filePath);
-					return ejs.renderFile(filePath, data, lodash.merge(options.ejs, {compileDebug: true}), (err) => {
-						crashedLog.detected(err);
+					if (ejsOptions.compileDebug) {
+						crashed(error, storage, ejsOptions);
+						return isDone(error);
+					}
+
+					crashed.reRenderLog(filePath);
+					storage.push(chalk.red('→ CRASH...\n'), false, '>');
+					storage.indent('<<<<');
+					storage.push('re-render file with compileDebug', file.path);
+
+					return ejs.renderFile(filePath, data, lodash.merge(ejsOptions, {compileDebug: true}), (err) => {
+						crashed(err, storage, ejsOptions);
 						return isDone(err);
 					});
 				}
-				console.log(markup);
+
+				file.contents = Buffer.from(markup);
+				file.extname = options.extname;
 
 				return isDone(null, file);
-			})
+			});
 		}
 
+		storage.push('render view', file.path);
 		renderFile(file.path);
 	}
 	return through2.obj(readBuffer);
@@ -88,7 +109,7 @@ function gulpEjsMonster (data = {}, options = {}) {
 
 gulpEjsMonster.pluginName = pkg.name;
 
-gulpEjsMonster.logError = function logError (error) {
+gulpEjsMonster.logError = function logError () {
 	this.emit('end');
 };
 

@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "divider": "\n-----------",
+  "gulpEjsMonster": {
+    "divider": "\n-----------",
+    "newline": "NEWLINE_FILENAME::"
+  },
   "scripts": {
     "code-style": "happiness --verbose | snazzy",
     "code-style-fix": "happiness --verbose --fix | snazzy",

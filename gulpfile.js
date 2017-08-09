@@ -1,8 +1,9 @@
 'use strict';
 
 /**
- * Описание модуля
- * @module
+ * @fileOverview Testing
+ * @author Oleg Dutchenko <dutchenko.o.dev@gmail.com>
+ * @version 1.0.0
  */
 
 // ----------------------------------------
@@ -19,10 +20,11 @@ const ejsMonster = require('./index');
 
 const ejsData = {};
 const ejsOptions = {
+	partials: './examples/src/partials/',
 	ejs: {
-		debug: false,
+		compileDebug: true,
 		delimiter: '%',
-		localsName: 'App'
+		localsName: 'app'
 	}
 };
 
