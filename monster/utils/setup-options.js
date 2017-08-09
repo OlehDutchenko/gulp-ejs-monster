@@ -15,12 +15,13 @@ const lodash = require('lodash');
 // Private
 // ----------------------------------------
 
-function errorMsg (msg) {
-	let banner = 'While configuring the render options, an error was detected:';
-	let output = ['\n------------\n'].concat(banner, msg, ['\n------------\n']);
-
-	return output.join('\n');
-}
+// TODO Clear if remove `reservedLocalsKeys`
+// function errorMsg (msg) {
+// 	let banner = 'While configuring the render options, an error was detected:';
+// 	let output = ['\n------------\n'].concat(banner, msg, ['\n------------\n']);
+//
+// 	return output.join('\n');
+// }
 
 function getPath (sample) {
 	if (sample && typeof sample === 'string') {
@@ -40,21 +41,23 @@ function getPath (sample) {
  */
 function setupOptions (userOptions = {}) {
 	const options = {
-		reservedLocalsKeys: []
+		// TODO Clear if no needed more
+		// reservedLocalsKeys: []
 	};
 
+	// TODO Clear if no needed more
 	// reservedLocalsKeys
-	if (Array.isArray(userOptions.reservedLocalsKeys)) {
-		let arr = [];
-
-		userOptions.reservedLocalsKeys.forEach(key => {
-			if (typeof key !== 'string') {
-				throw new Error(errorMsg(`- reservedLocalsKeys must be an Array with string keys, but found "${typeof key}"`));
-			}
-			arr.push(key);
-		});
-		options.reservedLocalsKeys = arr;
-	}
+	// if (Array.isArray(userOptions.reservedLocalsKeys)) {
+	// 	let arr = [];
+	//
+	// 	userOptions.reservedLocalsKeys.forEach(key => {
+	// 		if (typeof key !== 'string') {
+	// 			throw new Error(errorMsg(`- reservedLocalsKeys must be an Array with string keys, but found "${typeof key}"`));
+	// 		}
+	// 		arr.push(key);
+	// 	});
+	// 	options.reservedLocalsKeys = arr;
+	// }
 
 	// locals
 	options.locals = lodash.merge({}, userOptions.locals);
@@ -64,21 +67,26 @@ function setupOptions (userOptions = {}) {
 		options[prop] = getPath(userOptions[prop]);
 	});
 
-	// delimiters
-	options.delimiter = userOptions.delimiter || '%';
-	options.delimiters = {
-		start: `<${options.delimiter} `,
-		return: `<${options.delimiter}- `,
-		end: ` -${options.delimiter}>`
-	};
-
 	// ext
 	options.ext = userOptions.ext || '.html';
 
-	// ejs native options
-	options.verbose = userOptions.verbose;
-	options.debug = userOptions.debug;
-	options.strict = false;
+	// ejs native render options
+	const render = options.render = {};
+
+	render.delimiter = userOptions.delimiter || '%';
+	render.debug = !!userOptions.debug;
+	render.compileDebug = render.debug;
+	render._with = false;
+	render.rmWhitespace = !!userOptions.rmWhitespace;
+	render.strict = false;
+	render.client = false;
+
+	// delimiters
+	options.delimiters = {
+		start: `<${render.delimiter} `,
+		return: `<${render.delimiter}- `,
+		end: ` -${render.delimiter}>`
+	};
 
 	return options;
 }

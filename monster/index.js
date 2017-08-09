@@ -9,6 +9,8 @@
 // Imports
 // ----------------------------------------
 
+const lodash = require('lodash');
+
 const setupOptions = require('./utils/setup-options');
 const setupDataInstance = require('./utils/setup-data-instance');
 
@@ -16,63 +18,40 @@ const setupDataInstance = require('./utils/setup-data-instance');
 // Private
 // ----------------------------------------
 
-class DataSample {
-	constructor () {
-		this.reset();
-	}
-
-	reset () {
-		this.list = [];
-	}
-}
-
-class DataStack extends DataSample {}
-class DataSources extends DataSample {}
-
 // ----------------------------------------
 // Public
 // ----------------------------------------
 
 function ejsMonster (data = {}, options = {}, file) {
+	data.EJS = {};
+
 	// instance
 	if (!data.hasOwnProperty('__EJS_INSTANCE')) {
-		data.__EJS_INSTANCE = setupDataInstance(data);
-		// data.__EJS_INSTANCE = {
-		// 	stack: new DataStack(),
-		// 	sources: new DataSources(),
-		// 	turnOn () {
-		// 		this.inside = true
-		// 	},
-		// 	turnOff () {
-		// 		this.inside = false
-		// 	},
-		// 	fileChange (val) {
-		// 		data.fileChanged = val === true;
-		// 		data.fileNotChanged = !data.fileChanged;
-		// 	}
-		// };
+		data.__EJS_INSTANCE = setupDataInstance(data.EJS);
 	}
 
 	const instance = data.__EJS_INSTANCE;
-	const filepath = file.path;
+	const ejs = data.EJS;
 
-	data.filename = file.stem;
-	data.filepath = filepath;
+	ejs.fileName = file.stem;
+	ejs.filePath = file.path;
 
-	instance.view = filepath;
+	instance.view = file.path;
 	instance.stack.reset();
 	instance.sources.reset();
 
 	if (instance.configured !== true) {
 		options = setupOptions(options);
+		instance.options = lodash.cloneDeep(options);
 		instance.configured = true;
 	}
 
-	renderFile(filepath);
+	renderFile(file.path);
 
-	function renderFile (filepath) {
-		instance.turnOn();
-		instance.fileChange(true);
+	function renderFile (filePath) {
+		// TODO Clear if no needed more
+		// instance.inside = true;
+		instance.fileChanged = true;
 	}
 
 	console.log(data);
