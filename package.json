@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "divider": "\n-----------",
   "scripts": {
-    "test": "echo empty && exit 0"
+    "code-style": "happiness --verbose | snazzy",
+    "code-style-fix": "happiness --verbose --fix | snazzy",
+    "test": "npm run code-style"
   },
   "repository": {
     "type": "git",
