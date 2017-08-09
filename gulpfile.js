@@ -21,6 +21,7 @@ const ejsMonster = require('./index');
 const ejsData = {};
 const ejsOptions = {
 	partials: './examples/src/partials/',
+	layouts: './examples/src/layouts/',
 	beautify: true,
 	ejs: {
 		compileDebug: true,

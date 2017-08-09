@@ -72,7 +72,7 @@ function configOptions (opts = {}) {
 	const ejs = options.ejs;
 
 	// plugin options
-	['partials', 'controllers', 'configs', 'files'].forEach(prop => {
+	['partials', 'controllers', 'configs', 'files', 'layouts'].forEach(prop => {
 		options[prop] = setPath(opts[prop]);
 	});
 

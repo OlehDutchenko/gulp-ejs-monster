@@ -25,7 +25,8 @@ const crashed = require('./utils/crashed');
 const beautify = require('./utils/beautify');
 const DataStorage = require('./utils/data-storage');
 
-const partialMethod = require('./locals/partial');
+const partialMethod = require('./methods/partial');
+const setLayoutMethod = require('./methods/set-layout');
 
 // ----------------------------------------
 // Private
@@ -57,6 +58,7 @@ function gulpEjsMonster (data = {}, options = {}) {
 	if (isNotConfigured) {
 		options = configOptions(options);
 		data.partial = partialMethod(options, storage);
+		data.setLayout = setLayoutMethod(options);
 	}
 	const ejsOptions = options.ejs;
 	storage.reset();
@@ -93,6 +95,16 @@ function gulpEjsMonster (data = {}, options = {}) {
 						crashed(err, storage, ejsOptions);
 						return isDone(err);
 					});
+				}
+
+				if (data.layout) {
+					let layoutPath = data.layout;
+					storage.indent('<<<<');
+					storage.push('render layout', layoutPath, '>');
+					data.body = markup;
+					delete data.layout;
+
+					return renderFile(layoutPath);
 				}
 
 				if (options.beautify) {
