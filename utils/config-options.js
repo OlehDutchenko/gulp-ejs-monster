@@ -117,14 +117,13 @@ function configOptions (opts = {}) {
 	});
 
 	options.extname = setExtname(opts.extname);
-	options.beautify = !!opts.beautify;
+	options.beautify = opts.beautify;
+	options.debug = !!opts.debug;
 	options.delimiters = {
 		start: `<${ejs.delimiter} `,
 		return: `<${ejs.delimiter}- `,
 		end: ` -${ejs.delimiter}>`
 	};
-
-	console.log(options);
 
 	return options;
 }

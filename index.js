@@ -33,6 +33,7 @@ const DataStorage = require('./utils/data-storage');
 
 const setLayoutMethod = require('./methods/set-layout');
 const partialMethod = require('./methods/partial');
+const requireMethod = require('./methods/require');
 const includeMethod = require('./methods/include');
 
 // ----------------------------------------
@@ -70,6 +71,7 @@ function gulpEjsMonster (data = {}, options = {}) {
 		options = configOptions(options);
 		data.setLayout = setLayoutMethod(options);
 		data.partial = partialMethod(options, storage);
+		data.require = requireMethod(options, storage);
 		data.include = includeMethod(options, storage);
 		options.__IS_CONFIGURATED = true;
 	}
@@ -119,7 +121,7 @@ function gulpEjsMonster (data = {}, options = {}) {
 				if (data.layout) {
 					let layoutPath = data.layout;
 					storage.indent('<<<<');
-					storage.push('render layout', layoutPath, '>');
+					storage.push('> render layout', layoutPath, '>');
 					data.body = markup;
 					delete data.layout;
 
@@ -132,6 +134,10 @@ function gulpEjsMonster (data = {}, options = {}) {
 					let beautify = require(beautifyPath);
 
 					markup = beautify(markup);
+				}
+
+				if (options.debug) {
+					console.log(storage.print());
 				}
 
 				// change file data

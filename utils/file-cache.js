@@ -11,6 +11,7 @@
 // ----------------------------------------
 
 const fs = require('fs');
+const chalk = require('chalk');
 
 // ----------------------------------------
 // Private
@@ -35,7 +36,7 @@ function getModifiedTime (filePath) {
  * @returns {Function}
  * @sourceCode
  */
-function createFileCache () {
+function createFileCache (storage) {
 	const cache = {};
 
 	/**
@@ -46,6 +47,7 @@ function createFileCache () {
 	 */
 	function cached (filePath, noCache) {
 		if (noCache) {
+			storage.push(chalk.gray('  cache disabled'));
 			return {
 				content: fs.readFileSync(filePath).toString(),
 				mtime: 1,
@@ -57,6 +59,7 @@ function createFileCache () {
 		let mtime = getModifiedTime(filePath);
 
 		if (cacheData && cacheData.mtime === mtime) {
+			storage.push(chalk.gray('  getting file from cache'));
 			cacheData.changed = false;
 			return cacheData;
 		}
@@ -67,6 +70,7 @@ function createFileCache () {
 			changed: true
 		};
 
+		storage.push(chalk.gray('  caching new file'));
 		return cache[filePath];
 	}
 

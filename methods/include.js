@@ -30,7 +30,7 @@ const createFileCache = require('../utils/file-cache');
  */
 function includeMethod (options, storage) {
 	const folder = options.includes;
-	const cached = createFileCache();
+	const cached = createFileCache(storage);
 
 	/**
 	 * include method

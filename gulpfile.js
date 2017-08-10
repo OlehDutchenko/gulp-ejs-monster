@@ -25,6 +25,7 @@ const ejsOptions = {
 	requires: './examples/src/requires/',
 	includes: './examples/src/includes/',
 	beautify: true,
+	debug: false,
 	ejs: {
 		compileDebug: true,
 		rmWhitespace: true,

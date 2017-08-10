@@ -1,4 +1,12 @@
-<% App.setLayout('base.ejs'); %>
+<%
+	App.setLayout('base.ejs');
+	let data = App.require('data.json');
+	let lodash = App.require('lodash');
+	let merged = lodash.merge({}, data, {
+		key2: 'value2'
+	});
+%>
+<style><%- App.include('style.css'); -%></style>
 <style><%- App.include('style.css'); -%></style>
 <script><%- App.include('script.js'); -%></script>
 <h1>Hello</h1>
