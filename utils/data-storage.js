@@ -2,6 +2,8 @@
 
 /**
  * @module
+ * @author Oleg Dutchenko <dutchenko.o.dev@gmail.com>
+ * @version 1.0.0
  */
 
 // ----------------------------------------
@@ -9,16 +11,28 @@
 // ----------------------------------------
 
 class DataStorage {
+	/**
+	 * Create new storage
+	 */
 	constructor () {
+		this.gap = '';
 		this.reset();
 	}
 
+	/**
+	 * Reset storage items
+	 */
 	reset () {
 		this.list = [];
 		this.paths = [];
 		this.indent('<<<<');
 	}
 
+	/**
+	 * Indent gap size
+	 * @param {string} gap
+	 * @returns {string}
+	 */
 	indent (gap) {
 		switch (gap) {
 			case '>':
@@ -44,16 +58,28 @@ class DataStorage {
 		return this.gap;
 	}
 
-	push (processed, path, gap) {
-		let value = this.indent(gap) + processed;
+	/**
+	 * Add new information
+	 * @param {string} whatHappens
+	 * @param {string} [filePath]
+	 * @param {string} [gap]
+	 */
+	push (whatHappens, filePath, gap) {
+		let value = this.indent(gap) + whatHappens;
 
-		if (path) {
-			this.paths.push(path);
-			value += ' - ' + path;
+		if (filePath) {
+			if (~this.paths.indexOf(filePath)) {
+				this.paths.push(filePath);
+			}
+			value += ' - ' + filePath;
 		}
 		this.list.push(value);
 	}
 
+	/**
+	 * Returns list as string
+	 * @returns {string}
+	 */
 	print () {
 		return this.list.join('\n');
 	}

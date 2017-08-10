@@ -2,6 +2,8 @@
 
 /**
  * @module
+ * @author Oleg Dutchenko <dutchenko.o.dev@gmail.com>
+ * @version 1.0.0
  */
 
 // ----------------------------------------
@@ -15,8 +17,8 @@ const fs = require('fs');
 // ----------------------------------------
 
 /**
- * @param  {String}   filePath
- * @return {Number}
+ * @param {string} filePath
+ * @return {number}
  * @private
  */
 function getModifiedTime (filePath) {
@@ -28,10 +30,21 @@ function getModifiedTime (filePath) {
 // Public
 // ----------------------------------------
 
+/**
+ * [FW] create file cache storage
+ * @returns {Function}
+ * @sourceCode
+ */
 function createFileCache () {
 	const cache = {};
 
-	return function (filePath, noCache) {
+	/**
+	 * Checkout filePath and cache file contents
+	 * @param {string} filePath - resolved path
+	 * @param {boolean} [noCache] - don't cache file contents
+	 * @returns {Object}
+	 */
+	function cached (filePath, noCache) {
 		if (noCache) {
 			return {
 				template: fs.readFileSync(filePath).toString(),
@@ -43,11 +56,9 @@ function createFileCache () {
 		let cacheData = cache[filePath];
 		let mtime = getModifiedTime(filePath);
 
-		if (cacheData) {
-			if (mtime === cacheData.mtime) {
-				cacheData.changed = false;
-				return cacheData;
-			}
+		if (cacheData && cacheData.mtime === mtime) {
+			cacheData.changed = false;
+			return cacheData;
 		}
 
 		cache[filePath] = {
@@ -57,7 +68,9 @@ function createFileCache () {
 		};
 
 		return cache[filePath];
-	};
+	}
+
+	return cached;
 }
 
 // ----------------------------------------

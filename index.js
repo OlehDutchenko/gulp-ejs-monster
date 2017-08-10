@@ -6,12 +6,19 @@
  * @module
  * @author Oleg Dutchenko <dutchenko.o.dev@gmail.com>
  * @version 1.0.0
+ * @requires utils/config-options
+ * @requires utils/crashed
+ * @requires utils/beautify
+ * @requires utils/data-storage
+ * @requires methods/partial
+ * @requires methods/set-layout
  */
 
 // ----------------------------------------
 // Imports
 // ----------------------------------------
 
+const path = require('path');
 const ejs = require('ejs');
 const chalk = require('chalk');
 const through2 = require('through2');
@@ -22,7 +29,6 @@ const lodash = require('lodash');
 const pkg = require('./package.json');
 const configOptions = require('./utils/config-options');
 const crashed = require('./utils/crashed');
-const beautify = require('./utils/beautify');
 const DataStorage = require('./utils/data-storage');
 
 const partialMethod = require('./methods/partial');
@@ -48,12 +54,23 @@ const pluginError = (data, options) => new gutil.PluginError(pkg.name, data, opt
  */
 let isNotConfigured = true;
 
+/**
+ * History storage
+ * @const {DataStorage}
+ * @private
+ */
 const storage = new DataStorage();
 
 // ----------------------------------------
 // Public
 // ----------------------------------------
 
+/**
+ * Core plugin method
+ * @param {Object} data
+ * @param {Object} options
+ * @returns {DestroyableTransform}
+ */
 function gulpEjsMonster (data = {}, options = {}) {
 	if (isNotConfigured) {
 		options = configOptions(options);
@@ -64,7 +81,7 @@ function gulpEjsMonster (data = {}, options = {}) {
 	storage.reset();
 
 	/**
-	 * Transformation of the current file
+	 * Read buffer and transform
 	 * @param {Object} file
 	 * @param {String} [enc]
 	 * @param {Function} isDone
@@ -77,9 +94,14 @@ function gulpEjsMonster (data = {}, options = {}) {
 			return isDone(...notSupported);
 		}
 
+		/**
+		 * Render given file
+		 * @param {string} filePath - resolved file path
+		 */
 		function renderFile (filePath) {
 			data.fileChanged = true;
 			ejs.renderFile(filePath, data, ejsOptions, (error, markup) => {
+				// if get error - try to detect what's went wrong
 				if (error) {
 					if (ejsOptions.compileDebug) {
 						crashed(error, storage, ejsOptions);
@@ -97,6 +119,7 @@ function gulpEjsMonster (data = {}, options = {}) {
 					});
 				}
 
+				// if file has layout - render
 				if (data.layout) {
 					let layoutPath = data.layout;
 					storage.indent('<<<<');
@@ -107,13 +130,19 @@ function gulpEjsMonster (data = {}, options = {}) {
 					return renderFile(layoutPath);
 				}
 
+				// format markup
 				if (options.beautify) {
+					let beautifyPath = path.join(__dirname, './utils/beautify');
+					let beautify = require(beautifyPath);
+
 					markup = beautify(markup);
 				}
 
+				// change file data
 				file.contents = Buffer.from(markup);
 				file.extname = options.extname;
 
+				// all done - go out
 				return isDone(null, file);
 			});
 		}
@@ -124,9 +153,17 @@ function gulpEjsMonster (data = {}, options = {}) {
 	return through2.obj(readBuffer);
 }
 
+/**
+ * Plugin name
+ * @type {string}
+ */
 gulpEjsMonster.pluginName = pkg.name;
 
-gulpEjsMonster.logError = function logError () {
+/**
+ * Plumb on error
+ * @type {Function}
+ */
+gulpEjsMonster.onError = function () {
 	this.emit('end');
 };
 

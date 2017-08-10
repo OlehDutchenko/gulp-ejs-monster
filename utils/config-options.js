@@ -18,6 +18,11 @@ const lodash = require('lodash');
 // Private
 // ----------------------------------------
 
+/**
+ * @param {string} delimiter
+ * @returns {string} `'%'` by default
+ * @private
+ */
 function setDelimiter (delimiter) {
 	if (typeof delimiter === 'string' && delimiter) {
 		return delimiter;
@@ -25,12 +30,23 @@ function setDelimiter (delimiter) {
 	return '%';
 }
 
+/**
+ * @param {Object} data
+ * @param {string} methodName
+ * @param {Function} method
+ * @private
+ */
 function setMethods (data, methodName, method) {
 	if (typeof method === 'function') {
 		data[methodName] = method;
 	}
 }
 
+/**
+ * @param {string} localsName
+ * @returns {string} `'locals'` by default
+ * @private
+ */
 function setLocalsName (localsName) {
 	if (typeof localsName === 'string' && localsName) {
 		return localsName;
@@ -38,13 +54,24 @@ function setLocalsName (localsName) {
 	return 'locals';
 }
 
+/**
+ * Resolve sample path
+ * @param {string} sample
+ * @returns {string} `process.cwd()` by default
+ * @private
+ */
 function setPath (sample) {
 	if (sample && typeof sample === 'string') {
 		return path.resolve(sample);
 	}
-	return path.resolve('./');
+	return process.cwd();
 }
 
+/**
+ * @param {string} extname
+ * @returns {string} `'.html'` by default
+ * @private
+ */
 function setExtname (extname) {
 	if (typeof extname === 'string') {
 		if (/^\./.test(extname)) {
@@ -71,26 +98,31 @@ function configOptions (opts = {}) {
 	const optsEjs = lodash.merge({}, opts.ejs);
 	const ejs = options.ejs;
 
+	// ejs render options
+	ejs.delimiter = setDelimiter(optsEjs.delimiter);
+	ejs.localsName = setLocalsName(optsEjs.localsName);
+	ejs.compileDebug = !!optsEjs.compileDebug;
+	ejs.rmWhitespace = !!optsEjs.rmWhitespace;
+	ejs.debug = false;
+	ejs.client = false;
+	ejs.strict = true;
+	ejs._with = false;
+
+	setMethods(ejs, 'context', optsEjs.context);
+	setMethods(ejs, 'escape', optsEjs.escape);
+
 	// plugin options
-	['partials', 'controllers', 'configs', 'files', 'layouts'].forEach(prop => {
+	['layouts', 'partials', 'require', 'include'].forEach(prop => {
 		options[prop] = setPath(opts[prop]);
 	});
 
 	options.extname = setExtname(opts.extname);
 	options.beautify = !!opts.beautify;
-
-	// render options
-	ejs.delimiter = setDelimiter(optsEjs.delimiter);
-	ejs.compileDebug = !!optsEjs.compileDebug;
-	ejs.localsName = setLocalsName(optsEjs.localsName);
-	ejs.rmWhitespace = !!optsEjs.rmWhitespace;
-	ejs.debug = false;
-	ejs.client = false;
-	ejs.strict = false;
-	ejs._with = false;
-
-	setMethods(ejs, 'context', optsEjs.context);
-	setMethods(ejs, 'escape', optsEjs.escape);
+	options.delimiters = {
+		start: `<${ejs.delimiter} `,
+		return: `<${ejs.delimiter}- `,
+		end: ` -${ejs.delimiter}>`
+	};
 
 	return options;
 }
