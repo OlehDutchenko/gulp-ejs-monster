@@ -8,9 +8,12 @@
     "newline": "NEWLINE_FILENAME::"
   },
   "scripts": {
-    "code-style": "happiness --verbose | snazzy",
-    "code-style-fix": "happiness --verbose --fix | snazzy",
+    "code-style": "happiness \"./utils/**/*.js\" \"./methods/**/*.js\" \"./*.js\" --verbose | snazzy",
+    "code-style-fix": "happiness \"./utils/**/*.js\" \"./methods/**/*.js\" \"./*.js\" --verbose --fix | snazzy",
     "test": "npm run code-style"
+  },
+  "happiness": {
+    "ignore": "./examples/**"
   },
   "repository": {
     "type": "git",

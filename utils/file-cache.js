@@ -47,7 +47,7 @@ function createFileCache () {
 	function cached (filePath, noCache) {
 		if (noCache) {
 			return {
-				template: fs.readFileSync(filePath).toString(),
+				content: fs.readFileSync(filePath).toString(),
 				mtime: 1,
 				changed: true
 			};
@@ -63,7 +63,7 @@ function createFileCache () {
 
 		cache[filePath] = {
 			mtime,
-			template: fs.readFileSync(filePath, 'utf-8'),
+			content: fs.readFileSync(filePath, 'utf-8'),
 			changed: true
 		};
 

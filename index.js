@@ -31,8 +31,9 @@ const configOptions = require('./utils/config-options');
 const crashed = require('./utils/crashed');
 const DataStorage = require('./utils/data-storage');
 
-const partialMethod = require('./methods/partial');
 const setLayoutMethod = require('./methods/set-layout');
+const partialMethod = require('./methods/partial');
+const includeMethod = require('./methods/include');
 
 // ----------------------------------------
 // Private
@@ -46,13 +47,6 @@ const setLayoutMethod = require('./methods/set-layout');
  * @return {PluginError}
  */
 const pluginError = (data, options) => new gutil.PluginError(pkg.name, data, options);
-
-/**
- * is options not configured?
- * @type {boolean}
- * @private
- */
-let isNotConfigured = true;
 
 /**
  * History storage
@@ -72,10 +66,12 @@ const storage = new DataStorage();
  * @returns {DestroyableTransform}
  */
 function gulpEjsMonster (data = {}, options = {}) {
-	if (isNotConfigured) {
+	if (options.__IS_CONFIGURATED !== true) {
 		options = configOptions(options);
-		data.partial = partialMethod(options, storage);
 		data.setLayout = setLayoutMethod(options);
+		data.partial = partialMethod(options, storage);
+		data.include = includeMethod(options, storage);
+		options.__IS_CONFIGURATED = true;
 	}
 	const ejsOptions = options.ejs;
 	storage.reset();

@@ -20,11 +20,14 @@ const ejsMonster = require('./index');
 
 const ejsData = {};
 const ejsOptions = {
-	partials: './examples/src/partials/',
 	layouts: './examples/src/layouts/',
+	partials: './examples/src/partials/',
+	requires: './examples/src/requires/',
+	includes: './examples/src/includes/',
 	beautify: true,
 	ejs: {
 		compileDebug: true,
+		rmWhitespace: true,
 		delimiter: '%',
 		localsName: 'App'
 	}
@@ -36,6 +39,6 @@ const ejsOptions = {
 
 gulp.task('ejs', function () {
 	return gulp.src('./examples/src/*.ejs')
-		.pipe(ejsMonster(ejsData, ejsOptions).on('error', ejsMonster.logError))
+		.pipe(ejsMonster(ejsData, ejsOptions).on('error', ejsMonster.onError))
 		.pipe(gulp.dest('./examples/dist/'));
 });

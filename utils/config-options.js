@@ -112,7 +112,7 @@ function configOptions (opts = {}) {
 	setMethods(ejs, 'escape', optsEjs.escape);
 
 	// plugin options
-	['layouts', 'partials', 'require', 'include'].forEach(prop => {
+	['layouts', 'partials', 'requires', 'includes'].forEach(prop => {
 		options[prop] = setPath(opts[prop]);
 	});
 
@@ -123,6 +123,8 @@ function configOptions (opts = {}) {
 		return: `<${ejs.delimiter}- `,
 		end: ` -${ejs.delimiter}>`
 	};
+
+	console.log(options);
 
 	return options;
 }

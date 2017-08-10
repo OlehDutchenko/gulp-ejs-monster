@@ -49,28 +49,26 @@ function partialMethod (options, storage) {
 			throw new Error('partial without filePath');
 		}
 		filePath = path.join(folder, filePath + '.ejs');
+		storage.push('> render partial', filePath, '>>');
 
 		// remember prev status
 		let fileChanged = this.fileChanged;
 		let hasEntry = this.hasOwnProperty('entry');
 		let prevEntry = lodash.merge({}, this.entry);
 
-		// set ew entry and get data
+		// set new entry
 		this.entry = lodash.merge({}, entry);
-		storage.push('> render partial', filePath, '>>');
 
+		// get data
 		let data = cached(filePath, noCache);
-		let fileStatus = '< file not changed';
+
+		this.fileChanged = data.changed;
 
 		// file current status
-		this.fileChanged = data.changed;
-		if (this.fileChanged) {
-			fileStatus = '√ file changed';
-		}
-		storage.push(chalk.gray(fileStatus), false, '>');
+		storage.push(chalk.gray(data.changed ? '√ file changed' : '< file not changed'), false, '>');
 
 		// render template
-		let markup = ejs.render(data.template, this, lodash.merge(ejsOptions, {filename: pkg.gulpEjsMonster.newline + filePath}));
+		let markup = ejs.render(data.content, this, lodash.merge(ejsOptions, {filename: pkg.gulpEjsMonster.newline + filePath}));
 
 		// return remembered
 		this.fileChanged = fileChanged;

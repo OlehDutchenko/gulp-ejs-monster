@@ -1,5 +1,5 @@
-<% App.setLayout('base') %>
-<%# App.importConfig('views'); %>
+<% App.setLayout('base'); %>
+<style><%- App.include('style.css'); -%></style>
+<script><%- App.include('script.js'); -%></script>
 <h1>Hello</h1>
-<%- App.partial('features', {list: ['item 1', 'item 2', 'item 3']}) %>
-<%- App.partial('sfsdf') %>
+<%- App.partial('features', {list: ['item 1', 'item 2', 'item 3']}) -%>

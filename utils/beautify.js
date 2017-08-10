@@ -11,6 +11,7 @@
 // ----------------------------------------
 
 const jsBeautify = require('js-beautify');
+const lodash = require('lodash');
 
 // ----------------------------------------
 // Public
@@ -19,10 +20,15 @@ const jsBeautify = require('js-beautify');
 /**
  * Beautify markup
  * @param {string} markup
+ * @param {Object|Function} [opts]
  * @returns {string}
  */
-function beautify (markup) {
-	return jsBeautify.html(markup, {
+function beautify (markup, opts) {
+	if (typeof opts === 'function') {
+		opts = opts();
+	}
+
+	let options = lodash.merge({}, opts, {
 		indent_level: 0,
 		eol: '\n',
 		indent_with_tabs: true,
@@ -54,6 +60,8 @@ function beautify (markup) {
 			'style'
 		]
 	});
+
+	return jsBeautify.html(markup, options);
 }
 
 // ----------------------------------------

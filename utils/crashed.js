@@ -13,8 +13,6 @@
 
 const chalk = require('chalk');
 const fs = require('fs');
-const ejsLint = require('ejs-lint');
-const esprima = require('esprima');
 const lodash = require('lodash');
 const pkg = require('../package.json');
 
@@ -37,7 +35,7 @@ const filenameRegExpIn = new RegExp(pkg.gulpEjsMonster.newline, 'g');
  * @param {Object} renderOptions
  */
 function crashed (error, storage, renderOptions) {
-	storage.push(chalk.red('→ CRASH...\n'), false, '>');
+	storage.push(chalk.red('→ CRASH...'), false, '>');
 	let errorMessage;
 
 	if (error === null) {
@@ -70,6 +68,7 @@ function crashed (error, storage, renderOptions) {
 
 		// ejsLint
 		if (/\.ejs$/.test(itemPath)) {
+			let ejsLint = require('ejs-lint');
 			let ejsLintResult = ejsLint(fileContent, options);
 
 			if (ejsLintResult) {
@@ -81,6 +80,8 @@ function crashed (error, storage, renderOptions) {
 
 		// esprima test
 		if (/\.js$/.test(itemPath)) {
+			let esprima = require('esprima');
+
 			try {
 				esprima.parseScript(fileContent);
 			} catch (err) {
