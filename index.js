@@ -144,6 +144,8 @@ function gulpEjsMonster (data = {}, options = {}) {
 				file.contents = Buffer.from(markup);
 				file.extname = options.extname;
 
+				console.log(storage.print());
+
 				// all done - go out
 				return isDone(null, file);
 			});

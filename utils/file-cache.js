@@ -43,11 +43,12 @@ function createFileCache (storage) {
 	 * Checkout filePath and cache file contents
 	 * @param {string} filePath - resolved path
 	 * @param {boolean} [noCache] - don't cache file contents
+	 * @param {boolean} [noRead] - don't read file
 	 * @returns {Object}
 	 */
-	function cached (filePath, noCache) {
+	function cached (filePath, noCache, noRead) {
 		if (noCache) {
-			storage.push(chalk.gray('  cache disabled'));
+			storage.push(chalk.gray('  no cache'));
 			return {
 				content: fs.readFileSync(filePath).toString(),
 				mtime: 1,
@@ -66,7 +67,7 @@ function createFileCache (storage) {
 
 		cache[filePath] = {
 			mtime,
-			content: fs.readFileSync(filePath, 'utf-8'),
+			content: noRead ? null : fs.readFileSync(filePath, 'utf-8'),
 			changed: true
 		};
 

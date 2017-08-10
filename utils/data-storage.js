@@ -68,7 +68,7 @@ class DataStorage {
 		let value = this.indent(gap) + whatHappens;
 
 		if (filePath) {
-			if (~this.paths.indexOf(filePath)) {
+			if (!~this.paths.indexOf(filePath)) {
 				this.paths.push(filePath);
 			}
 			value += ' - ' + filePath;
