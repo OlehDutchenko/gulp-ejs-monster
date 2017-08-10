@@ -49,6 +49,9 @@ function crashed (error, storage, renderOptions) {
 		}
 		errorMessage = errorMessage.replace(filenameRegExp, (str, g1, g2) => '\n\n' + chalk.gray(g2));
 		errorMessage = errorMessage.replace(filenameRegExpIn, '');
+		errorMessage = errorMessage.replace(/(ENOENT)/g, (str, g1) => `\n${g1}`);
+		errorMessage = errorMessage.replace(/(partial is not a \*\.ejs file)/g, (str, g1) => `\n${g1}`);
+		errorMessage = errorMessage.replace(/(layout is not a \*\.ejs file)/g, (str, g1) => `\n${g1}`);
 	}
 
 	let messages = [

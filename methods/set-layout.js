@@ -31,7 +31,13 @@ function setLayoutMethod (options) {
 	 * @param {string} filePath - relative path to the file, without extension
 	 */
 	function setLayout (filePath) {
-		this.layout = path.join(folder, filePath + '.ejs');
+		if (!filePath || typeof filePath !== 'string') {
+			throw new Error('layout without filePath');
+		}
+		if (!/\.ejs$/.test(filePath)) {
+			throw new Error(`layout is not a *.ejs file → "${filePath}"`);
+		}
+		this.layout = path.join(folder, filePath);
 	}
 
 	return setLayout;

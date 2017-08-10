@@ -48,7 +48,10 @@ function partialMethod (options, storage) {
 		if (!filePath || typeof filePath !== 'string') {
 			throw new Error('partial without filePath');
 		}
-		filePath = path.join(folder, filePath + '.ejs');
+		if (!/\.ejs$/.test(filePath)) {
+			throw new Error(`partial is not a *.ejs file → "${filePath}"`);
+		}
+		filePath = path.join(folder, filePath);
 		storage.push('> render partial', filePath, '>>');
 
 		// remember prev status
