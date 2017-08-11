@@ -24,10 +24,6 @@ const lodash = require('lodash');
  * @returns {string}
  */
 function beautify (markup, opts) {
-	if (typeof opts === 'function') {
-		opts = opts();
-	}
-
 	let options = lodash.merge({}, opts, {
 		indent_level: 0,
 		eol: '\n',

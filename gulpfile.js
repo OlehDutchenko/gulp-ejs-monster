@@ -27,7 +27,6 @@ const ejsOptions = {
 	debug: false,
 	ejs: {
 		compileDebug: true,
-		rmWhitespace: true,
 		delimiter: '%',
 		localsName: 'locals'
 	}

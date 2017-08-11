@@ -82,6 +82,36 @@ function setExtname (extname) {
 	return '.html';
 }
 
+/**
+ * @param {*} options
+ * @returns {Object}
+ * @private
+ */
+function setBeautify (options) {
+	if (typeof options === 'function') {
+		options = options();
+	}
+	if (lodash.isPlainObject(options)) {
+		return options;
+	}
+	return {};
+}
+
+/**
+ * @param {*} options
+ * @returns {Object}
+ * @private
+ */
+function setSass (options) {
+	if (typeof options === 'function') {
+		options = options();
+	}
+	if (lodash.isPlainObject(options)) {
+		return options;
+	}
+	return {};
+}
+
 // ----------------------------------------
 // Public
 // ----------------------------------------
@@ -102,7 +132,7 @@ function configOptions (opts = {}) {
 	ejs.delimiter = setDelimiter(optsEjs.delimiter);
 	ejs.localsName = setLocalsName(optsEjs.localsName);
 	ejs.compileDebug = !!optsEjs.compileDebug;
-	ejs.rmWhitespace = !!optsEjs.rmWhitespace;
+	ejs.rmWhitespace = false;
 	ejs.debug = false;
 	ejs.client = false;
 	ejs.strict = true;
@@ -117,7 +147,8 @@ function configOptions (opts = {}) {
 	});
 
 	options.extname = setExtname(opts.extname);
-	options.beautify = opts.beautify;
+	options.beautify = setBeautify(opts.beautify);
+	options.sass = setSass(opts.sass);
 	options.debug = !!opts.debug;
 	options.delimiters = {
 		start: `<${ejs.delimiter} `,
@@ -126,6 +157,7 @@ function configOptions (opts = {}) {
 	};
 
 	options.__UNIQUE_KEY__ = `ui-key-${new Date().getTime()}`;
+	console.log(options);
 
 	return options;
 }

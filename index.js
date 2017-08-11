@@ -151,6 +151,7 @@ function gulpEjsMonster (opts = {}) {
 
 				if (options.debug) {
 					console.log(storage.print());
+					console.log(chalk.green('Done!\n'));
 				}
 
 				// change file data
@@ -163,6 +164,7 @@ function gulpEjsMonster (opts = {}) {
 		}
 
 		storage.reset();
+		storage.push(chalk.green('Start'));
 		storage.push('render view', file.path);
 		renderFile(file.path);
 	}

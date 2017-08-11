@@ -29,7 +29,7 @@ const createFileCache = require('../utils/file-cache');
  *  - `.sass`
  *  - `.scss`
  *
- * @todo Add markdown and Sass
+ * @todo Add Sass
  * @param {Object} options - plugin options
  * @param {Object} options.requires - resolved path to the "requires" folder
  * @param {Object} options.ejs - ejs render options
@@ -41,6 +41,7 @@ function requireMethod (options, storage) {
 	const folder = options.requires;
 	const cached = createFileCache(storage);
 	const extnames = ['.json', '.js', '.md', '.sass', '.scss'];
+	// const sassOptions = options.sass;
 
 	/**
 	 * @param {string} resolvedPath
@@ -67,6 +68,21 @@ function requireMethod (options, storage) {
 		}
 
 		return result;
+	}
+
+	function requireMarkdownFile (resolvedPath, noCache) {
+		let markdown = require('markdown').markdown;
+		let data = cached(resolvedPath, noCache);
+
+		storage.push(chalk.gray(data.changed ? '√ file changed' : '< file not changed'), false, '>');
+		if (data.changed) {
+			data.content = markdown.toHTML(data.content);
+			storage.push(chalk.gray('set in cache new rendered content from markdown into html'));
+		} else {
+			storage.push(chalk.gray('get early rendered html content'));
+		}
+
+		return data.content;
 	}
 
 	/**
@@ -106,11 +122,14 @@ function requireMethod (options, storage) {
 		}
 		let resolvedPath = path.join(folder, filePath);
 
-		storage.push('> requiring file', filePath, '>>');
+		storage.push('> requiring file', resolvedPath, '>>');
 		switch (extname) {
 			case '.js':
 			case '.json':
 				result = requireJsAndJsonFiles(resolvedPath, noCache);
+				break;
+			case '.md':
+				result = requireMarkdownFile(resolvedPath, noCache);
 				break;
 			default:
 				throw new Error(`requiring unknown extension "${extname}"`);

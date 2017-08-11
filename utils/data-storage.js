@@ -7,6 +7,12 @@
  */
 
 // ----------------------------------------
+// Imports
+// ----------------------------------------
+
+const chalk = require('chalk');
+
+// ----------------------------------------
 // Public
 // ----------------------------------------
 
@@ -71,7 +77,7 @@ class DataStorage {
 			if (!~this.paths.indexOf(filePath)) {
 				this.paths.push(filePath);
 			}
-			value += ' - ' + filePath;
+			value += ' - ' + chalk.magenta(filePath);
 		}
 		this.list.push(value);
 	}
