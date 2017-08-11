@@ -20,7 +20,7 @@ tmp
 thumbs.db
 
 # workflow
-gulpfile.js
 tests
-examples
 .travis.yml
+# gulpfile.js
+# examples

@@ -174,8 +174,11 @@ function configOptions (opts = {}) {
 		end: ` -${ejs.delimiter}>`
 	};
 
+	if (typeof opts.afterRender === 'function') {
+		options.afterRender = opts.afterRender;
+	}
+
 	options.__UNIQUE_KEY__ = `ui-key-${new Date().getTime()}`;
-	console.log(options);
 
 	return options;
 }

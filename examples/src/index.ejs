@@ -8,6 +8,8 @@
 	let demo = locals.require('test.js');
 	demo();
 	console.log(merged);
+
+	locals.block('footer', '<footer>Footer</footer>');
 %>
 <style><%- locals.include('style.css'); -%></style>
 <style><%- locals.include('style.css'); -%></style>

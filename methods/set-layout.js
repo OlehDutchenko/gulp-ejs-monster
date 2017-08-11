@@ -19,7 +19,7 @@ const path = require('path');
 /**
  * [FW] Create `[localsName].setLayout()` method
  * @param {Object} options - plugin options
- * @param {Object} options.layouts - resolved path to the "layouts" folder
+ * @param {string} options.layouts - resolved path to the "layouts" folder
  * @returns {Function}
  * @sourceCode
  */

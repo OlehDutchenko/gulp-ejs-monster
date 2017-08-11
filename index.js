@@ -35,6 +35,7 @@ const setLayoutMethod = require('./methods/set-layout');
 const partialMethod = require('./methods/partial');
 const requireMethod = require('./methods/require');
 const includeMethod = require('./methods/include');
+const blockMethod = require('./methods/block');
 
 // ----------------------------------------
 // Private
@@ -42,9 +43,9 @@ const includeMethod = require('./methods/include');
 
 /**
  * Create new error
- * @const {function}
+ * @const {Function}
  * @param {Object} data
- * @param [options={}]
+ * @param {Object} [options={}]
  * @return {PluginError}
  */
 const pluginError = (data, options) => new gutil.PluginError(pkg.name, data, options);
@@ -82,10 +83,12 @@ function gulpEjsMonster (opts = {}) {
 				setLayout: setLayoutMethod(opts),
 				partial: partialMethod(opts, storage),
 				require: requireMethod(opts, storage),
-				include: includeMethod(opts, storage)
+				include: includeMethod(opts, storage),
+				blocks: {}
 			}
 		};
 		config = configs[opts.__UNIQUE_KEY__];
+		config.data.block = blockMethod(config.data.blocks, storage);
 	}
 	const options = config.options;
 	const data = config.data;
@@ -120,6 +123,7 @@ function gulpEjsMonster (opts = {}) {
 					}
 
 					crashed.reRenderLog(filePath);
+					data.blocks = {};
 					storage.push(chalk.red('→ CRASH...\n'), false, '>');
 					storage.indent('<<<<');
 					storage.push('re-render file with compileDebug', file.path);
@@ -149,6 +153,15 @@ function gulpEjsMonster (opts = {}) {
 					markup = beautify(markup);
 				}
 
+				// after render
+				if (options.afterRender) {
+					let postMarkup = options.afterRender(markup, file, storage.paths);
+
+					if (typeof postMarkup === 'string') {
+						markup = postMarkup;
+					}
+				}
+
 				if (options.debug) {
 					console.log(storage.print());
 					console.log(chalk.green('Done!\n'));
@@ -163,6 +176,7 @@ function gulpEjsMonster (opts = {}) {
 			});
 		}
 
+		data.blocks = {};
 		storage.reset();
 		storage.push(chalk.green('Start'));
 		storage.push('render view', file.path);

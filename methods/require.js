@@ -28,7 +28,7 @@ const createFileCache = require('../utils/file-cache');
  *  - `.md`
  *
  * @param {Object} options - plugin options
- * @param {Object} options.requires - resolved path to the "requires" folder
+ * @param {string} options.requires - resolved path to the "requires" folder
  * @param {Object} options.ejs - ejs render options
  * @param {DataStorage} storage
  * @returns {Function}

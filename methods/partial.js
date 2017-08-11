@@ -26,7 +26,7 @@ const createFileCache = require('../utils/file-cache');
 /**
  * [FW] Create `[localsName].partial()` method
  * @param {Object} options - plugin options
- * @param {Object} options.partials - resolved path to the "partials" folder
+ * @param {string} options.partials - resolved path to the "partials" folder
  * @param {Object} options.ejs - ejs render options
  * @param {DataStorage} storage
  * @returns {Function}
