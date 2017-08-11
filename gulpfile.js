@@ -28,7 +28,10 @@ const ejsOptions = {
 	ejs: {
 		compileDebug: true,
 		delimiter: '%',
-		localsName: 'locals'
+		localsName: 'locals',
+		locals: {
+			customProp: 'customProp'
+		}
 	}
 };
 

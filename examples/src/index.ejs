@@ -8,6 +8,7 @@
 	let demo = locals.require('test.js');
 	demo();
 	console.log(merged);
+	console.log(locals.customProp);
 
 	locals.block('footer', '<footer>Footer</footer>');
 %>

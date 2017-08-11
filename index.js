@@ -79,13 +79,13 @@ function gulpEjsMonster (opts = {}) {
 		opts = configOptions(opts);
 		configs[opts.__UNIQUE_KEY__] = {
 			options: opts,
-			data: {
+			data: lodash.merge({}, opts.locals, {
 				setLayout: setLayoutMethod(opts),
 				partial: partialMethod(opts, storage),
 				require: requireMethod(opts, storage),
 				include: includeMethod(opts, storage),
 				blocks: {}
-			}
+			})
 		};
 		config = configs[opts.__UNIQUE_KEY__];
 		config.data.block = blockMethod(config.data.blocks, storage);

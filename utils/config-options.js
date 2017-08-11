@@ -154,8 +154,8 @@ function configOptions (opts = {}) {
 	ejs.rmWhitespace = false;
 	ejs.debug = false;
 	ejs.client = false;
-	ejs.strict = true;
 	ejs._with = false;
+	ejs.strict = true;
 
 	setMethods(ejs, 'context', optsEjs.context);
 	setMethods(ejs, 'escape', optsEjs.escape);
@@ -167,6 +167,7 @@ function configOptions (opts = {}) {
 
 	options.extname = setExtname(opts.extname);
 	options.beautify = setBeautify(opts.beautify);
+	options.locals = lodash.merge({}, optsEjs.locals);
 	options.debug = !!opts.debug;
 	options.delimiters = {
 		start: `<${ejs.delimiter} `,
