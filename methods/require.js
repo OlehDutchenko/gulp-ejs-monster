@@ -26,10 +26,7 @@ const createFileCache = require('../utils/file-cache');
  *  - `.js`
  *  - `.json`
  *  - `.md`
- *  - `.sass`
- *  - `.scss`
  *
- * @todo Add Sass
  * @param {Object} options - plugin options
  * @param {Object} options.requires - resolved path to the "requires" folder
  * @param {Object} options.ejs - ejs render options
@@ -40,8 +37,7 @@ const createFileCache = require('../utils/file-cache');
 function requireMethod (options, storage) {
 	const folder = options.requires;
 	const cached = createFileCache(storage);
-	const extnames = ['.json', '.js', '.md', '.sass', '.scss'];
-	// const sassOptions = options.sass;
+	const extnames = ['.json', '.js', '.md'];
 
 	/**
 	 * @param {string} resolvedPath
