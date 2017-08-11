@@ -1,11 +1,13 @@
 <%
 	locals.setLayout('base.ejs');
 	let data = locals.require('data.json');
-	let lodash = locals.require('lodash');
-	let merged = lodash.merge({}, data, {
+	let _ = locals.require('lodash');
+	let merged = _.merge({}, data, {
 		key2: 'value2'
 	});
-	locals.require('test.js');
+	let demo = locals.require('test.js');
+	demo();
+	console.log(merged);
 %>
 <style><%- locals.include('style.css'); -%></style>
 <style><%- locals.include('style.css'); -%></style>

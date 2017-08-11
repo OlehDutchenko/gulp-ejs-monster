@@ -1,1 +1,3 @@
-console.log(999);
+module.exports = function () {
+	console.log('Hello from test.js');
+};

@@ -12,11 +12,8 @@
 // ----------------------------------------
 
 const path = require('path');
-const ejs = require('ejs');
-const lodash = require('lodash');
 const chalk = require('chalk');
 
-const pkg = require('../package.json');
 const createFileCache = require('../utils/file-cache');
 
 // ----------------------------------------
@@ -25,6 +22,14 @@ const createFileCache = require('../utils/file-cache');
 
 /**
  * [FW] Create `[localsName].require()` method
+ * Requiring extensions:
+ *  - `.js`
+ *  - `.json`
+ *  - `.md`
+ *  - `.sass`
+ *  - `.scss`
+ *
+ * @todo Add markdown and Sass
  * @param {Object} options - plugin options
  * @param {Object} options.requires - resolved path to the "requires" folder
  * @param {Object} options.ejs - ejs render options
@@ -35,7 +40,7 @@ const createFileCache = require('../utils/file-cache');
 function requireMethod (options, storage) {
 	const folder = options.requires;
 	const cached = createFileCache(storage);
-	const extnames = ['.json', '.js', '.md', '.scss'];
+	const extnames = ['.json', '.js', '.md', '.sass', '.scss'];
 
 	/**
 	 * @param {string} resolvedPath
@@ -43,7 +48,7 @@ function requireMethod (options, storage) {
 	 * @returns {Object}
 	 * @private
 	 */
-	function requireJsonFile (resolvedPath, noCache) {
+	function requireJsAndJsonFiles (resolvedPath, noCache) {
 		let result = null;
 
 		if (noCache) {
@@ -51,7 +56,6 @@ function requireMethod (options, storage) {
 			storage.push(chalk.gray('  no cache'));
 			result = require(resolvedPath);
 			delete require.cache[resolvedPath];
-
 		} else {
 			let data = cached(resolvedPath, false, true);
 
@@ -66,58 +70,12 @@ function requireMethod (options, storage) {
 	}
 
 	/**
-	 * @param {Object} locals
-	 * @param {string} resolvedPath
-	 * @param {Object} entry - entry data for require
-	 * @param {boolean} noCache
-	 * @returns {Object}
-	 * @private
-	 */
-	function requireJsFile (locals, resolvedPath, entry, noCache) {
-		// remember prev status
-		let fileChanged = locals.fileChanged;
-		let hasEntry = locals.hasOwnProperty('entry');
-		let prevEntry = lodash.merge({}, locals.entry);
-
-		// set new entry
-		locals.entry = lodash.merge({}, entry);
-
-		// get data
-		let data = cached(resolvedPath, noCache);
-		let delimiters = ' ' + options.delimiters.end + options.delimiters.start;
-		let template = delimiters + data.content + delimiters;
-		console.log(template);
-		return '';
-
-		///////// TODO go on!
-
-		locals.fileChanged = data.changed;
-
-		// file current status
-		storage.push(chalk.gray(data.changed ? '√ file changed' : '< file not changed'), false, '>');
-
-		// render template
-		let result = ejs.render(data.content, this, lodash.merge(ejsOptions, {filename: pkg.gulpEjsMonster.newline + filePath}));
-
-		// return remembered
-		this.fileChanged = fileChanged;
-		if (hasEntry) {
-			this.entry = prevEntry;
-		}
-
-		// go out
-		storage.indent('<<<');
-		return result;
-	}
-
-	/**
 	 * require method
 	 * @param {string} filePath - relative path to the file, without extension
-	 * @param {Object} [entry={}] - entry data for require
 	 * @param {boolean} [noCache] - don't cache file contents
 	 * @returns {string}
 	 */
-	function requireFn (filePath, entry = {}, noCache) {
+	function requireFn (filePath, noCache) {
 		if (!filePath || typeof filePath !== 'string') {
 			throw new Error('require without filePath');
 		}
@@ -130,9 +88,9 @@ function requireMethod (options, storage) {
 
 		if (!extname) {
 			try {
-				storage.push(`> requiring module`, false, '>>');
+				storage.push('> requiring module', false, '>>');
 				if (require.cache[require.resolve(filePath)]) {
-					storage.push(chalk.gray(`  module is cached`));
+					storage.push(chalk.gray('  module is cached'));
 				}
 				result = require(filePath);
 			} catch (error) {
@@ -148,15 +106,11 @@ function requireMethod (options, storage) {
 		}
 		let resolvedPath = path.join(folder, filePath);
 
-		storage.push(`> requiring file`, filePath, '>>');
+		storage.push('> requiring file', filePath, '>>');
 		switch (extname) {
-			case '.json':
-				result = requireJsonFile(resolvedPath, noCache);
-				break;
 			case '.js':
-				result = requireJsFile(this, resolvedPath, entry, noCache);
-				break;
-			case '.md':
+			case '.json':
+				result = requireJsAndJsonFiles(resolvedPath, noCache);
 				break;
 			default:
 				throw new Error(`requiring unknown extension "${extname}"`);

@@ -91,17 +91,13 @@ function gulpEjsMonster (opts = {}) {
 	const data = config.data;
 	const ejsOptions = options.ejs;
 
-	console.log(options);
-	console.log(data);
-	storage.reset();
-
 	/**
 	 * Read buffer and transform
 	 * @param {Object} file
-	 * @param {String} [enc]
-	 * @param {Function} isDone
+	 * @param {...*} args
 	 */
-	function readBuffer (file, enc, isDone) {
+	function readBuffer (file, ...args) {
+		let isDone = args[1];
 		let notSupported = notSupportedFile(file, pluginError);
 
 		if (Array.isArray(notSupported)) {
@@ -166,6 +162,7 @@ function gulpEjsMonster (opts = {}) {
 			});
 		}
 
+		storage.reset();
 		storage.push('render view', file.path);
 		renderFile(file.path);
 	}
