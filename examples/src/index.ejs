@@ -1,14 +1,14 @@
 <%
-	App.setLayout('base.ejs');
-	let data = App.require('data.json');
-	let lodash = App.require('lodash');
+	locals.setLayout('base.ejs');
+	let data = locals.require('data.json');
+	let lodash = locals.require('lodash');
 	let merged = lodash.merge({}, data, {
 		key2: 'value2'
 	});
-	App.require('test.js');
+	locals.require('test.js');
 %>
-<style><%- App.include('style.css'); -%></style>
-<style><%- App.include('style.css'); -%></style>
-<script><%- App.include('script.js'); -%></script>
+<style><%- locals.include('style.css'); -%></style>
+<style><%- locals.include('style.css'); -%></style>
+<script><%- locals.include('script.js'); -%></script>
 <h1>Hello</h1>
-<%- App.partial('features.ejs', {list: ['item 1', 'item 2', 'item 3']}) -%>
+<%- locals.partial('features.ejs', {list: ['item 1', 'item 2', 'item 3']}) -%>

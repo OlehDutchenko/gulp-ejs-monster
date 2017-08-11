@@ -56,26 +56,43 @@ const pluginError = (data, options) => new gutil.PluginError(pkg.name, data, opt
  */
 const storage = new DataStorage();
 
+/**
+ * All gathered options
+ * @const {Object}
+ */
+const configs = {};
+
 // ----------------------------------------
 // Public
 // ----------------------------------------
 
 /**
  * Core plugin method
- * @param {Object} data
- * @param {Object} options
+ * @param {Object} opts
  * @returns {DestroyableTransform}
  */
-function gulpEjsMonster (data = {}, options = {}) {
-	if (options.__IS_CONFIGURATED !== true) {
-		options = configOptions(options);
-		data.setLayout = setLayoutMethod(options);
-		data.partial = partialMethod(options, storage);
-		data.require = requireMethod(options, storage);
-		data.include = includeMethod(options, storage);
-		options.__IS_CONFIGURATED = true;
+function gulpEjsMonster (opts = {}) {
+	let config = configs[opts.__UNIQUE_KEY__];
+
+	if (config === undefined) {
+		opts = configOptions(opts);
+		configs[opts.__UNIQUE_KEY__] = {
+			options: opts,
+			data: {
+				setLayout: setLayoutMethod(opts),
+				partial: partialMethod(opts, storage),
+				require: requireMethod(opts, storage),
+				include: includeMethod(opts, storage)
+			}
+		};
+		config = configs[opts.__UNIQUE_KEY__];
 	}
+	const options = config.options;
+	const data = config.data;
 	const ejsOptions = options.ejs;
+
+	console.log(options);
+	console.log(data);
 	storage.reset();
 
 	/**
@@ -144,8 +161,6 @@ function gulpEjsMonster (data = {}, options = {}) {
 				file.contents = Buffer.from(markup);
 				file.extname = options.extname;
 
-				console.log(storage.print());
-
 				// all done - go out
 				return isDone(null, file);
 			});
@@ -164,10 +179,10 @@ function gulpEjsMonster (data = {}, options = {}) {
 gulpEjsMonster.pluginName = pkg.name;
 
 /**
- * Plumb on error
+ * Prevention failing process
  * @type {Function}
  */
-gulpEjsMonster.onError = function () {
+gulpEjsMonster.preventCrash = function () {
 	this.emit('end');
 };
 

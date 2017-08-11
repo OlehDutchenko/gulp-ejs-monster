@@ -18,7 +18,6 @@ const ejsMonster = require('./index');
 // Private
 // ----------------------------------------
 
-const ejsData = {};
 const ejsOptions = {
 	layouts: './examples/src/layouts/',
 	partials: './examples/src/partials/',
@@ -30,7 +29,7 @@ const ejsOptions = {
 		compileDebug: true,
 		rmWhitespace: true,
 		delimiter: '%',
-		localsName: 'App'
+		localsName: 'locals'
 	}
 };
 
@@ -40,6 +39,6 @@ const ejsOptions = {
 
 gulp.task('ejs', function () {
 	return gulp.src('./examples/src/*.ejs')
-		.pipe(ejsMonster(ejsData, ejsOptions).on('error', ejsMonster.onError))
+		.pipe(ejsMonster(ejsOptions).on('error', ejsMonster.preventCrash))
 		.pipe(gulp.dest('./examples/dist/'));
 });

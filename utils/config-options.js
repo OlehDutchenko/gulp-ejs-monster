@@ -125,6 +125,8 @@ function configOptions (opts = {}) {
 		end: ` -${ejs.delimiter}>`
 	};
 
+	options.__UNIQUE_KEY__ = `ui-key-${new Date().getTime()}`;
+
 	return options;
 }
 
