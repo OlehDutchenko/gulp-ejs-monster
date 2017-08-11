@@ -155,7 +155,7 @@ function gulpEjsMonster (opts = {}) {
 
 				// after render
 				if (options.afterRender) {
-					let postMarkup = options.afterRender(markup, file, storage.paths);
+					let postMarkup = options.afterRender(markup, file, storage.paths.concat([]));
 
 					if (typeof postMarkup === 'string') {
 						markup = postMarkup;

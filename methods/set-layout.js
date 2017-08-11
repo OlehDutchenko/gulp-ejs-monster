@@ -28,7 +28,7 @@ function setLayoutMethod (options) {
 
 	/**
 	 * Resolve and add filePath as `layout` property
-	 * @param {string} filePath - relative path to the file, without extension
+	 * @param {string} filePath - relative path to the file, with extension
 	 */
 	function setLayout (filePath) {
 		if (!filePath || typeof filePath !== 'string') {

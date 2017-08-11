@@ -39,7 +39,7 @@ function partialMethod (options, storage) {
 
 	/**
 	 * partial method
-	 * @param {string} filePath - relative path to the file, without extension
+	 * @param {string} filePath - relative path to the file, with extension
 	 * @param {Object} [entry={}] - entry data for partial
 	 * @param {boolean} [noCache] - don't cache file contents
 	 * @returns {string}
