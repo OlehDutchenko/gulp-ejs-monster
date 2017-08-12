@@ -31,11 +31,11 @@ const configOptions = require('./utils/config-options');
 const crashed = require('./utils/crashed');
 const DataStorage = require('./utils/data-storage');
 
-const creastSetLayoutMethod = require('./methods/set-layout');
-const creastPartialMethod = require('./methods/partial');
-const creastRequireMethod = require('./methods/require');
-const creastIncludeMethod = require('./methods/include');
-const creastBlockMethod = require('./methods/block');
+const createSetLayoutMethod = require('./methods/set-layout');
+const createPartialMethod = require('./methods/partial');
+const createRequireMethod = require('./methods/require');
+const createIncludeMethod = require('./methods/include');
+const createBlockMethod = require('./methods/block');
 
 // ----------------------------------------
 // Private
@@ -81,17 +81,17 @@ function gulpEjsMonster (opts = {}) {
 		configs[opts.__UNIQUE_KEY__] = {
 			options: opts,
 			data: lodash.merge({}, opts.locals, {
-				setLayout: creastSetLayoutMethod(opts),
-				partial: creastPartialMethod(opts, storage),
-				require: creastRequireMethod(opts, storage),
-				include: creastIncludeMethod(opts, storage),
+				setLayout: createSetLayoutMethod(opts),
+				partial: createPartialMethod(opts, storage),
+				require: createRequireMethod(opts, storage),
+				include: createIncludeMethod(opts, storage),
 				blocks: {
-					clearAllBlocks: creastBlockMethod.clearAllBlocks
+					clearAllBlocks: createBlockMethod.clearAllBlocks
 				}
 			})
 		};
 		config = configs[opts.__UNIQUE_KEY__];
-		config.data.block = creastBlockMethod(config.data.blocks, storage);
+		config.data.block = createBlockMethod(config.data.blocks, storage);
 	}
 	const options = config.options;
 	const data = config.data;
