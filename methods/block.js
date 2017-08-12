@@ -69,6 +69,19 @@ function blockMethod (blocks, storage) {
 	return block;
 }
 
+/**
+ * Clear all added blocks
+ * @sourceCode
+ */
+blockMethod.clearAllBlocks = function () {
+	for (let key in this) {
+		if (key === 'clearAllBlocks') {
+			continue;
+		}
+		delete this[key];
+	}
+};
+
 // ----------------------------------------
 // Exports
 // ----------------------------------------

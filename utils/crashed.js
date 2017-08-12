@@ -33,6 +33,7 @@ const filenameRegExpIn = new RegExp(pkg.gulpEjsMonster.newline, 'g');
  * @param {Error} error
  * @param {DataStorage} storage
  * @param {Object} renderOptions
+ * @sourceCode
  */
 function crashed (error, storage, renderOptions) {
 	storage.push(chalk.red('→ CRASH...'), false, '>');
@@ -103,8 +104,14 @@ function crashed (error, storage, renderOptions) {
  * Log about `compiledDebug` is turned off and needs to re-render
  * for getting information about error
  * @param {string} filePath
+ * @param {DataStorage} storage
+ * @sourceCode
  */
-crashed.reRenderLog = function (filePath) {
+crashed.reRenderLog = function (filePath, storage) {
+	storage.push(chalk.red('→ CRASH...\n'), false, '>');
+	storage.indent('<<<<');
+	storage.push('re-render file with compileDebug', filePath);
+
 	console.log(chalk.yellow([
 		pkg.gulpEjsMonster.divider,
 		`Oops! ${pkg.name} crashed while render file:`,

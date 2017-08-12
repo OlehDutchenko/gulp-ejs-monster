@@ -42,7 +42,7 @@ const blockMethod = require('./methods/block');
 // ----------------------------------------
 
 /**
- * Create new error
+ * Create new plugin error
  * @const {Function}
  * @param {Object} data
  * @param {Object} [options={}]
@@ -60,6 +60,7 @@ const storage = new DataStorage();
 /**
  * All gathered options
  * @const {Object}
+ * @private
  */
 const configs = {};
 
@@ -84,7 +85,9 @@ function gulpEjsMonster (opts = {}) {
 				partial: partialMethod(opts, storage),
 				require: requireMethod(opts, storage),
 				include: includeMethod(opts, storage),
-				blocks: {}
+				blocks: {
+					clearAllBlocks: blockMethod.clearAllBlocks
+				}
 			})
 		};
 		config = configs[opts.__UNIQUE_KEY__];
@@ -122,12 +125,8 @@ function gulpEjsMonster (opts = {}) {
 						return isDone(error);
 					}
 
-					crashed.reRenderLog(filePath);
-					data.blocks = {};
-					storage.push(chalk.red('→ CRASH...\n'), false, '>');
-					storage.indent('<<<<');
-					storage.push('re-render file with compileDebug', file.path);
-
+					data.blocks.clearAllBlocks();
+					crashed.reRenderLog(filePath, storage);
 					return ejs.renderFile(filePath, data, lodash.merge(ejsOptions, {compileDebug: true}), (err) => {
 						crashed(err, storage, ejsOptions);
 						return isDone(err);
@@ -176,7 +175,7 @@ function gulpEjsMonster (opts = {}) {
 			});
 		}
 
-		data.blocks = {};
+		data.blocks.clearAllBlocks();
 		storage.reset();
 		storage.push(chalk.green('Start'));
 		storage.push('render view', file.path);
