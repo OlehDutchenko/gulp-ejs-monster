@@ -28,7 +28,7 @@ const createFileCache = require('../utils/file-cache');
  * @returns {Function}
  * @sourceCode
  */
-function includeMethod (options, storage) {
+function createIncludeMethod (options, storage) {
 	const folder = options.includes;
 	const cached = createFileCache(storage);
 
@@ -63,4 +63,4 @@ function includeMethod (options, storage) {
 // Exports
 // ----------------------------------------
 
-module.exports = includeMethod;
+module.exports = createIncludeMethod;

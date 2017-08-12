@@ -17,7 +17,7 @@
  * @return {Function}
  * @sourceCode
  */
-function blockMethod (blocks, storage) {
+function createBlockMethod (blocks, storage) {
 	class Block {
 		constructor (blockName) {
 			this.blockName = blockName;
@@ -73,7 +73,7 @@ function blockMethod (blocks, storage) {
  * Clear all added blocks
  * @sourceCode
  */
-blockMethod.clearAllBlocks = function () {
+createBlockMethod.clearAllBlocks = function () {
 	for (let key in this) {
 		if (key === 'clearAllBlocks') {
 			continue;
@@ -86,4 +86,4 @@ blockMethod.clearAllBlocks = function () {
 // Exports
 // ----------------------------------------
 
-module.exports = blockMethod;
+module.exports = createBlockMethod;

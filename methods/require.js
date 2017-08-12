@@ -34,7 +34,7 @@ const createFileCache = require('../utils/file-cache');
  * @returns {Function}
  * @sourceCode
  */
-function requireMethod (options, storage) {
+function createRequireMethod (options, storage) {
 	const folder = options.requires;
 	const cached = createFileCache(storage);
 	const extnames = ['.json', '.js', '.md'];
@@ -66,6 +66,12 @@ function requireMethod (options, storage) {
 		return result;
 	}
 
+	/**
+	 * @param {string} resolvedPath
+	 * @param {boolean} noCache
+	 * @returns {string}
+	 * @private
+	 */
 	function requireMarkdownFile (resolvedPath, noCache) {
 		let markdown = require('markdown').markdown;
 		let data = cached(resolvedPath, noCache);
@@ -142,4 +148,4 @@ function requireMethod (options, storage) {
 // Exports
 // ----------------------------------------
 
-module.exports = requireMethod;
+module.exports = createRequireMethod;

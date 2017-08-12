@@ -23,7 +23,7 @@ const path = require('path');
  * @returns {Function}
  * @sourceCode
  */
-function setLayoutMethod (options) {
+function createSetLayoutMethod (options) {
 	const folder = options.layouts;
 
 	/**
@@ -47,4 +47,4 @@ function setLayoutMethod (options) {
 // Exports
 // ----------------------------------------
 
-module.exports = setLayoutMethod;
+module.exports = createSetLayoutMethod;

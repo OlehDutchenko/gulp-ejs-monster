@@ -32,7 +32,7 @@ const createFileCache = require('../utils/file-cache');
  * @returns {Function}
  * @sourceCode
  */
-function partialMethod (options, storage) {
+function createPartialMethod (options, storage) {
 	const folder = options.partials;
 	const ejsOptions = options.ejs;
 	const cached = createFileCache(storage);
@@ -91,4 +91,4 @@ function partialMethod (options, storage) {
 // Exports
 // ----------------------------------------
 
-module.exports = partialMethod;
+module.exports = createPartialMethod;
