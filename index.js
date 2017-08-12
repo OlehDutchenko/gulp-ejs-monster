@@ -176,6 +176,8 @@ function gulpEjsMonster (opts = {}) {
 		}
 
 		data.blocks.clearAllBlocks();
+		data.fileName = file.stem;
+		data.filePath = file.path;
 		storage.reset();
 		storage.push(chalk.green('Start'));
 		storage.push('render view', file.path);

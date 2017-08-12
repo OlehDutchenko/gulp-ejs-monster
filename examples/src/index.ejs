@@ -10,6 +10,9 @@
 	console.log(merged);
 	console.log(locals.customProp);
 
+	console.log(locals.fileName);
+	console.log(locals.filePath);
+
 	locals.block('footer', '<footer>Footer</footer>');
 %>
 <style><%- locals.include('style.css'); -%></style>
