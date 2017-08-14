@@ -48,3 +48,7 @@ gulp.task('ejs', function () {
 		.pipe(ejsMonster(ejsOptions).on('error', ejsMonster.preventCrash))
 		.pipe(gulp.dest('./examples/dist/'));
 });
+
+gulp.task('watch', gulp.series('ejs', function () {
+	gulp.watch('./examples/src/*.ejs', gulp.series('ejs'));
+}));

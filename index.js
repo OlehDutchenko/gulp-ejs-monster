@@ -77,21 +77,22 @@ function gulpEjsMonster (opts = {}) {
 	let config = configs[opts.__UNIQUE_KEY__];
 
 	if (config === undefined) {
-		opts = configOptions(opts);
-		configs[opts.__UNIQUE_KEY__] = {
-			options: opts,
-			data: lodash.merge({}, opts.locals, {
-				setLayout: createSetLayoutMethod(opts, storage),
-				partial: createPartialMethod(opts, storage),
-				require: createRequireMethod(opts, storage),
-				include: createIncludeMethod(opts, storage),
+		let configOpts = configOptions(opts);
+		configs[configOpts.__UNIQUE_KEY__] = {
+			options: configOpts,
+			data: lodash.merge({}, configOpts.locals, {
+				setLayout: createSetLayoutMethod(configOpts, storage),
+				partial: createPartialMethod(configOpts, storage),
+				require: createRequireMethod(configOpts, storage),
+				include: createIncludeMethod(configOpts, storage),
 				blocks: {
 					clearAllBlocks: createBlockMethod.clearAllBlocks
 				}
 			})
 		};
-		config = configs[opts.__UNIQUE_KEY__];
+		config = configs[configOpts.__UNIQUE_KEY__];
 		config.data.block = createBlockMethod(config.data.blocks, storage);
+		opts.__UNIQUE_KEY__ = configOpts.__UNIQUE_KEY__;
 	}
 	const options = config.options;
 	const data = config.data;
