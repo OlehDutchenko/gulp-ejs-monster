@@ -40,8 +40,8 @@ function createRequireMethod (options, storage) {
 	const extnames = ['.json', '.js', '.md'];
 
 	/**
-	 * @param {string} resolvedPath
-	 * @param {boolean} noCache
+	 * @param {string} resolvedPath - relative path to the file or package name
+	 * @param {boolean} [noCache] - don't cache file contents
 	 * @returns {Object}
 	 * @private
 	 */
@@ -67,8 +67,8 @@ function createRequireMethod (options, storage) {
 	}
 
 	/**
-	 * @param {string} resolvedPath
-	 * @param {boolean} noCache
+	 * @param {string} resolvedPath - relative path to the file
+	 * @param {boolean} [noCache] - don't cache file contents
 	 * @returns {string}
 	 * @private
 	 */
@@ -79,9 +79,9 @@ function createRequireMethod (options, storage) {
 		storage.push(chalk.gray(data.changed ? '√ file changed' : '< file not changed'), false, '>');
 		if (data.changed) {
 			data.content = markdown.toHTML(data.content);
-			storage.push(chalk.gray('set in cache new rendered content from markdown into html'));
+			storage.push(chalk.gray('→ set in cache new rendered content from markdown into html'));
 		} else {
-			storage.push(chalk.gray('get early rendered html content'));
+			storage.push(chalk.gray('← get early rendered html content'));
 		}
 
 		return data.content;
@@ -89,7 +89,7 @@ function createRequireMethod (options, storage) {
 
 	/**
 	 * require method
-	 * @param {string} filePath - relative path to the file, without extension
+	 * @param {string} filePath - relative path to the file or package name
 	 * @param {boolean} [noCache] - don't cache file contents
 	 * @returns {string}
 	 */
@@ -98,7 +98,7 @@ function createRequireMethod (options, storage) {
 			throw new Error('require without filePath');
 		}
 		if (/\.ejs$/.test(filePath)) {
-			throw new Error(`requiring *.ejs file → "${filePath}"\nuse partial() or layout() methods for this files`);
+			throw new Error(`require *.ejs file → "${filePath}"\nuse partial() or layout() methods for this files`);
 		}
 
 		let extname = path.extname(filePath);
@@ -106,7 +106,7 @@ function createRequireMethod (options, storage) {
 
 		if (!extname) {
 			try {
-				storage.push('> requiring module', false, '>>');
+				storage.push(`> require module "${filePath}"`, false, '>>');
 				if (require.cache[require.resolve(filePath)]) {
 					storage.push(chalk.gray('  module is cached'));
 				}
@@ -120,11 +120,11 @@ function createRequireMethod (options, storage) {
 		}
 
 		if (!~extnames.indexOf(extname)) {
-			throw new Error(`requiring *${extname} file → "${filePath}"\nthis extension not available for requiring`);
+			throw new Error(`require *${extname} file → "${filePath}"\nthis extension not available for require`);
 		}
 		let resolvedPath = path.join(folder, filePath);
 
-		storage.push('> requiring file', resolvedPath, '>>');
+		storage.push('> require file', resolvedPath, '>>');
 		switch (extname) {
 			case '.js':
 			case '.json':
@@ -134,7 +134,7 @@ function createRequireMethod (options, storage) {
 				result = requireMarkdownFile(resolvedPath, noCache);
 				break;
 			default:
-				throw new Error(`requiring unknown extension "${extname}"`);
+				throw new Error(`require unknown extension "${extname}"`);
 		}
 
 		storage.indent('<<<');

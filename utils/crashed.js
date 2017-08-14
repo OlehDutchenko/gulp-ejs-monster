@@ -45,7 +45,6 @@ function crashed (error, storage, renderOptions) {
 		errorMessage = error.toString().replace(ejsLintRegExp, '');
 		if (error.path) {
 			let errorPath = new RegExp(`(${error.path.replace(/\\/g, '\\\\').replace(/\//g, '\\/')})(:\\d+)`);
-
 			errorMessage = errorMessage.replace(errorPath, (str, g1, g2) => `\n${chalk.gray(error.path + g2)}`);
 		}
 		errorMessage = errorMessage.replace(filenameRegExp, (str, g1, g2) => '\n\n' + chalk.gray(g2));

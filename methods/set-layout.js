@@ -20,10 +20,11 @@ const path = require('path');
  * [FW] Create `[localsName].setLayout()` method
  * @param {Object} options - plugin options
  * @param {string} options.layouts - resolved path to the "layouts" folder
+ * @param {DataStorage} storage
  * @returns {Function}
  * @sourceCode
  */
-function createSetLayoutMethod (options) {
+function createSetLayoutMethod (options, storage) {
 	const folder = options.layouts;
 
 	/**
@@ -38,6 +39,8 @@ function createSetLayoutMethod (options) {
 			throw new Error(`layout is not a *.ejs file → "${filePath}"`);
 		}
 		this.layout = path.join(folder, filePath);
+		storage.push('> set layout', this.layout, '>>');
+		storage.indent('<<');
 	}
 
 	return setLayout;

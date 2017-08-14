@@ -11,6 +11,7 @@
 // ----------------------------------------
 
 const gulp = require('gulp');
+const argv = require('yargs').argv;
 
 const ejsMonster = require('./index');
 
@@ -18,15 +19,18 @@ const ejsMonster = require('./index');
 // Private
 // ----------------------------------------
 
+const debugFlag = !!argv.debug;
+const prodFlag = !!argv.p || !!argv.production;
+
 const ejsOptions = {
 	layouts: './examples/src/layouts/',
 	partials: './examples/src/partials/',
 	requires: './examples/src/requires/',
 	includes: './examples/src/includes/',
-	beautify: true,
-	debug: false,
+	beautify: prodFlag,
+	debug: debugFlag,
 	ejs: {
-		compileDebug: true,
+		compileDebug: debugFlag,
 		delimiter: '%',
 		localsName: 'locals',
 		locals: {

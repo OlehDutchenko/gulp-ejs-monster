@@ -81,7 +81,7 @@ function gulpEjsMonster (opts = {}) {
 		configs[opts.__UNIQUE_KEY__] = {
 			options: opts,
 			data: lodash.merge({}, opts.locals, {
-				setLayout: createSetLayoutMethod(opts),
+				setLayout: createSetLayoutMethod(opts, storage),
 				partial: createPartialMethod(opts, storage),
 				require: createRequireMethod(opts, storage),
 				include: createIncludeMethod(opts, storage),
@@ -99,7 +99,7 @@ function gulpEjsMonster (opts = {}) {
 
 	/**
 	 * Read buffer and transform
-	 * @param {Object} file
+	 * @param {Buffer} file
 	 * @param {...*} args
 	 */
 	function readBuffer (file, ...args) {

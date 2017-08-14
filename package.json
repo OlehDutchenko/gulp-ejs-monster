@@ -53,6 +53,7 @@
     "happiness": "^7.1.2",
     "jsdoc-simple-theme": "^1.1.0",
     "should": "^11.2.1",
-    "snazzy": "^7.0.0"
+    "snazzy": "^7.0.0",
+    "yargs": "^8.0.2"
   }
 }
