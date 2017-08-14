@@ -40,15 +40,15 @@ function cut (pattern, placeholder, markup) {
  * @returns {string}
  */
 function beautify (markup, options) {
-	let scriptsPattern = /<script(.)*>(.)*<\/script>/;
+	let scriptsPattern = /<script(.)*>(|.|\n)*<\/script>/;
 	let scriptsPlaceholder = '<script-placeholder></script-placeholder>';
 	let scriptsRegExp = new RegExp(scriptsPlaceholder.replace(/\//g, '/'));
 
-	let stylesPattern = /<style(.)*>(.)*<\/style>/;
+	let stylesPattern = /<style(.)*>(|.|\n)*<\/style>/;
 	let stylesPlaceholder = '<style-placeholder></style-placeholder>';
 	let stylesRegExp = new RegExp(stylesPlaceholder.replace(/\//g, '/'));
 
-	let presPattern = /<pre(.)*>(.)*<\/pre>/;
+	let presPattern = /<pre(.)*>(|.|\n)*<\/pre>/;
 	let presPlaceholder = '<pre-placeholder></pre-placeholder>';
 	let presRegExp = new RegExp(presPlaceholder.replace(/\//g, '/'));
 
