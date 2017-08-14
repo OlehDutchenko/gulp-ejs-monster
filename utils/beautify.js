@@ -13,6 +13,23 @@
 const jsBeautify = require('js-beautify');
 
 // ----------------------------------------
+// Private
+// ----------------------------------------
+
+function cut (pattern, placeholder, markup) {
+	let list = [];
+	let arr = pattern.exec(markup);
+
+	while (arr !== null) {
+		list.push(arr[0]);
+		markup = markup.replace(pattern, placeholder);
+		arr = pattern.exec(markup);
+	}
+
+	return {list, markup};
+}
+
+// ----------------------------------------
 // Public
 // ----------------------------------------
 
@@ -23,7 +40,37 @@ const jsBeautify = require('js-beautify');
  * @returns {string}
  */
 function beautify (markup, options) {
-	return jsBeautify.html(markup, options);
+	let scriptsPattern = /<script(.)*>(.)*<\/script>/;
+	let scriptsPlaceholder = '<script-placeholder></script-placeholder>';
+	let scriptsRegExp = new RegExp(scriptsPlaceholder.replace(/\//g, '\/'));
+
+	let stylesPattern = /<style(.)*>(.)*<\/style>/;
+	let stylesPlaceholder = '<style-placeholder></style-placeholder>';
+	let stylesRegExp = new RegExp(stylesPlaceholder.replace(/\//g, '\/'));
+
+	let presPattern = /<pre(.)*>(.)*<\/pre>/;
+	let presPlaceholder = '<pre-placeholder></pre-placeholder>';
+	let presRegExp = new RegExp(presPlaceholder.replace(/\//g, '\/'));
+
+	let scriptsCut = cut(scriptsPattern, scriptsPlaceholder, markup);
+	let scripts = scriptsCut.list;
+	markup = scriptsCut.markup;
+
+	let stylesCut = cut(stylesPattern, stylesPlaceholder, markup);
+	let styles = stylesCut.list;
+	markup = stylesCut.markup;
+
+	let presCut = cut(presPattern, presPlaceholder, markup);
+	let pres = presCut.list;
+	markup = presCut.markup;
+
+	markup = jsBeautify.html(markup, options);
+
+	scripts.forEach(code => markup = markup.replace(scriptsRegExp, code));
+	styles.forEach(code => markup = markup.replace(stylesRegExp, code));
+	pres.forEach(code => markup = markup.replace(presRegExp, code));
+
+	return markup;
 }
 
 // ----------------------------------------

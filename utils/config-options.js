@@ -91,8 +91,8 @@ function setBeautify (options) {
 	if (typeof options === 'function') {
 		options = options();
 	}
-	if (!lodash.isPlainObject(options)) {
-		options = {};
+	if (!options) {
+		return false;
 	}
 
 	let defaults = {
