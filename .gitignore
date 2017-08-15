@@ -38,6 +38,7 @@ jspm_packages
 
 # IDEA
 .idea
+examples/
 
 # fs
 .DS_Store
