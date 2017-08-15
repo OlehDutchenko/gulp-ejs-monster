@@ -87,6 +87,28 @@ function setExtname (extname) {
  * @returns {Object}
  * @private
  */
+function setMarked (options) {
+	if (typeof options === 'function') {
+		options = options();
+	}
+
+	return lodash.merge({
+		render: false,
+		gfm: true,
+		tables: true,
+		breaks: true,
+		pedantic: false,
+		sanitize: false,
+		smartLists: true,
+		smartypants: true
+	}, options);
+}
+
+/**
+ * @param {*} options
+ * @returns {Object}
+ * @private
+ */
 function setBeautify (options) {
 	if (typeof options === 'function') {
 		options = options();
@@ -167,6 +189,7 @@ function configOptions (opts = {}) {
 
 	options.extname = setExtname(opts.extname);
 	options.beautify = setBeautify(opts.beautify);
+	options.marked = setMarked(opts.marked);
 	options.locals = lodash.merge({}, optsEjs.locals);
 	options.debug = !!opts.debug;
 	options.delimiters = {

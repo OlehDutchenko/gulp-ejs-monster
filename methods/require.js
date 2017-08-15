@@ -38,6 +38,7 @@ function createRequireMethod (options, storage) {
 	const folder = options.requires;
 	const cached = createFileCache(storage);
 	const extnames = ['.json', '.js', '.md'];
+	const markedOptions = options.marked;
 
 	/**
 	 * @param {string} resolvedPath - relative path to the file or package name
@@ -73,12 +74,14 @@ function createRequireMethod (options, storage) {
 	 * @private
 	 */
 	function requireMarkdownFile (resolvedPath, noCache) {
-		let markdown = require('markdown').markdown;
+		let marked = require('marked');
 		let data = cached(resolvedPath, noCache);
+
+		markedOptions.render = markedOptions.render || new marked.Renderer();
 
 		storage.push(chalk.gray(data.changed ? '√ file changed' : '< file not changed'), false, '>');
 		if (data.changed) {
-			data.content = markdown.toHTML(data.content);
+			data.content = marked(data.content, markedOptions);
 			storage.push(chalk.gray('→ set in cache new rendered content from markdown into html'));
 		} else {
 			storage.push(chalk.gray('← get early rendered html content'));
