@@ -1,0 +1,13 @@
+root = true
+
+[*]
+charset = utf-8
+indent_style = tab
+trim_trailing_whitespace = true
+end_of_line = lf
+insert_final_new_line = true
+
+# only package.json
+[{package.json}]
+indent_style = space
+indent_size = 2

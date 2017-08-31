@@ -1,19 +1,12 @@
 {
   "name": "gulp-ejs-monster",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "",
   "main": "index.js",
-  "gulpEjsMonster": {
-    "divider": "\n-----------",
-    "newline": "NEWLINE_FILENAME::"
-  },
   "scripts": {
     "code-style": "happiness \"./utils/**/*.js\" \"./methods/**/*.js\" \"./*.js\" --verbose | snazzy",
     "code-style-fix": "happiness \"./utils/**/*.js\" \"./methods/**/*.js\" \"./*.js\" --verbose --fix | snazzy",
     "test": "npm run code-style"
-  },
-  "happiness": {
-    "ignore": "./examples/**"
   },
   "repository": {
     "type": "git",
@@ -43,7 +36,6 @@
     "gulp-util": "^3.0.8",
     "js-beautify": "^1.6.14",
     "lodash": "^4.5.0",
-    "marked": "^0.3.6",
     "through2": "^2.0.3"
   },
   "devDependencies": {
