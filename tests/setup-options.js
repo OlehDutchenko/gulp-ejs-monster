@@ -31,18 +31,13 @@ const presets = [
 		name: `empty`,
 		options: undefined
 	}, {
-		name: 'true',
-		options: true
-	}, {
-		name: 'function',
-		options: function () {
-			return null;
-		}
-	}, {
 		name: 'object',
 		options: {
-			beautify: false,
+			beautify: true,
 			debug: false,
+			afterRender: function () {
+				console.log('done');
+			},
 			ejs: {
 				compileDebug: false,
 				locals: {
@@ -82,6 +77,66 @@ function testPreset(presetName, presetOptions) {
 			});
 		});
 
+		describe('options should have "extname" property as string', function () {
+			it(`typeof options.extname === 'string' // => ${options.extname}`, function () {
+				assert.strictEqual(typeof options.extname, 'string');
+			});
+			it(`should starts with . (dot) // => ${options.extname}`, function () {
+				assert.strictEqual(/^\./.test(options.extname), true);
+			});
+			it('length of options.extname should be 2 or more', function () {
+				assert.strictEqual(options.extname.length >= 2, true);
+			});
+		});
+
+		describe('options should have "debug" property as boolean', function () {
+			it(`typeof options.debug === 'boolean' // => ${options.debug}`, function () {
+				assert.strictEqual(typeof options.debug, 'boolean');
+			});
+		});
+
+		describe('options should have "locals" property as object', function () {
+			it('typeof options.locals === \'object\'', function () {
+				assert.strictEqual(typeof options.locals, 'object');
+			});
+			it('lodash.isPlainObject(options.locals)', function () {
+				assert.strictEqual(lodash.isPlainObject(options.locals), true);
+			});
+		});
+
+		describe('if options has "afterRender" method - it must be an function', function () {
+			if (options.hasOwnProperty('afterRender')) {
+				it(`typeof options.afterRender === 'function' // => ${typeof options.afterRender}`, function () {
+					assert.strictEqual(typeof options.afterRender, 'function');
+				});
+			} else {
+				it('has no method "afterRender"', function () {
+					assert.strictEqual(true, true);
+				});
+			}
+		});
+
+		describe('if options has "beautify" property - it must be an plain object', function () {
+			if (options.hasOwnProperty('beautify')) {
+				it('typeof options.beautify === \'object\'', function () {
+					assert.strictEqual(typeof options.beautify, 'object');
+				});
+				it('lodash.isPlainObject(options.beautify)', function () {
+					assert.strictEqual(lodash.isPlainObject(options.beautify), true);
+				});
+			} else {
+				it('has no property "beautify"', function () {
+					assert.strictEqual(true, true);
+				});
+			}
+		});
+
+		describe('options should have "__UNIQUE_KEY__" property as string', function () {
+			it(`typeof options.__UNIQUE_KEY__ === 'string' // => ${options.__UNIQUE_KEY__}`, function () {
+				assert.strictEqual(typeof options.__UNIQUE_KEY__, 'string');
+			});
+		});
+
 		describe('options should have "ejs" property as object', function () {
 			it('typeof options.ejs === \'object\'', function () {
 				assert.strictEqual(typeof options.ejs, 'object');
@@ -106,13 +161,13 @@ function testPreset(presetName, presetOptions) {
 				it(`options.ejs.strict === true // => ${options.ejs.strict}`, function () {
 					assert.strictEqual(options.ejs.strict, true);
 				});
-				it(`typeof options.ejs.compileDebug === \'boolean\' // => ${typeof options.ejs.compileDebug}`, function () {
+				it(`typeof options.ejs.compileDebug === \'boolean\' // => ${options.ejs.compileDebug}`, function () {
 					assert.strictEqual(typeof options.ejs.compileDebug, 'boolean');
 				});
-				it(`typeof options.ejs.locals === \'undefined\' // => ${typeof options.ejs.locals}`, function () {
+				it(`typeof options.ejs.locals === \'undefined\' // => ${options.ejs.locals}`, function () {
 					assert.strictEqual(typeof options.ejs.locals, 'undefined');
 				});
-				it(`typeof options.ejs.context === \'undefined\' // => ${typeof options.ejs.context}`, function () {
+				it(`typeof options.ejs.context === \'undefined\' // => ${options.ejs.context}`, function () {
 					assert.strictEqual(typeof options.ejs.context, 'undefined');
 				});
 			});
@@ -141,13 +196,13 @@ function testPreset(presetName, presetOptions) {
 				});
 			});
 
-			describe('if options.ejs has "escape" properties - it must be an function', function () {
+			describe('if options.ejs has "escape" method - it must be an function', function () {
 				if (options.ejs.hasOwnProperty('escape')) {
-					it('typeof options.ejs.escape === \'function\'', function () {
+					it(`typeof options.ejs.escape === 'function' // => ${typeof options.ejs.escape}`, function () {
 						assert.strictEqual(typeof options.ejs.escape, 'function');
 					});
 				} else {
-					it('has no property "escape"', function () {
+					it('has no method "escape"', function () {
 						assert.strictEqual(true, true);
 					});
 				}

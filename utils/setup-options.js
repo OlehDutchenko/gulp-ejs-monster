@@ -48,6 +48,7 @@ function setLocalsName (localsName) {
 }
 
 /**
+ * Should add method if received function
  * @param {Object} data
  * @param {string} methodName
  * @param {Function} method
@@ -57,6 +58,74 @@ function setMethods (data, methodName, method) {
 	if (typeof method === 'function') {
 		data[methodName] = method;
 	}
+}
+
+/**
+ * Should return extname as string
+ * it must starts with . (dot) and with length 2 or more
+ * @param {string} extname
+ * @returns {string} `'.html'` by default
+ * @private
+ */
+function setExtname (extname) {
+	if (typeof extname === 'string') {
+		if (/^\./.test(extname)) {
+			return extname;
+		}
+		return '.' + extname;
+	}
+	return '.html';
+}
+
+
+
+/**
+ * @param {*} options
+ * @returns {Object}
+ * @private
+ */
+function setBeautify (options) {
+	if (typeof options === 'function') {
+		options = options();
+	}
+	if (!options) {
+		return;
+	}
+
+	let defaults = {
+		indent_level: 0,
+		eol: '\n',
+		indent_with_tabs: true,
+		preserve_newlines: true,
+		max_preserve_newlines: 1,
+		jslint_happy: false,
+		space_after_anon_function: false,
+		brace_style: 'collapse',
+		keep_array_indentation: false,
+		keep_function_indentation: false,
+		space_before_conditional: true,
+		break_chained_methods: false,
+		eval_code: false,
+		indent_inner_html: true,
+		unescape_strings: false,
+		wrap_line_length: 0,
+		wrap_attributes: 'auto',
+		wrap_attributes_indent_size: 4,
+		end_with_newline: true,
+		extra_liners: [
+			'body',
+			'noscript',
+			'/body'
+		],
+		unformatted: [
+			'pre',
+			'code',
+			'script',
+			'style'
+		]
+	};
+
+	return lodash.merge({}, defaults, options);
 }
 
 // ----------------------------------------
@@ -73,6 +142,15 @@ function setupOptions (opts = {}) {
 	const options = {
 		ejs: {}
 	};
+
+	if (typeof opts === 'function') {
+		opts = opts();
+	}
+
+	if (!lodash.isPlainObject(opts)) {
+		opts = {};
+	}
+
 	const optsEjs = lodash.merge({}, opts.ejs);
 	const ejs = options.ejs;
 
@@ -87,6 +165,19 @@ function setupOptions (opts = {}) {
 	ejs._with = false;
 	ejs.strict = true;
 	delete ejs.context;
+
+	// plugin options
+	setMethods(options, 'afterRender', opts.afterRender);
+	options.extname = setExtname(opts.extname);
+	options.beautify = setBeautify(opts.beautify);
+	options.debug = !!opts.debug;
+	options.locals = lodash.merge({}, opts.locals);
+
+	if (!options.beautify) {
+		delete options.beautify;
+	}
+
+	options.__UNIQUE_KEY__ = `ui-key-${new Date().getTime()}`;
 
 	return options;
 }
