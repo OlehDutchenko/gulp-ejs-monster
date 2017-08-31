@@ -41,7 +41,7 @@
 Этот проект использует [`happiness`][happiness-url] для поддержания стиля и согласованности кода.  
  ***Поэтому вам также нужно следовать этим стилям кода!*** 
  
-Запустите `npm test` для проверки.
+Запустите `npm run happiness` для проверки.
 
 [happiness-image]: https://cdn.rawgit.com/JedWatson/happiness/master/badge.svg
 [happiness-url]: https://github.com/JedWatson/happiness

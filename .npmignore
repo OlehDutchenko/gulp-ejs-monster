@@ -9,18 +9,17 @@ node_modules
 # Optional npm cache directory
 .npm
 
-# IDEA
-.idea
-
-# temp
-tmp
-
 # fs
 .DS_Store
 thumbs.db
 
+# docs
+*.md
+
 # workflow
+.idea
+tmp
 tests
 .travis.yml
-# gulpfile.js
-# examples
+gulpfile.js
+examples

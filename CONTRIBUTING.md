@@ -46,7 +46,7 @@ This repository uses [`happiness`][happiness-url] to maintain code style and con
 and to avoid style arguments.  
  ***So you also need to follow this code styles!*** 
  
- Run `npm test` for check outs.
+ Run `npm run happiness` for check outs.
 
 [happiness-image]: https://cdn.rawgit.com/JedWatson/happiness/master/badge.svg
 [happiness-url]: https://github.com/JedWatson/happiness

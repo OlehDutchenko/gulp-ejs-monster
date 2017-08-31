@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "code-style": "happiness \"./utils/**/*.js\" \"./methods/**/*.js\" \"./*.js\" --verbose | snazzy",
-    "code-style-fix": "happiness \"./utils/**/*.js\" \"./methods/**/*.js\" \"./*.js\" --verbose --fix | snazzy",
-    "test": "npm run code-style"
+    "happiness": "happiness \"./utils/**/*.js\" \"./methods/**/*.js\" \"./*.js\" --verbose --fix | snazzy",
+    "test": "npm run happiness"
   },
   "repository": {
     "type": "git",
