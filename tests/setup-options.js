@@ -41,9 +41,12 @@ const presets = [
 	}, {
 		name: 'object',
 		options: {
+			beautify: false,
+			debug: false,
 			ejs: {
-				context: function () {
-					return this;
+				compileDebug: false,
+				locals: {
+					customProp: 'customProp'
 				}
 			}
 		}
@@ -88,28 +91,28 @@ function testPreset(presetName, presetOptions) {
 			});
 
 			describe('options.ejs should have constant values', function () {
-				it('options.ejs.debug === false', function () {
+				it(`options.ejs.debug === false // => ${options.ejs.debug}`, function () {
 					assert.strictEqual(options.ejs.debug, false);
 				});
-				it('options.ejs.client === false', function () {
+				it(`options.ejs.client === false // => ${options.ejs.client}`, function () {
 					assert.strictEqual(options.ejs.client, false);
 				});
-				it('options.ejs._with === false', function () {
+				it(`options.ejs._with === false // => ${options.ejs._with}`, function () {
 					assert.strictEqual(options.ejs._with, false);
 				});
-				it('options.ejs.rmWhitespace === false', function () {
+				it(`options.ejs.rmWhitespace === false // => ${options.ejs.rmWhitespace}`, function () {
 					assert.strictEqual(options.ejs.rmWhitespace, false);
 				});
-				it('options.ejs.strict === true', function () {
+				it(`options.ejs.strict === true // => ${options.ejs.strict}`, function () {
 					assert.strictEqual(options.ejs.strict, true);
 				});
-				it('typeof options.ejs.compileDebug === \'boolean\'', function () {
+				it(`typeof options.ejs.compileDebug === \'boolean\' // => ${typeof options.ejs.compileDebug}`, function () {
 					assert.strictEqual(typeof options.ejs.compileDebug, 'boolean');
 				});
-				it('typeof options.ejs.locals === \'undefined\'', function () {
+				it(`typeof options.ejs.locals === \'undefined\' // => ${typeof options.ejs.locals}`, function () {
 					assert.strictEqual(typeof options.ejs.locals, 'undefined');
 				});
-				it('typeof options.ejs.context === \'undefined\'', function () {
+				it(`typeof options.ejs.context === \'undefined\' // => ${typeof options.ejs.context}`, function () {
 					assert.strictEqual(typeof options.ejs.context, 'undefined');
 				});
 			});
@@ -121,7 +124,7 @@ function testPreset(presetName, presetOptions) {
 				it('length of options.ejs.delimiter should be 1', function () {
 					assert.strictEqual(options.ejs.delimiter.length, 1);
 				});
-				it('value of options.ejs.delimiter should be one of [\'%\',\'?\',\'&\',\'$\']', function () {
+				it(`value of options.ejs.delimiter should be one of ['%','?','&','$'] // => ${options.ejs.delimiter}`, function () {
 					assert.notStrictEqual(['%', '?', '&', '$'].indexOf(options.ejs.delimiter), -1);
 				});
 			});
@@ -133,7 +136,7 @@ function testPreset(presetName, presetOptions) {
 				it('length of options.ejs.localsName should be 1 or more', function () {
 					assert.strictEqual(options.ejs.localsName.length >= 1, true);
 				});
-				it('value of options.ejs.localsName should not start from number', function () {
+				it(`value of options.ejs.localsName should not start from number // => ${options.ejs.localsName}`, function () {
 					assert.strictEqual(/^\d/.test(options.ejs.localsName), false);
 				});
 			});
