@@ -6,7 +6,7 @@
  [![Build Status](https://travis-ci.org/dutchenkoOleg/gulp-ejs-monster.svg?branch=master)](https://travis-ci.org/dutchenkoOleg/gulp-ejs-monster)
  
  
-:ru: [Русский язык](./README-RU.md)
+:ru: [Русский язык](https://github.com/dutchenkoOleg/gulp-ejs-monster/blob/v3/README-RU.md)
 
 > _Gulp plugin for [ejs](http://ejs.co/). The project is inspired by [ejs-locals](https://github.com/RandomEtc/ejs-locals)_
 
@@ -15,7 +15,7 @@
 
 ## Info
 
-* [Change log](./CHANGELOG.md)
-* [Contributing Guidelines](./CONTRIBUTING.md)
-* [Contributor Covenant Code of Conduct](./CODE_OF_CONDUCT.md)
-* [License MIT](./LICENSE)
+* [Change log](https://github.com/dutchenkoOleg/gulp-ejs-monster/blob/v3/CHANGELOG.md)
+* [Contributing Guidelines](https://github.com/dutchenkoOleg/gulp-ejs-monster/blob/v3/CONTRIBUTING.md)
+* [Contributor Covenant Code of Conduct](https://github.com/dutchenkoOleg/gulp-ejs-monster/blob/v3/CODE_OF_CONDUCT.md)
+* [License MIT](https://github.com/dutchenkoOleg/gulp-ejs-monster/blob/v3/LICENSE)
