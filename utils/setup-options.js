@@ -19,7 +19,45 @@ const lodash = require('lodash');
 // Private
 // ----------------------------------------
 
+/**
+ * Should return string value
+ * with length === 1 and one of values ['%','?','&','$']
+ * @param {string} delimiter
+ * @returns {string} `'%'` by default
+ * @private
+ */
+function setDelimiter (delimiter) {
+	if (typeof delimiter === 'string' && (~['%', '?', '&', '$'].indexOf(delimiter))) {
+		return delimiter;
+	}
+	return '%';
+}
 
+/**
+ * Should return string value
+ * with length 1 or more and correct property name
+ * @param {string} localsName
+ * @returns {string} `'locals'` by default
+ * @private
+ */
+function setLocalsName (localsName) {
+	if (typeof localsName === 'string' && localsName) {
+		return localsName;
+	}
+	return 'locals';
+}
+
+/**
+ * @param {Object} data
+ * @param {string} methodName
+ * @param {Function} method
+ * @private
+ */
+function setMethods (data, methodName, method) {
+	if (typeof method === 'function') {
+		data[methodName] = method;
+	}
+}
 
 // ----------------------------------------
 // Public
@@ -37,6 +75,19 @@ function setupOptions (opts = {}) {
 	};
 	const optsEjs = lodash.merge({}, opts.ejs);
 	const ejs = options.ejs;
+
+	// ejs render options
+	ejs.delimiter = setDelimiter(optsEjs.delimiter);
+	ejs.localsName = setLocalsName(optsEjs.localsName);
+	ejs.compileDebug = !!optsEjs.compileDebug;
+	ejs.rmWhitespace = false;
+	ejs.debug = false;
+	ejs.client = false;
+	ejs._with = false;
+	ejs.strict = true;
+
+	setMethods(ejs, 'context', optsEjs.context);
+	setMethods(ejs, 'escape', optsEjs.escape);
 
 	return options;
 }
