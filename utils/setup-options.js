@@ -29,6 +29,7 @@ const lodash = require('lodash');
  * Transform user options to processing options
  * @param {Object} [opts={}]
  * @returns {Object}
+ * @sourceCode
  */
 function setupOptions (opts = {}) {
 	const options = {
