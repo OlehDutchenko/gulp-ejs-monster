@@ -89,6 +89,12 @@ function testPreset(presetName, presetOptions) {
 			});
 		});
 
+		describe('options should have paths properties as string', function () {
+			it(`typeof options.layouts === 'string' // => ${options.layouts}`, function () {
+				assert.strictEqual(typeof options.layouts, 'string');
+			});
+		});
+
 		describe('options should have "debug" property as boolean', function () {
 			it(`typeof options.debug === 'boolean' // => ${options.debug}`, function () {
 				assert.strictEqual(typeof options.debug, 'boolean');

@@ -44,13 +44,15 @@ const prodFlag = !!argv.p || !!argv.production;
 const ejsOptions = {
 	beautify: prodFlag,
 	debug: debugFlag,
+	layouts: './examples/src/_layouts',
+	widgets: './examples/src/_widgets',
+	locals: {
+		customProp: 'customProp'
+	},
 	ejs: {
 		compileDebug: debugFlag,
 		delimiter: '%',
-		localsName: 'locals',
-		locals: {
-			customProp: 'customProp'
-		}
+		localsName: 'locals'
 	}
 };
 

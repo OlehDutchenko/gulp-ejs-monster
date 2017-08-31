@@ -11,6 +11,7 @@
 // Imports
 // ----------------------------------------
 
+// modules
 const chalk = require('chalk');
 
 // ----------------------------------------
@@ -22,7 +23,6 @@ class HistoryStorage {
 	 * Create new storage
 	 */
 	constructor () {
-		this.gap = '';
 		this.reset();
 	}
 
@@ -30,6 +30,7 @@ class HistoryStorage {
 	 * Reset storage items
 	 */
 	reset () {
+		this.gap = '';
 		this.list = [];
 		this.paths = [];
 		this.indent('<<<<');

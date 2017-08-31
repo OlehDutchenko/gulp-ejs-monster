@@ -1,5 +1,9 @@
+<%- locals.setLayout('base.ejs') %>
 <h1>Index view</h1>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda dolore est ex facilis fuga laboriosam molestiae nihil perspiciatis porro quam quidem reiciendis repellendus repudiandae sint tempora ullam ut, vitae voluptates.</p>
+
+<%- locals.widget('demo.ejs') %>
+<%- locals.widget('demo.ejs', {widgetName: 'Custom'}) %>
 
 <hr>

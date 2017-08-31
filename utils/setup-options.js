@@ -77,7 +77,18 @@ function setExtname (extname) {
 	return '.html';
 }
 
-
+/**
+ * Resolve sample path
+ * @param {string} sample
+ * @returns {string} `process.cwd()` by default
+ * @private
+ */
+function setPath (sample) {
+	if (sample && typeof sample === 'string') {
+		return path.resolve(sample);
+	}
+	return process.cwd();
+}
 
 /**
  * @param {*} options
@@ -167,11 +178,16 @@ function setupOptions (opts = {}) {
 	delete ejs.context;
 
 	// plugin options
+	['layouts', 'widgets'].forEach(prop => {
+		options[prop] = setPath(opts[prop]);
+	});
+
 	setMethods(options, 'afterRender', opts.afterRender);
 	options.extname = setExtname(opts.extname);
 	options.beautify = setBeautify(opts.beautify);
 	options.debug = !!opts.debug;
 	options.locals = lodash.merge({}, opts.locals);
+
 
 	if (!options.beautify) {
 		delete options.beautify;
