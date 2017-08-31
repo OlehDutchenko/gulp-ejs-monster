@@ -77,6 +77,7 @@ function setupOptions (opts = {}) {
 	const ejs = options.ejs;
 
 	// ejs render options
+	setMethods(ejs, 'escape', optsEjs.escape);
 	ejs.delimiter = setDelimiter(optsEjs.delimiter);
 	ejs.localsName = setLocalsName(optsEjs.localsName);
 	ejs.compileDebug = !!optsEjs.compileDebug;
@@ -85,9 +86,7 @@ function setupOptions (opts = {}) {
 	ejs.client = false;
 	ejs._with = false;
 	ejs.strict = true;
-
-	setMethods(ejs, 'context', optsEjs.context);
-	setMethods(ejs, 'escape', optsEjs.escape);
+	delete ejs.context;
 
 	return options;
 }

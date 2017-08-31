@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "happiness": "happiness \"./utils/**/*.js\" \"./methods/**/*.js\" \"./*.js\" --verbose --fix | snazzy",
-    "test": "gulp test-setup-options && npm run happiness"
+    "test": "gulp test-setup-options"
   },
   "repository": {
     "type": "git",

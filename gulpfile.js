@@ -13,12 +13,46 @@
 // modules
 const gulp = require('gulp');
 const mocha = require('gulp-mocha');
+const argv = require('yargs').argv;
 
 // plugin
 const ejsMonster = require('./index');
 
-// options
-const userOptions = require('./tests/data/ejs-options');
+// ----------------------------------------
+// Private
+// ----------------------------------------
+
+/**
+ * Debugging flag
+ * @const {boolean}
+ * @private
+ */
+const debugFlag = !!argv.debug;
+
+/**
+ * Production flag
+ * @const {boolean}
+ * @private
+ */
+const prodFlag = !!argv.p || !!argv.production;
+
+/**
+ * Plugin user options
+ * @const {Object}
+ * @private
+ */
+const ejsOptions = {
+	beautify: prodFlag,
+	debug: debugFlag,
+	ejs: {
+		compileDebug: debugFlag,
+		delimiter: '%',
+		localsName: 'locals',
+		locals: {
+			customProp: 'customProp'
+		}
+	}
+};
 
 // ----------------------------------------
 // Tasks
@@ -26,7 +60,7 @@ const userOptions = require('./tests/data/ejs-options');
 
 gulp.task('ejs', function () {
 	return gulp.src('./examples/src/*.ejs')
-		.pipe(ejsMonster(userOptions).on('error', ejsMonster.preventCrash))
+		.pipe(ejsMonster(ejsOptions).on('error', ejsMonster.preventCrash))
 		.pipe(gulp.dest('./examples/dist/'));
 });
 
