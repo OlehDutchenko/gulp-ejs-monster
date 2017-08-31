@@ -16,6 +16,6 @@
 ## Info
 
 * [История изменений](./CHANGELOG-RU.md)
-* [Рукводство по содействию проекту](./CONTRIBUTING-RU.md)
+* [Руководство по содействию проекту](./CONTRIBUTING-RU.md)
 * [Кодекс поведения](./CODE_OF_CONDUCT-RU.md)
 * [Лицензия MIT](./LICENSE)
