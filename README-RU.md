@@ -198,7 +198,7 @@ _тип данных_ `string`
 
 _тип данных_ `string` 
 
-Абсолютный путь к текущей страницы в Вашей файловой системе страницы ренедра.
+Абсолютный путь к текущей странице в Вашей файловой системе страницы ренедра.
 
 
 #### locals.fileChanged
@@ -413,8 +413,8 @@ Name | Type | Attributes | Default | Description
 <%- htmlMarkup %>
 ```
 
+----
 
-```
 
 #### locals.requireNodeModule (moduleName) → `*`
 
