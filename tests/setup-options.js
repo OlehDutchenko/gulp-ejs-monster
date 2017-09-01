@@ -203,24 +203,91 @@ describe(chalk.green('props tests'), function () {
 			});
 
 			describe('compileDebug', function () {
-				it('let options = setupOptions()  // => options.ejs.compileDebug ===  false', function () {
-					let options = setupOptions();
-					assert.strictEqual(options.ejs.compileDebug, false);
-				});
-				it('let options = setupOptions({compileDebug: true})  // => options.ejs.compileDebug ===  true', function () {
-					let options = setupOptions({
-						compileDebug: true
+				describe(_spec, function () {
+					it('should lead to a boolean value', function () {
+						let options = setupOptions();
+						assert.strictEqual(typeof options.ejs.compileDebug, 'boolean');
 					});
-					assert.strictEqual(options.ejs.compileDebug, true);
+				});
+
+				describe(_work, function () {
+					it('let options = setupOptions()  // => options.ejs.compileDebug ===  false', function () {
+						let options = setupOptions();
+						assert.strictEqual(options.ejs.compileDebug, false);
+					});
+
+					it('let options = setupOptions({compileDebug: null})  // => options.ejs.compileDebug ===  false', function () {
+						let options = setupOptions({
+							compileDebug: null
+						});
+						assert.strictEqual(options.ejs.compileDebug, false);
+					});
+
+					it('let options = setupOptions({compileDebug: 0})  // => options.ejs.compileDebug ===  false', function () {
+						let options = setupOptions({
+							compileDebug: 0
+						});
+						assert.strictEqual(options.ejs.compileDebug, false);
+					});
+
+					it('let options = setupOptions({compileDebug: true})  // => options.ejs.compileDebug ===  true', function () {
+						let options = setupOptions({
+							compileDebug: true
+						});
+						assert.strictEqual(options.ejs.compileDebug, true);
+					});
+
+					it('let options = setupOptions({compileDebug: \'bla-bla-bla\'})  // => options.ejs.compileDebug ===  true', function () {
+						let options = setupOptions({
+							compileDebug: 'bla-bla-bla'
+						});
+						assert.strictEqual(options.ejs.compileDebug, true);
+					});
 				});
 			});
 
 			describe('escape', function () {
-				it('let options = setupOptions({escape: function () {}})  // => typeof options.ejs.escape ===  \'function\'', function () {
-					let options = setupOptions({
-						escape: function () {}
+				describe(_spec, function () {
+					it('By default should be undefined', function () {
+						let options = setupOptions();
+						assert.strictEqual(options.ejs.escape, undefined);
 					});
-					assert.strictEqual(typeof options.ejs.escape, 'function');
+
+					it('If set - should be function', function () {
+						let options = setupOptions({
+							escape () {}
+						});
+						assert.strictEqual(typeof options.ejs.escape, 'function');
+					});
+
+					it('If set - should be function (2)', function () {
+						function escape () {}
+						let options = setupOptions({
+							escape: escape
+						});
+						assert.strictEqual(options.ejs.escape, escape);
+					});
+				});
+
+				describe(_work, function () {
+					it('let options = setupOptions()  // => options.ejs.escape ===  undefined', function () {
+						let options = setupOptions();
+						assert.strictEqual(options.ejs.escape, undefined);
+					});
+
+					it('let options = setupOptions({escape: null})  // => options.ejs.escape ===  undefined', function () {
+						let options = setupOptions({
+							escape: null
+						});
+						assert.strictEqual(options.ejs.escape, undefined);
+					});
+
+					it('let options = setupOptions({escape() {}})  // => options.ejs.escape ===  [Function: escape]', function () {
+						let options = setupOptions({
+							escape () {}
+						});
+						assert.strictEqual(typeof options.ejs.escape, 'function');
+					});
 				});
 			});
 		});
@@ -340,17 +407,7 @@ function testPreset(presetName, presetOptions) {
 
 			});
 
-			describe('if options.ejs has "escape" method - it must be an function', function () {
-				if (options.ejs.hasOwnProperty('escape')) {
-					it(`typeof options.ejs.escape === 'function' // => ${typeof options.ejs.escape}`, function () {
-						assert.strictEqual(typeof options.ejs.escape, 'function');
-					});
-				} else {
-					it('has no method "escape"', function () {
-						assert.strictEqual(true, true);
-					});
-				}
-			});
+
 		});
 	});
 }
