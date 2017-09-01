@@ -112,24 +112,22 @@ _по умолчанию_ `undefined`
 
 ### Методы
 
-#### locals.setLayout (filePath[, entry][, noCache]) → {string}
+#### locals.setLayout (filePath)
 
-Подключение виджета разметки
+Указание лайаута для текузей страницы.
 
 ###### Параметры:
 
-Name | Type | Attributes | Default | Description
---- | --- | --- | --- | ---
-`_filePath_` | `string` |  |  | relative path to the file, with extension
-`_entry_` | `Object` | <optional> | `{}` | entry data for widget
-`_noCache_` | `boolean` | <optional> |  | don't cache file contents
+Name | Type | Description
+--- | --- | ---
+`_filePath_` | `string` | Путь к файлу относительно директории указанной в параметре [layouts](#layouts)
 
 ###### Возращает:
 
 - тип: `string`
 - описание:	рендер ejs разметки
 
-#### locals.widget (filePath_[, entry][, noCache]_) → `string`
+#### locals.widget (filePath _[, entry] [, noCache]_) → `string`
 
 Подключение виджета разметки
 
@@ -137,9 +135,9 @@ Name | Type | Attributes | Default | Description
 
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
-`_filePath_` | `string` |  |  | relative path to the file, with extension
-`_entry_` | `Object` | <optional> | `{}` | entry data for widget
-`_noCache_` | `boolean` | <optional> |  | don't cache file contents
+`_filePath_` | `string` |  |  | Путь к файлу относительно директории указанной в параметре [widgets](#widgets)
+`_entry_` | `Object` | <optional> | `{}` | Входящие данные, которые передаются внутрь виджета
+`_noCache_` | `boolean` | <optional> |  | Не кешировать виджет
 
 ###### Возращает:
 

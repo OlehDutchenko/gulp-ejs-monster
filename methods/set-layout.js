@@ -31,6 +31,8 @@ function createSetLayoutMethod (options, storage) {
 	/**
 	 * Resolve and add filePath as `layout` property
 	 * @param {string} filePath - relative path to the file, with extension
+	 * @memberOf locals
+	 * @sourceCode
 	 */
 	function setLayout (filePath) {
 		if (!filePath || typeof filePath !== 'string') {

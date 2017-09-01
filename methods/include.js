@@ -37,6 +37,8 @@ function createIncludeMethod (options, storage) {
 	 * @param {string} filePath - relative path to the file, without extension
 	 * @param {boolean} [noCache] - don't cache file contents
 	 * @returns {string}
+	 * @memberOf locals
+	 * @sourceCode
 	 */
 	function include (filePath, noCache) {
 		if (!filePath || typeof filePath !== 'string') {
