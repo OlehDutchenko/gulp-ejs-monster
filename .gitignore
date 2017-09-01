@@ -1,10 +1,9 @@
 # Logs
 logs
 *.log*
-npm-debug.log*
 
 # Dependency directories
-node_modules
+node_modules/
 
 # Optional npm cache directory
 .npm
@@ -13,11 +12,12 @@ node_modules
 .idea
 
 # temp
-tmp
+tmp/
 
 # fs
 .DS_Store
 thumbs.db
 
 # workflow
-examples/dist
+docs/
+examples/dist/

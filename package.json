@@ -39,6 +39,7 @@
     "through2": "^2.0.3"
   },
   "devDependencies": {
+    "del": "^3.0.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-jsdoc3": "^1.0.1",
     "gulp-mocha": "^4.3.1",

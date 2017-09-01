@@ -45,7 +45,9 @@ function createWidgetMethod (options, storage) {
 	 * @param {string} filePath - relative path to the file, with extension
 	 * @param {Object} [entry={}] - entry data for widget
 	 * @param {boolean} [noCache] - don't cache file contents
-	 * @returns {string}
+	 * @memberOf locals
+	 * @returns {string} ejs rendered markup
+	 * @sourceCode
 	 */
 	function widget (filePath, entry = {}, noCache) {
 		if (!filePath || typeof filePath !== 'string') {

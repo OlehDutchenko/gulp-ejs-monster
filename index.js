@@ -33,7 +33,7 @@ const crashed = require('./utils/crashed');
 const createSetLayoutMethod = require('./methods/set-layout');
 const createWidgetMethod = require('./methods/widget');
 // const createRequireMethod = require('./methods/require');
-// const createIncludeMethod = require('./methods/include');
+const createIncludeMethod = require('./methods/include');
 const createBlockMethod = require('./methods/block');
 
 // ----------------------------------------
@@ -85,7 +85,7 @@ function gulpEjsMonster (opts = {}) {
 				setLayout: createSetLayoutMethod(configOpts, storage),
 				widget: createWidgetMethod(configOpts, storage),
 				// require: createRequireMethod(configOpts, storage),
-				// include: createIncludeMethod(configOpts, storage),
+				include: createIncludeMethod(configOpts, storage),
 				blocks: {
 					clearAllBlocks: createBlockMethod.clearAllBlocks
 				}

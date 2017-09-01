@@ -3,7 +3,7 @@ logs
 *.log*
 
 # Dependency directories
-node_modules
+node_modules/
 
 # Optional npm cache directory
 .npm
@@ -17,8 +17,9 @@ thumbs.db
 
 # Workflow
 .idea
-tmp
-tests
+tmp/
+docs/
+tests/
+examples/
 .travis.yml
 gulpfile.js
-examples
