@@ -49,6 +49,7 @@ const ejsOptions = {
 	layouts: './examples/src/_layouts',
 	widgets: './examples/src/_widgets',
 	includes: './examples/src/_includes',
+	requires: './examples/src/_requires',
 	compileDebug: debugFlag,
 	delimiter: '%',
 	localsName: 'locals',

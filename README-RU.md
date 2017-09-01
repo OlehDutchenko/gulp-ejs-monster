@@ -131,8 +131,8 @@ Name | Type | Description
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
 `filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [widgets](#widgets)
-`entry` | `Object` | <optional> | `{}` | Входящие данные, которые передаются внутрь виджета
-`noCache` | `boolean` | <optional> |  | Не кешировать виджет
+`entry` | `Object` | &lt;optional> | `{}` | Входящие данные, которые передаются внутрь виджета
+`noCache` | `boolean` | &lt;optional> | `false` | Не кешировать виджет
 
 ###### Возращает:
 
@@ -148,8 +148,7 @@ Name | Type | Attributes | Default | Description
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
 `filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [includes](#includes)
-`entry` | `Object` | <optional> | `{}` | Входящие данные, которые передаются внутрь виджета
-`noCache` | `boolean` | <optional> |  | Не кешировать файл
+`noCache` | `boolean` | &lt;optional> | `false` | Не кешировать файл
 
 ###### Возращает:
 
@@ -159,6 +158,94 @@ Name | Type | Attributes | Default | Description
 	- `mtime` - Дата последней модификации файла, если кеширование выключенно - всегда равен `1`
 	- `content` - Строка с контентом файла
 	- `toString()` - собственный метод приведения в строку, который возвращает `this.content`, таким образом если выполнить метод в контексте вставки в разметку - результатом будет сразу контент файла.
+
+#### locals.require (filePath _[, noCache]_) → `*`
+
+Подключение собственных исполняемых js/json файлов с поддержкой CommonJS.
+Внутри таких файлов объект `locals` не доступен. Вы можете передать его внутрь файла, к примеру, если вы экспортируете никий метод:
+
+Вариант 1. Явно указать контекст для метода
+
+```ejs
+<# ejs view %>
+<%
+    let component = locals.require('component.js').bind(locals);
+    component('Hello');
+%>
+```
+
+```ejs
+function component (message) {
+	console.log(this);
+	console.log(message);
+	
+	// require another components and files
+	let anotherComponent = this.require('another-component.js').bind(this);
+	let data = this.require('config.json');
+	
+	// ...
+}
+
+module.exports = component;
+```
+
+Вариант 2. Использовать _каррирование_
+
+```ejs
+<# ejs view %>
+<%
+    let component = locals.require('component.js')(locals);
+    component('Hello');
+%>
+```
+
+```ejs
+// Function wrapper
+functtion componentWrapper (locals) {
+	// component
+	function component (message) {
+		console.log(locals);
+		console.log(message);
+		
+		// require another components and files
+		let anotherComponent = locals.require('another-component.js')(locals);
+		let data = this.require('config.json');
+		
+		// ...
+	}
+	
+	return component;
+}
+
+module.exports = componentWrapper;
+```
+
+###### Параметры:
+
+Name | Type | Attributes | Default | Description
+--- | --- | --- | --- | ---
+`filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [requires](#requires)
+`noCache` | `boolean` | &lt;optional> | `false` | Не кешировать файл
+
+###### Возращает:
+
+- тип: `*`
+- описание: подключеный файл
+
+#### locals.requireNodeModule (moduleName) → `*`
+
+Подключение модулей из установленных `node_modules`
+
+###### Параметры:
+
+Name | Type | Description
+--- | --- | ---
+`moduleName` | `string` | Имя модуля
+
+###### Возращает:
+
+- тип: `*`
+- описание: подключеный модуль
 
 ---
 
