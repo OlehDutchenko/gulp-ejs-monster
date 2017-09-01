@@ -162,14 +162,13 @@ function setupOptions (opts = {}) {
 		opts = {};
 	}
 
-	const optsEjs = lodash.merge({}, opts.ejs);
 	const ejs = options.ejs;
 
 	// ejs render options
-	setMethods(ejs, 'escape', optsEjs.escape);
-	ejs.delimiter = setDelimiter(optsEjs.delimiter);
-	ejs.localsName = setLocalsName(optsEjs.localsName);
-	ejs.compileDebug = !!optsEjs.compileDebug;
+	setMethods(ejs, 'escape', opts.escape);
+	ejs.delimiter = setDelimiter(opts.delimiter);
+	ejs.localsName = setLocalsName(opts.localsName);
+	ejs.compileDebug = !!opts.compileDebug;
 	ejs.rmWhitespace = false;
 	ejs.debug = false;
 	ejs.client = false;

@@ -17,7 +17,7 @@
 const params = {
 	newline: 'NEWLINE_FILENAME::',
 	divider: '\n-----------'
-}
+};
 
 // ----------------------------------------
 // Exports
