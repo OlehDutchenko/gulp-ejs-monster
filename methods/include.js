@@ -36,7 +36,7 @@ function createIncludeMethod (options, storage) {
 	 * include method
 	 * @param {string} filePath - relative path to the file, without extension
 	 * @param {boolean} [noCache] - don't cache file contents
-	 * @returns {string}
+	 * @returns {Object}
 	 * @memberOf locals
 	 * @sourceCode
 	 */
