@@ -413,8 +413,6 @@ Name | Type | Attributes | Default | Description
 <%- htmlMarkup %>
 ```
 
-----
-
 
 #### locals.requireNodeModule (moduleName) → `*`
 
