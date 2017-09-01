@@ -88,6 +88,10 @@ function gulpEjsMonster (opts = {}) {
 				include: createIncludeMethod(configOpts, storage),
 				require: createRequireMethod(configOpts, storage),
 				requireNodeModule: createRequireNodeModuleMethod(storage),
+				/**
+				 * List of blocks
+				 * @memberOf locals
+				 */
 				blocks: {
 					clearAllBlocks: createBlockMethod.clearAllBlocks
 				}

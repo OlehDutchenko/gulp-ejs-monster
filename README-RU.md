@@ -110,6 +110,70 @@ _по умолчанию_ `undefined`
 Далее вы можете ознакомится с locals API.
 
 
+### Свойства
+
+#### locals.body
+
+_тип данных_ `string` 
+
+Контент текущей страницы, для вставки внутри лейаутов.
+
+Пример использования:
+
+```markup
+<!-- ejs view -->
+<% locals.setLayout('bas.ejs') %>
+
+<h1>Index view</h1>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+```
+
+```markup
+<!-- ejs layout -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <%- locals.body %>
+</body>
+</html>
+
+```
+
+#### locals.blocks
+
+_тип данных_ `Object` 
+
+Список собранных блоков, которые создаются при помози метода `locals.block()`
+
+Пример использования:
+
+```markup
+<!-- ejs view -->
+<% locals.setLayout('bas.ejs') %>
+<% locals.block('title', 'Index view') %>
+<% locals.block('header', '<h1>Current view header</h1>') %>
+```
+
+```markup
+<!-- ejs layout -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%- locals.blocks.title %></title>
+</head>
+<body>
+    <%- locals.blocks.header %>
+    <%- locals.body %>
+</body>
+</html>
+
+```
+
 ### Методы
 
 #### locals.setLayout (filePath)
@@ -144,6 +208,19 @@ Name | Type | Attributes | Default | Description
 #### locals.require (filePath _[, noCache]_) → `*`
 
 Подключение собственных исполняемых js/json файлов с поддержкой CommonJS для экспорта.
+
+###### Параметры:
+
+Name | Type | Attributes | Default | Description
+--- | --- | --- | --- | ---
+`filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [requires](#requires)
+`noCache` | `boolean` | &lt;optional> | `false` | Не кешировать файл
+
+###### Возращает:
+
+- тип: `*`
+- описание: подключеный файл
+
 Внутри таких файлов объект `locals` не доступен. Вы можете передать его внутрь файла, к примеру, если вы экспортируете никий метод:
 
 Вариант 1. Явно указать контекст для метода
@@ -208,17 +285,60 @@ functtion componentWrapper (locals) {
 module.exports = componentWrapper;
 ```
 
+#### locals.requireNodeModule (moduleName) → `*`
+
+Подключение модулей из установленных `node_modules`
+
 ###### Параметры:
 
-Name | Type | Attributes | Default | Description
---- | --- | --- | --- | ---
-`filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [requires](#requires)
-`noCache` | `boolean` | &lt;optional> | `false` | Не кешировать файл
+Name | Type | Description
+--- | --- | ---
+`moduleName` | `string` | Имя модуля
 
 ###### Возращает:
 
 - тип: `*`
-- описание: подключеный файл
+- описание: подключеный модуль
+
+#### locals.include (filePath _[, noCache]_) → `Object`
+
+Включает текстовый контент файла в Вашу разметку как есть.
+
+###### Параметры:
+
+Name | Type | Attributes | Default | Description
+--- | --- | --- | --- | ---
+`filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [includes](#includes)
+`noCache` | `boolean` | &lt;optional> | `false` | Не кешировать файл
+
+###### Возращает:
+
+- тип: `Object`
+- описание:	Объект имеет набор свойств
+	- `fileChanged` - флаг, изменен ли файл, если кеширование выключенно - всегда равен `true`
+	- `mtime` - Дата последней модификации файла, если кеширование выключенно - всегда равен `1`
+	- `content` - Строка с контентом файла
+	- `toString()` - собственный метод приведения в строку, который возвращает `this.content`, таким образом если выполнить метод в контексте вставки в разметку - результатом будет сразу контент файла.
+
+Пример использования
+
+```markup
+<!-- include css file -->
+<style><%- locals.include('critical.css') %></style>
+```
+
+```markup
+<!-- include markdown file and transform to html -->
+<%
+    let marked = locals.requireNodeModule('marked');
+    let mdFile = locals.include('article.md');
+    let htmlMarkup = marked(mdFile.content, {/* marked options */});
+%>
+<%- htmlMarkup %>
+```
+
+
+```
 
 #### locals.requireNodeModule (moduleName) → `*`
 
@@ -246,23 +366,6 @@ Name | Type | Attributes | Default | Description
 `filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [includes](#includes)
 `noCache` | `boolean` | &lt;optional> | `false` | Не кешировать файл
 
-Пример использования
-
-```markup
-<!-- include css file -->
-<style><%- locals.include('critical.css') %></style>
-```
-
-```markup
-<!-- include markdown and transform to html -->
-<%
-    let marked = locals.requireNodeModule('marked');
-    let mdFile = locals.include('article.md');
-    let htmlMarkup = marked(mdFile.content, {/* marked options */})
-%>
-<%- htmlMarkup %>
-```
-
 ###### Возращает:
 
 - тип: `Object`
@@ -271,6 +374,46 @@ Name | Type | Attributes | Default | Description
 	- `mtime` - Дата последней модификации файла, если кеширование выключенно - всегда равен `1`
 	- `content` - Строка с контентом файла
 	- `toString()` - собственный метод приведения в строку, который возвращает `this.content`, таким образом если выполнить метод в контексте вставки в разметку - результатом будет сразу контент файла.
+
+Пример использования
+
+```markup
+<!-- include css file -->
+<style><%- locals.include('critical.css') %></style>
+```
+
+```markup
+<!-- include markdown file and transform to html -->
+<%
+    let marked = locals.requireNodeModule('marked');
+    let mdFile = locals.include('article.md');
+    let htmlMarkup = marked(mdFile.content, {/* marked options */});
+%>
+<%- htmlMarkup %>
+```
+
+#### locals.block (blockName, markup _[, mtd]_)  → `Block`
+
+Указание блока разметки, который будет доступен в списке блоков.
+
+###### Параметры:
+
+Name | Type | Attributes | Default | Description
+--- | --- | --- | --- | ---
+`blockName` | `string` |  |  | Имя блока, по которому можно будет обратится в списке блоков
+`markup` | `string` |  |  | Значение блока
+`mtd` | `string` | &lt;optional> | `'replace'` | Метод указания значения для блока.
+
+###### Возращает:
+
+- тип: `string`
+- описание:	рендер ejs разметки
+
+При указании значения для блока - формируется массив, которые при выводе склеивается в строку. Методы указания значения для блока:
+
+- `'replace'` - заменить предыдущее значение, если оно было. Если нет то просто назначит новое значение.
+- `'append'` - добавить в конец массива новое значение.
+- `'prepend'` - добавить в начало массива новове значение.
 
 ---
 

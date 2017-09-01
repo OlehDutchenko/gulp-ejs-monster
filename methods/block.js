@@ -46,10 +46,12 @@ function createBlockMethod (blocks, storage) {
 	}
 
 	/**
-	 * @param {string} blockName
-	 * @param {string} markup
-	 * @param {string} [mtd]
-	 * @return {Object}
+	 * @param {string} blockName - block name by which you call it content
+	 * @param {string} markup - block value
+	 * @param {string} [mtd='replace']
+	 * @return {Block}
+	 * @memberOf locals
+	 * @sourceCode
 	 */
 	function block (blockName, markup, mtd) {
 		let slot = blocks[blockName];
@@ -71,6 +73,8 @@ function createBlockMethod (blocks, storage) {
 
 /**
  * Clear all added blocks
+ * @memberOf locals
+ * @method blocks::clearAllBlocks
  * @sourceCode
  */
 createBlockMethod.clearAllBlocks = function () {
