@@ -114,18 +114,13 @@ _по умолчанию_ `undefined`
 
 #### locals.setLayout (filePath)
 
-Указание лайаута для текузей страницы.
+Устанавливает путь к лайаута для текущей страницы.
 
 ###### Параметры:
 
 Name | Type | Description
 --- | --- | ---
-`_filePath_` | `string` | Путь к файлу относительно директории указанной в параметре [layouts](#layouts)
-
-###### Возращает:
-
-- тип: `string`
-- описание:	рендер ejs разметки
+`filePath` | `string` | Путь к файлу относительно директории указанной в параметре [layouts](#layouts)
 
 #### locals.widget (filePath _[, entry] [, noCache]_) → `string`
 
@@ -135,9 +130,9 @@ Name | Type | Description
 
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
-`_filePath_` | `string` |  |  | Путь к файлу относительно директории указанной в параметре [widgets](#widgets)
-`_entry_` | `Object` | <optional> | `{}` | Входящие данные, которые передаются внутрь виджета
-`_noCache_` | `boolean` | <optional> |  | Не кешировать виджет
+`filePath` | `string` |  |  | Путь к файлу относительно директории указанной в параметре [widgets](#widgets)
+`entry` | `Object` | <optional> | `{}` | Входящие данные, которые передаются внутрь виджета
+`noCache` | `boolean` | <optional> |  | Не кешировать виджет
 
 ###### Возращает:
 
