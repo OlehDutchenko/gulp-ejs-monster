@@ -13,6 +13,7 @@
 // ----------------------------------------
 
 // modules
+const path = require('path');
 const assert = require('assert');
 const lodash = require('lodash');
 const chalk = require('chalk');
@@ -36,7 +37,7 @@ const _inner = chalk.gray('inner props:');
 describe(chalk.green('let options = setupOptions() - should return plain object'), function () {
 	let options = setupOptions();
 
-	it('typeof options === \'object\'', function () {
+	it('typeof options === "object"', function () {
 		assert.strictEqual(typeof options, 'object');
 	});
 
@@ -51,7 +52,7 @@ describe(chalk.green('props tests'), function () {
 		describe(_spec, function () {
 			let options = setupOptions();
 
-			it(`typeof options.extname should be a 'string', by default - '.html'`, function () {
+			it('typeof options.extname should be a "string", by default - ".html"', function () {
 				assert.strictEqual(typeof options.extname, 'string');
 			});
 
@@ -65,26 +66,26 @@ describe(chalk.green('props tests'), function () {
 		});
 
 		describe(_work, function () {
-			it('let options = setupOptions()  // => options.extname ===  \'.html\'', function () {
+			it('let options = setupOptions()  // => options.extname ===  ".html"', function () {
 				let options = setupOptions();
 				assert.strictEqual(options.extname, '.html');
 			});
 
-			it('let options = setupOptions({extname: \'php\'})  // => options.extname ===  \'.php\'', function () {
+			it('let options = setupOptions({extname: "php"})  // => options.extname ===  ".php"', function () {
 				let options = setupOptions({
 					extname: 'php'
 				});
 				assert.strictEqual(options.extname, '.php');
 			});
 
-			it('let options = setupOptions({extname: \'.php\'})  // => options.extname ===  \'.php\'', function () {
+			it('let options = setupOptions({extname: ".php"})  // => options.extname ===  ".php"', function () {
 				let options = setupOptions({
 					extname: '.php'
 				});
 				assert.strictEqual(options.extname, '.php');
 			});
 
-			it('let options = setupOptions({extname: null})  // => options.extname ===  \'.html\'', function () {
+			it('let options = setupOptions({extname: null})  // => options.extname ===  ".html"', function () {
 				let options = setupOptions({
 					extname: null
 				});
@@ -93,16 +94,92 @@ describe(chalk.green('props tests'), function () {
 		});
 	});
 
+	function testPaths (pathName, pathDir = pathName) {
+		console.log(pathDir);
+
+		describe(pathName, function () {
+			describe(_spec, function () {
+				let options = setupOptions();
+
+				it(`typeof options.${pathName} should be a "string", by default - process.cwd()`, function () {
+					assert.strictEqual(typeof options.layouts, 'string');
+				});
+			});
+
+			describe(_work, function () {
+				it(`let options = setupOptions()  // => options.${pathName} === process.cwd()`, function () {
+					let options = setupOptions();
+					assert.strictEqual(options[pathName], process.cwd());
+				});
+
+				it(`let options = setupOptions({${pathName}: false})  // => options.${pathName} === process.cwd()`, function () {
+					let options = setupOptions({[pathName]: false});
+					assert.strictEqual(options[pathName], process.cwd());
+				});
+
+				it(`let options = setupOptions({${pathName}: {}})  // => options.${pathName} === process.cwd()`, function () {
+					let options = setupOptions({[pathName]: {}});
+					assert.strictEqual(options[pathName], process.cwd());
+				});
+
+				it(`let options = setupOptions({${pathName}: "./examples/src/${pathDir}/"})  // => options.${pathName} === path.resolve("./examples/src/${pathDir}/")`, function () {
+					let options = setupOptions({[pathName]: `./examples/src/${pathDir}/`});
+					assert.strictEqual(options[pathName], path.resolve(`./examples/src/${pathDir}/`));
+				});
+
+				it(`let options = setupOptions({${pathName}: "${pathDir}"})  // => options.${pathName} === path.resolve("${pathDir}")`, function () {
+					let options = setupOptions({[pathName]: pathDir});
+					assert.strictEqual(options[pathName], path.resolve(pathDir));
+				});
+			});
+		});
+	}
+
+	testPaths('layouts');
+	testPaths('widgets');
+	testPaths('requires');
+	testPaths('includes');
+
 	describe('options should have "ejs" property as object', function () {
 		describe(_spec, function () {
 			let options = setupOptions();
 
-			it('typeof options.ejs === \'object\'', function () {
+			it('typeof options.ejs === "object"', function () {
 				assert.strictEqual(typeof options.ejs, 'object');
 			});
 
 			it('lodash.isPlainObject(options.ejs)', function () {
 				assert.strictEqual(lodash.isPlainObject(options.ejs), true);
+			});
+
+			describe(chalk.gray('options.ejs should have constant values'), function () {
+				it('options.ejs.debug === false', function () {
+					assert.strictEqual(options.ejs.debug, false);
+				});
+
+				it('options.ejs.client === false', function () {
+					assert.strictEqual(options.ejs.client, false);
+				});
+
+				it('options.ejs._with === false', function () {
+					assert.strictEqual(options.ejs._with, false);
+				});
+
+				it('options.ejs.rmWhitespace === false', function () {
+					assert.strictEqual(options.ejs.rmWhitespace, false);
+				});
+
+				it('options.ejs.strict === true', function () {
+					assert.strictEqual(options.ejs.strict, true);
+				});
+
+				it('options.ejs.locals === undefined', function () {
+					assert.strictEqual(options.ejs.locals, undefined);
+				});
+
+				it('options.ejs.context === undefined', function () {
+					assert.strictEqual(options.ejs.context, undefined);
+				});
 			});
 		});
 
@@ -121,19 +198,19 @@ describe(chalk.green('props tests'), function () {
 				});
 
 				describe(_work, function () {
-					it('let options = setupOptions()  // => options.ejs.localsName ===  \'locals\'', function () {
+					it('let options = setupOptions()  // => options.ejs.localsName ===  "locals"', function () {
 						let options = setupOptions();
 						assert.strictEqual(options.ejs.localsName, 'locals');
 					});
 
-					it('let options = setupOptions({localsName: \'app\'})  // => options.ejs.localsName ===  \'app\'', function () {
+					it('let options = setupOptions({localsName: "app"})  // => options.ejs.localsName ===  "app"', function () {
 						let options = setupOptions({
 							localsName: 'app'
 						});
 						assert.strictEqual(options.ejs.localsName, 'app');
 					});
 
-					it('let options = setupOptions({localsName: false})  // => options.ejs.localsName ===  \'locals\'', function () {
+					it('let options = setupOptions({localsName: false})  // => options.ejs.localsName ===  "locals"', function () {
 						let options = setupOptions({
 							localsName: false
 						});
@@ -160,40 +237,40 @@ describe(chalk.green('props tests'), function () {
 				});
 
 				describe(_work, function () {
-					it('let options = setupOptions({})  // => options.ejs.delimiter ===  \'%\'', function () {
+					it('let options = setupOptions({})  // => options.ejs.delimiter ===  "%"', function () {
 						let options = setupOptions();
 						assert.strictEqual(options.ejs.delimiter, '%');
 					});
 
-					it('let options = setupOptions({delimiter: \'#\'})  // => options.ejs.delimiter ===  \'%\'', function () {
+					it('let options = setupOptions({delimiter: "#"})  // => options.ejs.delimiter ===  "%"', function () {
 						let options = setupOptions({
 							delimiter: '#'
 						});
 						assert.strictEqual(options.ejs.delimiter, '%');
 					});
 
-					it('let options = setupOptions({delimiter: true})  // => options.ejs.delimiter ===  \'%\'', function () {
+					it('let options = setupOptions({delimiter: true})  // => options.ejs.delimiter ===  "%"', function () {
 						let options = setupOptions({
 							delimiter: true
 						});
 						assert.strictEqual(options.ejs.delimiter, '%');
 					});
 
-					it('let options = setupOptions({delimiter: null})  // => options.ejs.delimiter ===  \'%\'', function () {
+					it('let options = setupOptions({delimiter: null})  // => options.ejs.delimiter ===  "%"', function () {
 						let options = setupOptions({
 							delimiter: null
 						});
 						assert.strictEqual(options.ejs.delimiter, '%');
 					});
 
-					it('let options = setupOptions({delimiter: \'$\'})  // => options.ejs.delimiter ===  \'$\'', function () {
+					it('let options = setupOptions({delimiter: "$"})  // => options.ejs.delimiter ===  "$"', function () {
 						let options = setupOptions({
 							delimiter: '$'
 						});
 						assert.strictEqual(options.ejs.delimiter, '$');
 					});
 
-					it('let options = setupOptions({delimiter: String(\'?\')})  // => options.ejs.delimiter ===  \'?\'', function () {
+					it('let options = setupOptions({delimiter: String("?")})  // => options.ejs.delimiter ===  "?"', function () {
 						let options = setupOptions({
 							delimiter: String('?')
 						});
@@ -237,7 +314,7 @@ describe(chalk.green('props tests'), function () {
 						assert.strictEqual(options.ejs.compileDebug, true);
 					});
 
-					it('let options = setupOptions({compileDebug: \'bla-bla-bla\'})  // => options.ejs.compileDebug ===  true', function () {
+					it('let options = setupOptions({compileDebug: "bla-bla-bla"})  // => options.ejs.compileDebug ===  true', function () {
 						let options = setupOptions({
 							compileDebug: 'bla-bla-bla'
 						});
@@ -300,13 +377,6 @@ function testPreset(presetName, presetOptions) {
 
 	describe(chalk.green(presetName), function () {
 
-
-		describe('options should have paths properties as string', function () {
-			it(`typeof options.layouts === 'string' // => ${options.layouts}`, function () {
-				assert.strictEqual(typeof options.layouts, 'string');
-			});
-		});
-
 		describe('options should have "debug" property as boolean', function () {
 			it(`typeof options.debug === 'boolean' // => ${options.debug}`, function () {
 				assert.strictEqual(typeof options.debug, 'boolean');
@@ -314,7 +384,7 @@ function testPreset(presetName, presetOptions) {
 		});
 
 		describe('options should have "locals" property as object', function () {
-			it('typeof options.locals === \'object\'', function () {
+			it('typeof options.locals === "object"', function () {
 				assert.strictEqual(typeof options.locals, 'object');
 			});
 
@@ -337,7 +407,7 @@ function testPreset(presetName, presetOptions) {
 
 		describe('if options has "beautify" property - it must be an plain object', function () {
 			if (options.hasOwnProperty('beautify')) {
-				it('typeof options.beautify === \'object\'', function () {
+				it('typeof options.beautify === "object"', function () {
 					assert.strictEqual(typeof options.beautify, 'object');
 				});
 
@@ -358,7 +428,7 @@ function testPreset(presetName, presetOptions) {
 		});
 
 		describe('options should have "ejs" property as object', function () {
-			it('typeof options.ejs === \'object\'', function () {
+			it('typeof options.ejs === "object"', function () {
 				assert.strictEqual(typeof options.ejs, 'object');
 			});
 
@@ -366,39 +436,7 @@ function testPreset(presetName, presetOptions) {
 				assert.strictEqual(lodash.isPlainObject(options.ejs), true);
 			});
 
-			describe('options.ejs should have constant values', function () {
-				it(`options.ejs.debug === false // => ${options.ejs.debug}`, function () {
-					assert.strictEqual(options.ejs.debug, false);
-				});
 
-				it(`options.ejs.client === false // => ${options.ejs.client}`, function () {
-					assert.strictEqual(options.ejs.client, false);
-				});
-
-				it(`options.ejs._with === false // => ${options.ejs._with}`, function () {
-					assert.strictEqual(options.ejs._with, false);
-				});
-
-				it(`options.ejs.rmWhitespace === false // => ${options.ejs.rmWhitespace}`, function () {
-					assert.strictEqual(options.ejs.rmWhitespace, false);
-				});
-
-				it(`options.ejs.strict === true // => ${options.ejs.strict}`, function () {
-					assert.strictEqual(options.ejs.strict, true);
-				});
-
-				it(`typeof options.ejs.compileDebug === \'boolean\' // => ${options.ejs.compileDebug}`, function () {
-					assert.strictEqual(typeof options.ejs.compileDebug, 'boolean');
-				});
-
-				it(`typeof options.ejs.locals === \'undefined\' // => ${options.ejs.locals}`, function () {
-					assert.strictEqual(typeof options.ejs.locals, 'undefined');
-				});
-
-				it(`typeof options.ejs.context === \'undefined\' // => ${options.ejs.context}`, function () {
-					assert.strictEqual(typeof options.ejs.context, 'undefined');
-				});
-			});
 
 			describe('options.ejs should have "delimiter" property as string', function () {
 			});

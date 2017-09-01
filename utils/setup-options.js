@@ -177,7 +177,7 @@ function setupOptions (opts = {}) {
 	delete ejs.context;
 
 	// plugin options
-	['layouts', 'widgets'].forEach(prop => {
+	['layouts', 'widgets', 'requires', 'includes'].forEach(prop => {
 		options[prop] = setPath(opts[prop]);
 	});
 
