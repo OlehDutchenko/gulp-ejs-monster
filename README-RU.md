@@ -104,7 +104,7 @@ _по умолчанию_ `undefined`
 
 ---
 
-## locals
+## locals API
 
 Объект, хранящий локальные переменные.  
 Далее вы можете ознакомится с locals API.
@@ -122,14 +122,14 @@ _тип данных_ `string`
 
 ```markup
 <!-- ejs view -->
-<% locals.setLayout('bas.ejs') %>
+<% locals.setLayout('base.ejs') %>
 
 <h1>Index view</h1>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 ```
 
 ```markup
-<!-- ejs layout -->
+<!-- ejs layout base.ejs -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -147,19 +147,19 @@ _тип данных_ `string`
 
 _тип данных_ `Object` 
 
-Список собранных блоков, которые создаются при помози метода `locals.block()`
+Список собранных блоков, которые создаются при помощи метода [`locals.block()`](#localsblock-blockname-markup--mtd---block)
 
 Пример использования:
 
 ```markup
 <!-- ejs view -->
-<% locals.setLayout('bas.ejs') %>
+<% locals.setLayout('base.ejs') %>
 <% locals.block('title', 'Index view') %>
 <% locals.block('header', '<h1>Current view header</h1>') %>
 ```
 
 ```markup
-<!-- ejs layout -->
+<!-- ejs layout base.ejs -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -221,9 +221,9 @@ Name | Type | Attributes | Default | Description
 - тип: `*`
 - описание: подключеный файл
 
-Внутри таких файлов объект `locals` не доступен. Вы можете передать его внутрь файла, к примеру, если вы экспортируете никий метод:
+Внутри таких файлов объект `locals` не доступен. Вы можете передать его внутрь файла, к примеру, если вы экспортируете некий метод:
 
-Вариант 1. Явно указать контекст для метода
+Вариант 1. Привязать контекст для метода
 
 ```js
 // ejs view
@@ -251,7 +251,7 @@ function component (message) {
 module.exports = component;
 ```
 
-Вариант 2. Использовать _каррирование_
+Вариант 2. Использовать _каррирование (карринг)_
 
 ```js
 // ejs view
@@ -299,6 +299,16 @@ Name | Type | Description
 
 - тип: `*`
 - описание: подключеный модуль
+
+Пример использования:
+
+```js
+<%
+    let lodash = locals.requireNodeModule('lodash');
+    lodash.cloneDeep(options);
+    lodash.isPlainObject(data);
+%>
+```
 
 #### locals.include (filePath _[, noCache]_) → `Object`
 
@@ -394,13 +404,13 @@ Name | Type | Attributes | Default | Description
 
 #### locals.block (blockName, markup _[, mtd]_)  → `Block`
 
-Указание блока разметки, который будет доступен в списке блоков.
+Указание блока разметки, который будет доступен в [списке блоков](#localsblocks).
 
 ###### Параметры:
 
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
-`blockName` | `string` |  |  | Имя блока, по которому можно будет обратится в списке блоков
+`blockName` | `string` |  |  | Имя блока, по которому можно будет обратится в [списке блоков](#localsblocks)
 `markup` | `string` |  |  | Значение блока
 `mtd` | `string` | &lt;optional> | `'replace'` | Метод указания значения для блока.
 
