@@ -166,15 +166,18 @@ Name | Type | Attributes | Default | Description
 
 Вариант 1. Явно указать контекст для метода
 
-```ejs
-<# ejs view %>
+```js
+// ejs view
+
 <%
     let component = locals.require('component.js').bind(locals);
     component('Hello');
 %>
 ```
 
-```ejs
+```js
+// component.js
+
 function component (message) {
 	console.log(this);
 	console.log(message);
@@ -191,15 +194,18 @@ module.exports = component;
 
 Вариант 2. Использовать _каррирование_
 
-```ejs
-<# ejs view %>
+```js
+// ejs view
+
 <%
     let component = locals.require('component.js')(locals);
     component('Hello');
 %>
 ```
 
-```ejs
+```js
+// component.js
+
 // Function wrapper
 functtion componentWrapper (locals) {
 	// component
