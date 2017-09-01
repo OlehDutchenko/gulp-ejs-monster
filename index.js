@@ -32,7 +32,8 @@ const crashed = require('./utils/crashed');
 // methods
 const createSetLayoutMethod = require('./methods/set-layout');
 const createWidgetMethod = require('./methods/widget');
-// const createRequireMethod = require('./methods/require');
+const createRequireNodeModuleMethod = require('./methods/require-node-module');
+const createRequireMethod = require('./methods/require');
 const createIncludeMethod = require('./methods/include');
 const createBlockMethod = require('./methods/block');
 
@@ -84,8 +85,9 @@ function gulpEjsMonster (opts = {}) {
 			data: lodash.merge({}, configOpts.locals, {
 				setLayout: createSetLayoutMethod(configOpts, storage),
 				widget: createWidgetMethod(configOpts, storage),
-				// require: createRequireMethod(configOpts, storage),
 				include: createIncludeMethod(configOpts, storage),
+				require: createRequireMethod(configOpts, storage),
+				requireNodeModule: createRequireNodeModuleMethod(storage),
 				blocks: {
 					clearAllBlocks: createBlockMethod.clearAllBlocks
 				}

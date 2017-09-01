@@ -24,7 +24,7 @@ const createFileCache = require('../utils/file-cache');
  * [FW] Create `[localsName].include()` method
  * @param {Object} options - plugin options
  * @param {string} options.includes - resolved path to the "partials" folder
- * @param {DataStorage} storage
+ * @param {HistoryStorage} storage
  * @returns {Function}
  * @sourceCode
  */

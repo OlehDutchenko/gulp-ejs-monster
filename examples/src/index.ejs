@@ -5,6 +5,10 @@
 
 <%- locals.widget('demo.ejs') %>
 <%- locals.widget('demo.ejs', {widgetName: 'Custom'}) %>
+<%
+	let lodash = locals.requireNodeModule('lodash');
+	console.log(lodash.isPlainObject({}));
+%>
 <style><%- locals.include('style.css') %></style>
 
 <hr>

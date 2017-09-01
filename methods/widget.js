@@ -31,7 +31,7 @@ const createFileCache = require('../utils/file-cache');
  * @param {Object} options - plugin options
  * @param {string} options.widgets - resolved path to the "widgets" folder
  * @param {Object} options.ejs - ejs render options
- * @param {DataStorage} storage
+ * @param {HistoryStorage} storage
  * @returns {Function}
  * @sourceCode
  */

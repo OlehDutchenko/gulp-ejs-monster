@@ -71,8 +71,8 @@ gulp.task('watch', gulp.series('ejs', function () {
 	gulp.watch('./examples/src/*.ejs', gulp.series('ejs'));
 }));
 
-gulp.task('docs-locals', gulp.series(function () {
-	return del('./docs/locals-api/');
+gulp.task('docs', gulp.series(function () {
+	return del('./docs/');
 }, function () {
 	let jsdocConfig = {
 		source: {
@@ -87,7 +87,7 @@ gulp.task('docs-locals', gulp.series(function () {
 			]
 		},
 		opts: {
-			destination: './docs/locals-api/',
+			destination: './docs/',
 			verbose: false,
 			encoding: 'utf8',
 			template: './node_modules/jsdoc-simple-theme/',
@@ -114,7 +114,7 @@ gulp.task('docs-locals', gulp.series(function () {
 		}
 	};
 
-	return gulp.src('./methods/**/*.js', {buffer: false})
+	return gulp.src(['./index.js', './methods/**/*.js', './utils/**/*.js'], {buffer: false})
 		.pipe(jsdoc(jsdocConfig, function () {
 			console.log('done');
 		}));

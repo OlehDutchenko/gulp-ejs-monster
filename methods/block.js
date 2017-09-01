@@ -13,6 +13,7 @@
 /**
  * [FW] Create `[localsName].block()` method
  * @param  {Object} blocks
+ * @param  {HistoryStorage} storage
  * @return {Function}
  * @sourceCode
  */
