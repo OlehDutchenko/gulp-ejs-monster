@@ -12,8 +12,9 @@
 
 [![js happiness style](https://cdn.rawgit.com/JedWatson/happiness/master/badge.svg)](https://github.com/JedWatson/happiness)
 
+---
 
-## Пареметры
+## Параметры
 
 #### `extname`
 
@@ -37,6 +38,7 @@ _допустимые значаения_ `['%', '&', '$', '?']`
 _тип данных_ `string`  
 _по умолчанию_ `'locals'`
 
+---
 
 ## Информация о проекте
 
