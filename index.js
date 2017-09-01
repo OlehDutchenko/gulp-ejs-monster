@@ -92,9 +92,7 @@ function gulpEjsMonster (opts = {}) {
 				 * List of blocks
 				 * @memberOf locals
 				 */
-				blocks: {
-					clearAllBlocks: createBlockMethod.clearAllBlocks
-				}
+				blocks: {}
 			}),
 			ejs: lodash.merge({}, configOpts.ejs)
 		};
@@ -126,12 +124,13 @@ function gulpEjsMonster (opts = {}) {
 			return cb(notSupported[0], notSupported[1]);
 		}
 
-		data.blocks.clearAllBlocks();
+		createBlockMethod.clearAllBlocks(data.blocks);
 		storage.reset();
+		storage.push(chalk.green('Render history:'));
 		storage.push(chalk.green('Start'));
 		storage.push('render view', file.path);
-		data.fileName = file.stem;
-		data.filePath = file.path;
+		data.viewName = file.stem;
+		data.viewPath = file.path;
 		renderFile(file.path);
 
 		/**
@@ -149,7 +148,7 @@ function gulpEjsMonster (opts = {}) {
 					}
 
 					if (!data.layout) {
-						data.blocks.clearAllBlocks();
+						createBlockMethod.clearAllBlocks(data.blocks);
 					}
 
 					crashed.reRenderLog(filePath, storage);
@@ -187,7 +186,7 @@ function gulpEjsMonster (opts = {}) {
 					}
 				}
 
-				if (options.debug) {
+				if (options.showHistory) {
 					console.log(storage.print());
 					console.log(chalk.green('Done!\n'));
 				}

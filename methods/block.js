@@ -73,15 +73,10 @@ function createBlockMethod (blocks, storage) {
 
 /**
  * Clear all added blocks
- * @memberOf locals
- * @method blocks::clearAllBlocks
  * @sourceCode
  */
-createBlockMethod.clearAllBlocks = function () {
-	for (let key in this) {
-		if (key === 'clearAllBlocks') {
-			continue;
-		}
+createBlockMethod.clearAllBlocks = function (blocks) {
+	for (let key in blocks) {
 		delete this[key];
 	}
 };

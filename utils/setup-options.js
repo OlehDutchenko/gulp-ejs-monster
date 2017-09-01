@@ -184,9 +184,8 @@ function setupOptions (opts = {}) {
 	setMethods(options, 'afterRender', opts.afterRender);
 	options.extname = setExtname(opts.extname);
 	options.beautify = setBeautify(opts.beautify);
-	options.debug = !!opts.debug;
+	options.showHistory = !!opts.showHistory;
 	options.locals = lodash.merge({}, opts.locals);
-
 
 	if (!options.beautify) {
 		delete options.beautify;

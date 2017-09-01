@@ -45,7 +45,7 @@ const prodFlag = !!argv.p || !!argv.production;
  */
 const ejsOptions = {
 	beautify: prodFlag,
-	debug: debugFlag,
+	showHistory: true,
 	layouts: './examples/src/_layouts',
 	widgets: './examples/src/_widgets',
 	includes: './examples/src/_includes',
@@ -119,7 +119,7 @@ gulp.task('docs', gulp.series(function () {
 		.pipe(jsdoc(jsdocConfig, function () {
 			console.log('done');
 		}));
-}))
+}));
 
 gulp.task('test-setup-options', function () {
 	return gulp.src('./tests/setup-options.js', {read: false})

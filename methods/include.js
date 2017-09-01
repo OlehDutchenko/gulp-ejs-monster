@@ -51,7 +51,7 @@ function createIncludeMethod (options, storage) {
 		let data = cached(filePath, noCache);
 		data.toString = function () {
 			return this.content;
-		}
+		};
 
 		// file current status
 		storage.push(chalk.gray(data.changed ? '√ file changed' : '< file not changed'), false, '>');
