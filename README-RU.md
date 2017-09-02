@@ -245,7 +245,7 @@ _тип данных_ `string`
 _тип данных_ `boolean` 
 
 Флаг, изменился ли файл после последнего обращения к нему.   
-Свойство доступно внутри виджетов и для инклудов. На основных страницах рендера и их лейаутах, свойство также доступно, но для них оно всегда будет равно `true`.
+Свойство доступно внутри виджетов и для подключаемых файлов. На основных страницах рендера и их лейаутах, свойство также доступно, но для них оно всегда будет равно `true`.
 
 ### Методы
 
@@ -324,9 +324,7 @@ Name | Type | Attributes | Default | Description
 
 Вариант 1. Привязать контекст для метода
 
-```markup
-<!-- view index.ejs -->
-
+```js
 <%
     let component = locals.require('component.js').bind(locals);
     component('Hello');
@@ -352,9 +350,7 @@ module.exports = component;
 
 Вариант 2. Использовать _каррирование (карринг)_
 
-```markup
-<!-- view index.ejs -->
-
+```js
 <%
     let component = locals.require('component.js')(locals);
     component('Hello');
@@ -443,6 +439,18 @@ Name | Type | Attributes | Default | Description
 - `'replace'` - заменить предыдущее значение, если оно было. Если нет то просто назначит новое значение.
 - `'append'` - добавить в конец массива новое значение.
 - `'prepend'` - добавить в начало массива новове значение.
+
+Пример использования добавления:
+
+```js
+<% locals.block(headers, '<h2>Ipsum</h2>') %>
+...
+<% locals.block(headers, '<h3>Dolor</h3>', 'append') %>
+...
+<% locals.block(headers, '<h1>Lorem</h1>', 'prepend') %>
+
+// => ['<h1>Lorem</h1>', '<h2>Ipsum</h2>', '<h3>Dolor</h3>'].join('\n');
+```
 
 ---
 
