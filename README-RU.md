@@ -275,7 +275,7 @@ _Кеширование результата рендера_ позволит з
 
 При изменении файла самого виджета (смены даты модификации) - кеш будет сброшен.
 
-Этот подход также можно использовать для нескольких страниц в общей задаче ренедера. К примеру - первая страница, index.view, ренедерить блок кода, a news.ejs, которая идет после, уже возьмет закешированный результат.
+Этот подход также можно использовать для нескольких страниц в общей задаче ренедера. К примеру - первая страница, index.view, рендерить блок кода, a news.ejs, которая идет после, уже возьмет закешированный результат.
 
 Пример использования:
 
@@ -284,13 +284,13 @@ _Кеширование результата рендера_ позволит з
 <%- locals.widget('big-rendering-markup.ejs', {/*data*/}, true) %>
 
 <!-- get cached render result from first render -->
-<%- locals.widget('big-rendering-markup.ejs', null, true) %>
+<%- locals.widget('big-rendering-markup.ejs', {/*data*/}, true) %>
 
 <!-- new render result -->
 <%- locals.widget('big-rendering-markup.ejs', {/*data*/}) %>
 
 <!-- get cached render result from first render -->
-<%- locals.widget('big-rendering-markup.ejs', null, true) %>
+<%- locals.widget('big-rendering-markup.ejs', {/*data*/}, true) %>
 ```
 
 ###### Возращает:
