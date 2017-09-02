@@ -269,7 +269,29 @@ Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
 `filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [widgets](#widgets)
 `entry` | `Object` | &lt;optional> | `{}` | Входящие данные, которые передаются внутрь виджета
-`cacheRenderResult` | `boolean` | &lt;optional> | `false` | Кушировать результат ренедера разметки, при изменении самого файла виджет - кеш будет сброшен
+`cacheRenderResult` | `boolean` | &lt;optional> | `false` | Кешировать результат рендера разметки.
+
+_Кеширование результата рендера_ позволит запоминать полученную строку в виде уже ***готовой статической разметки*** и вставлять ее при последующих вызовах на странице без прохода компиляции. Чтобы это выполнить при последующих применениях виджета нужно также указавать `cacheRenderResult`. Иначе рендер будет выполнен снова для текущего вызова.
+
+При изменении файла самого виджета (смены даты модификации) - кеш будет сброшен.
+
+Этот подход также можно использовать для нескольких страниц в общей задаче ренедера. К примеру - первая страница, index.view, ренедерить блок кода, a news.ejs, которая идет после, уже возьмет закешированный результат.
+
+Пример использования:
+
+```markup
+<!-- cache at first render -->
+<%- locals.widget('big-rendering-markup.ejs', {/*data*/}, true) %>
+
+<!-- get cached render result from first render -->
+<%- locals.widget('big-rendering-markup.ejs', null, true) %>
+
+<!-- new render result -->
+<%- locals.widget('big-rendering-markup.ejs', {/*data*/}) %>
+
+<!-- get cached render result from first render -->
+<%- locals.widget('big-rendering-markup.ejs', null, true) %>
+```
 
 ###### Возращает:
 
