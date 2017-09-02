@@ -35,12 +35,11 @@ function createIncludeMethod (options, storage) {
 	/**
 	 * include method
 	 * @param {string} filePath - relative path to the file, without extension
-	 * @param {boolean} [noCache] - don't cache file contents
 	 * @returns {Object}
 	 * @memberOf locals
 	 * @sourceCode
 	 */
-	function include (filePath, noCache) {
+	function include (filePath) {
 		if (!filePath || typeof filePath !== 'string') {
 			throw new Error('include without filePath');
 		}
@@ -48,13 +47,13 @@ function createIncludeMethod (options, storage) {
 		storage.push('> include file', filePath, '>>');
 
 		// get data
-		let data = cached(filePath, noCache);
+		let data = cached(filePath);
 		data.toString = function () {
 			return this.content;
 		};
 
 		// file current status
-		storage.push(chalk.gray(data.changed ? '√ file changed' : '< file not changed'), false, '>');
+		storage.push(chalk.gray(data.changed ? '√ file changed' : '! file not changed'), false, '>');
 
 		// go out
 		storage.indent('<<<');

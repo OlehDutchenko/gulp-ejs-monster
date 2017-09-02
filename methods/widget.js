@@ -44,12 +44,12 @@ function createWidgetMethod (options, storage) {
 	 * widget method
 	 * @param {string} filePath - relative path to the file, with extension
 	 * @param {Object} [entry={}] - entry data for widget
-	 * @param {boolean} [noCache] - don't cache file contents
+	 * @param {boolean} [cacheRenderResult] - cache render result
 	 * @returns {string} ejs rendered markup
 	 * @memberOf locals
 	 * @sourceCode
 	 */
-	function widget (filePath, entry = {}, noCache) {
+	function widget (filePath, entry = {}, cacheRenderResult) {
 		if (!filePath || typeof filePath !== 'string') {
 			throw new Error('widget without filePath');
 		}
@@ -68,15 +68,32 @@ function createWidgetMethod (options, storage) {
 		this.entry = lodash.merge({}, entry);
 
 		// get data
-		let data = cached(filePath, noCache);
+		let data = cached(filePath);
 
 		this.fileChanged = data.changed;
 
 		// file current status
-		storage.push(chalk.gray(data.changed ? '√ file changed' : '< file not changed'), false, '>');
+		storage.push(chalk.gray(data.changed ? '√ file changed' : '! file not changed'), false, '>');
 
 		// render template
-		let markup = ejs.render(data.content, this, lodash.merge(ejsOptions, {filename: params.newline + filePath}));
+		let markup;
+
+		if (cacheRenderResult && !data.changed && data.cachedRenderResult) {
+			console.log(8);
+			storage.push(chalk.gray('! get cached render result'));
+			markup = data.cachedRenderResult;
+		} else {
+			console.log(7);
+			storage.push(chalk.gray('! render file content'));
+			markup = ejs.render(data.content, this, lodash.merge(ejsOptions, {filename: params.newline + filePath}));
+			if (cacheRenderResult) {
+				storage.push(chalk.gray('! caching render result'));
+				data.cachedRenderResult = markup;
+			}
+		}
+		console.log('++++');
+		console.log(markup);
+		console.log('-----');
 
 		// return remembered
 		this.fileChanged = fileChanged;

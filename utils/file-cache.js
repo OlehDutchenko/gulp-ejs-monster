@@ -43,25 +43,15 @@ function createFileCache (storage) {
 	/**
 	 * Checkout filePath and cache file contents
 	 * @param {string} filePath - resolved path
-	 * @param {boolean} [noCache] - don't cache file contents
 	 * @param {boolean} [noRead] - don't read file
 	 * @returns {Object}
 	 */
-	function cached (filePath, noCache, noRead) {
-		if (noCache) {
-			storage.push(chalk.gray('  no cache'));
-			return {
-				content: fs.readFileSync(filePath).toString(),
-				mtime: 1,
-				changed: true
-			};
-		}
-
+	function cached (filePath, noRead) {
 		let cacheData = cache[filePath];
 		let mtime = getModifiedTime(filePath);
 
 		if (cacheData && cacheData.mtime === mtime) {
-			storage.push(chalk.gray('  getting file from cache'));
+			storage.push(chalk.gray('  getting file content from cache'));
 			cacheData.changed = false;
 			return cacheData;
 		}
@@ -72,7 +62,7 @@ function createFileCache (storage) {
 			changed: true
 		};
 
-		storage.push(chalk.gray('  caching new file'));
+		storage.push(chalk.gray('  caching new file content'));
 		return cache[filePath];
 	}
 

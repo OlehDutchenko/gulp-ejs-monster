@@ -104,11 +104,10 @@ function gulpEjsMonster (opts = {}) {
 		config.data.block = createBlockMethod(config.data.blocks, storage);
 		opts.__UNIQUE_KEY__ = key;
 	}
+
 	const options = config.options;
 	const data = config.data;
 	const ejsOptions = config.ejs;
-
-	console.log(options);
 
 	/**
 	 * Read buffer and transform

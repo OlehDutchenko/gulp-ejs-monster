@@ -259,7 +259,7 @@ Name | Type | Description
 --- | --- | ---
 `filePath` | `string` | Путь к файлу (с расширением) относительно директории указанной в параметре [layouts](#layouts)
 
-#### locals.widget (filePath _[, entry] [, noCache]_) → `string`
+#### locals.widget (filePath _[, entry] [, cacheRenderResult]_) → `string`
 
 Подключение виджета разметки.
 
@@ -269,7 +269,7 @@ Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
 `filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [widgets](#widgets)
 `entry` | `Object` | &lt;optional> | `{}` | Входящие данные, которые передаются внутрь виджета
-`noCache` | `boolean` | &lt;optional> | `false` | Не кешировать виджет
+`cacheRenderResult` | `boolean` | &lt;optional> | `false` | Кушировать результат ренедера разметки, при изменении самого файла виджет - кеш будет сброшен
 
 ###### Возращает:
 
@@ -304,7 +304,7 @@ Name | Type | Description
 %>
 ```
 
-#### locals.require (filePath _[, noCache]_) → `*`
+#### locals.require (filePath) → `*`
 
 Подключение собственных исполняемых js/json файлов с поддержкой CommonJS для экспорта.
 
@@ -313,7 +313,6 @@ Name | Type | Description
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
 `filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [requires](#requires)
-`noCache` | `boolean` | &lt;optional> | `false` | Не кешировать файл
 
 ###### Возращает:
 
@@ -380,7 +379,7 @@ function componentWrapper (locals) {
 module.exports = componentWrapper;
 ```
 
-#### locals.include (filePath _[, noCache]_) → `Object`
+#### locals.include (filePath) → `Object`
 
 Включает текстовый контент файла в Вашу разметку как есть.
 
@@ -389,7 +388,6 @@ module.exports = componentWrapper;
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
 `filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [includes](#includes)
-`noCache` | `boolean` | &lt;optional> | `false` | Не кешировать файл
 
 ###### Возращает:
 
