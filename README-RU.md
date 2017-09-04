@@ -166,26 +166,26 @@ h1{color:red}
 
 ```html
 <%
-	let {
-		list = []
-	} = locals.entry;
-	
-	if (!list.length) {
-		return  'No news yet :((';
-	}
+    let {
+        list = []
+    } = locals.entry;
+    
+    if (!list.length) {
+        return  'No news yet :((';
+    }
 -%>
 <ul class="news-list">
-	<% list.forEach(item => { -%>
-		<li class="news-list__item">
-			<div class="news-item">
-				<div class="news-item__title"><%- item.title %></div>
-				<div class="news-item__description">
-					<p><%- item.description %></p>
-					<p><a href="<%- item.href %>">Read more</a></p>
-				</div>
-			</div>
-		</li>
-	<% }); -%>
+    <% list.forEach(item => { -%>
+        <li class="news-list__item">
+            <div class="news-item">
+                <div class="news-item__title"><%- item.title %></div>
+                <div class="news-item__description">
+                    <p><%- item.description %></p>
+                    <p><a href="<%- item.href %>">Read more</a></p>
+                </div>
+            </div>
+        </li>
+    <% }); -%>
 </ul>
 ```
 
@@ -578,7 +578,7 @@ Name | Type | Attributes | Default | Description
 ###### Возращает
 
 - тип: `string`
-- описание:	рендер ejs разметки
+- описание: рендер ejs разметки
 
 Внутри виджета Вы можете принять входящие параметры из [`locals.entry`](#localsentry). 
 
