@@ -460,16 +460,16 @@ function createMd2HtmlComponent (locals) {
         let mdFile = locals.include(filePath);
         if (mdFile.fileChanged) {
             let markedOptions = lodash.merge({}, defaultOptions, options);
+            // rewrite cached file content until it not changed
             mdFile.content =  marked(mdFile.content, markedOptions);
         }
-        
         return mdFile;
     }
     
     return md2html;
 }
 
-module.exports = createMd2HtmlComponent();
+module.exports = createMd2HtmlComponent;
 ```
 
 ```js
@@ -478,9 +478,11 @@ module.exports = createMd2HtmlComponent();
 function extendLocals (locals) {
     if (!locals.hasOwnProperty('com')) {
         locals.com = {};
-    
+    }
   
     locals.com.md2html = locals.require('components/md2html.js')(locals);
+    // set other components inside render
+    // ...
 }
 
 module.exports = extendLocals;
