@@ -1,7 +1,7 @@
 {
   "name": "gulp-ejs-monster",
   "version": "3.0.0",
-  "description": "",
+  "description": "Gulp plugin for ejs with steroids",
   "main": "index.js",
   "scripts": {
     "happiness": "happiness \"./utils/**/*.js\" \"./methods/**/*.js\" \"./*.js\" --verbose --fix | snazzy",
@@ -46,7 +46,6 @@
     "gulp-mocha": "^4.3.1",
     "happiness": "^7.1.2",
     "jsdoc-simple-theme": "^1.1.0",
-    "should": "^11.2.1",
     "snazzy": "^7.0.0",
     "yargs": "^8.0.2"
   }

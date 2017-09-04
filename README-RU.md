@@ -10,7 +10,7 @@
 |
 :ru: Русский язык
 
-> _Gulp плагин для [ejs](http://ejs.co/). Проект вдохновлен [ejs-locals](https://github.com/RandomEtc/ejs-locals)_
+> _Gulp плагин для [ejs](http://ejs.co/) со стероидами. Проект вдохновлен [ejs-locals](https://github.com/RandomEtc/ejs-locals)_
 
 [![js happiness style](https://cdn.rawgit.com/JedWatson/happiness/master/badge.svg)](https://github.com/JedWatson/happiness)
 

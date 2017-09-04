@@ -10,7 +10,7 @@
 |
 :ru: [Русский язык](https://github.com/dutchenkoOleg/gulp-ejs-monster/blob/v3/README-RU.md)
 
-> _Gulp plugin for [ejs](http://ejs.co/). The project is inspired by [ejs-locals](https://github.com/RandomEtc/ejs-locals)_
+> _Gulp plugin for [ejs](http://ejs.co/) with steroids. The project is inspired by [ejs-locals](https://github.com/RandomEtc/ejs-locals)_
 
 [![js happiness style](https://cdn.rawgit.com/JedWatson/happiness/master/badge.svg)](https://github.com/JedWatson/happiness)
 
