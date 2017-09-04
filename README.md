@@ -657,23 +657,23 @@ Connecting the markup widget.
 
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
-`filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [widgets](#widgets)
-`entry` | `Object` | &lt;optional> | `{}` | Входящие данные, которые передаются внутрь виджета
-`cacheRenderResult` | `boolean` | &lt;optional> | `false` | Кешировать результат рендера разметки.
+`filePath` | `string` |  |  | The path to the file (with the extension) relative to the directory specified in the parameter [widgets](#widgets)
+`entry` | `Object` | &lt;optional> | `{}` | Incoming data that is passed to the widget
+`cacheRenderResult` | `boolean` | &lt;optional> | `false` | Cache the result of the renderer.
 
 ###### Returns
 
-- тип: `string`
-- описание: рендер ejs разметки
+- _data type_: `string`
+- _description_: rendering ejs markup
 
-Внутри виджета Вы можете принять входящие параметры из [`locals.entry`](#localsentry). 
+Inside the widget, you can accept incoming data from the [`locals.entry`](#localsentry). 
 
-_Кеширование результата рендера_ позволит запоминать полученную строку в виде уже ***готовой статической разметки*** и вставлять ее при последующих вызовах на странице без прохода компиляции. Чтобы это выполнить при последующих применениях виджета нужно также указавать `cacheRenderResult`. Иначе рендер будет выполнен снова для текущего вызова.
+_Caching the result of the renderer_ will allow you to store the received string as ***ready static markup*** and insert it on subsequent calls on the page without compilation. To do this in the next widgets, you must also specify `cacheRenderResult`. Otherwise, the render will be performed again for the current call.
 
-При изменении файла самого виджета (смены даты модификации) - кеш будет сброшен.
+If you change the file of the widget itself (change the modification date), the cache will be reset.
 
-Этот подход также можно использовать для нескольких страниц в общей задаче рендера.  
-К примеру - первая страница, index.view, рендерить блок кода, a news.ejs, которая идет после, уже возьмет закешированный результат.
+This approach can also be used for several pages in the overall rendering task.  
+For example - the first page, `index.ejs`, render the block of code, a `news.ejs`, which goes after, will already take the cached result.
 
 ###### Example of use
 
@@ -693,18 +693,18 @@ _Кеширование результата рендера_ позволит з
 
 #### locals.requireNodeModule (moduleName) → `*`
 
-Подключение модулей из установленных `node_modules`
+Connecting modules from installed `node_modules`
 
 ###### Options
 
 Name | Type | Description
 --- | --- | ---
-`moduleName` | `string` | Имя модуля
+`moduleName` | `string` | Module name
 
 ###### Returns
 
-- тип: `*`
-- описание: подключеный модуль
+- _data type_: `*`
+- _description_: Connected module
 
 ###### Example of use
 
@@ -718,22 +718,22 @@ Name | Type | Description
 
 #### locals.require (filePath) → `*`
 
-Подключение собственных исполняемых js/json файлов с поддержкой CommonJS для экспорта.
+Connect your own executable js/json files with CommonJS support for export.
 
 ###### Options
 
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
-`filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [requires](#requires)
+`filePath` | `string` |  |  | The path to the file (with the extension) relative to the directory specified in the parameter [requires](#requires)
 
 ###### Returns
 
-- тип: `*`
-- описание: подключеный файл
+- _data type_: `*`
+- _description_: Connected file
 
-Внутри таких файлов объект `locals` не доступен. Вы можете передать его внутрь файла, к примеру, если вы экспортируете некий метод:
+Inside such files, the `locals` object is not available. You can transfer it to the file, for example, if you export a method:
 
-Вариант 1. Привязать контекст для метода
+Variant 1. Bind the context for the method
 
 ```js
 <%
@@ -759,7 +759,7 @@ function component (message) {
 module.exports = component;
 ```
 
-Вариант 2. Использовать _каррирование (карринг)_
+Variant 2. Use _currying_
 
 ```js
 <%
@@ -793,22 +793,22 @@ module.exports = componentWrapper;
 
 #### locals.include (filePath) → `Object`
 
-Включает текстовый контент файла в Вашу разметку как есть.
+Includes the text content of the file in your markup as is.
 
 ###### Options
 
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
-`filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [includes](#includes)
+`filePath` | `string` |  |  | The path to the file (with the extension) relative to the directory specified in the parameter [includes](#includes)
 
 ###### Returns
 
-- тип: `Object`
-- описание:	Объект имеет набор свойств
-	- `fileChanged` - флаг, изменен ли файл, если кеширование выключенно - всегда равен `true`
-	- `mtime` - Дата последней модификации файла, если кеширование выключенно - всегда равен `1`
-	- `content` - Строка с контентом файла
-	- `toString()` - собственный метод приведения в строку, который возвращает `this.content`, таким образом если выполнить метод в контексте вставки в разметку - результатом будет сразу контент файла.
+- _data type_: `Object`
+- _description_: The object has a set of properties
+	- `fileChanged` - flag, if the file is changed.
+	- `mtime` - The date of the last modification of the file, if caching is disabled - is always equal to `1`
+	- `content` - the content of the file
+	- `toString()` - own method of casting to a string that returns `this.content`, so if you execute the method in the context of the insertion in the markup - the result will immediately be the content of the file.
 
 ###### Example of use
 
@@ -817,7 +817,7 @@ Name | Type | Attributes | Default | Description
 <style><%- locals.include('critical.css') %></style>
 ```
 
-###### Пример создания компонента с конвертацией md в html
+###### Example of creating a component with conversion md to html
 
 ```js
 // requires/components/md2html.js
@@ -910,28 +910,29 @@ Alt-H2
 
 #### locals.block (blockName, markup _[, mtd]_)  → `Block`
 
-Указание блока разметки, который будет доступен в [списке блоков](#localsblocks).
+Specify the markup block that will be available in the [block list](#localsblocks).
 
 ###### Options
 
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
-`blockName` | `string` |  |  | Имя блока, по которому можно будет обратится в [списке блоков](#localsblocks)
-`markup` | `string` |  |  | Значение блока
-`mtd` | `string` | &lt;optional> | `'replace'` | Метод указания значения для блока.
+`blockName` | `string` |  |  | The name of the block that can be accessed in the [block list](#localsblocks)
+`markup` | `string` |  |  | Value of the block
+`mtd` | `string` | &lt;optional> | `'replace'` | Method for specifying a value for a block.
 
 ###### Returns
 
-- тип: `string`
-- описание:	рендер ejs разметки
+- _data type_: `string`
+- _description_: Value of the block
 
-При указании значения для блока - формируется массив, которые при выводе склеивается в строку. Методы указания значения для блока:
+When specifying a value for a block, an array is formed, which, when printed, is joined to a string.  
+Methods for specifying a value for a block:
 
-- `'replace'` - заменить предыдущее значение, если оно было. Если нет то просто назначит новое значение.
-- `'append'` - добавить в конец массива новое значение.
-- `'prepend'` - добавить в начало массива новове значение.
+- `'replace'` - replace the previous value if it was. If not then just assign a new value.
+- `'append'` - add a new value to the end of the array.
+- `'prepend'` - add a new value to the beginning of the array.
 
-###### Пример использования добавления
+###### Example of using addition methods
 
 ```js
 <% locals.block(headers, '<h2>Ipsum</h2>') %>
