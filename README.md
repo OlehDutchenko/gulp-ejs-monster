@@ -6,6 +6,8 @@
 [![Build Status](https://travis-ci.org/dutchenkoOleg/gulp-ejs-monster.svg?branch=v3)](https://travis-ci.org/dutchenkoOleg/gulp-ejs-monster)
  
  
+:us: English
+|
 :ru: [Русский язык](https://github.com/dutchenkoOleg/gulp-ejs-monster/blob/v3/README-RU.md)
 
 > _Gulp plugin for [ejs](http://ejs.co/). The project is inspired by [ejs-locals](https://github.com/RandomEtc/ejs-locals)_

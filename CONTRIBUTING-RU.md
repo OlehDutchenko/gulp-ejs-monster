@@ -3,6 +3,8 @@
 :back: [README.md](./README-RU.md)
 |
 :us: [English](./CONTRIBUTING.md)
+|
+:ru: Русский язык
 
 Мы приветствуем содействие проекту
 

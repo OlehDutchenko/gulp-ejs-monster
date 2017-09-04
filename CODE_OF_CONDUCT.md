@@ -2,6 +2,8 @@
 
 :back: [README.md](./README.md) 
 |
+:us: English
+|
 :ru: [Русский язык](./CODE_OF_CONDUCT-RU.md)
 
 ## Our Pledge

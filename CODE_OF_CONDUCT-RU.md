@@ -3,6 +3,8 @@
 :back: [README.md](./README-RU.md)
 |
 :us: [English](./CODE_OF_CONDUCT.md)
+|
+:ru: Русский язык
 
 ## Наш залог
 

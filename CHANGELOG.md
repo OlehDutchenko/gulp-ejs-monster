@@ -2,6 +2,8 @@
 
 :back: [README.md](./README.md) 
 |
+:us: English
+|
 :ru: [Русский язык](./CHANGELOG-RU.md)
 
 > _All notable changes to this project will be documented in this file._  

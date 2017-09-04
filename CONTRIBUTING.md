@@ -2,6 +2,8 @@
 
 :back: [README.md](./README.md)
 |
+:us: English
+|
 :ru: [Русский язык](./CONTRIBUTING-RU.md)
 
 Contributions welcome!
