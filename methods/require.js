@@ -44,12 +44,12 @@ function createRequireMethod (options, storage) {
 	function requireFile (filePath) {
 		let resolvedPath = path.join(folder, filePath);
 
+		storage.push('> require file', resolvedPath, '>>');
 		let data = cached(resolvedPath, true);
 		if (data.changed) {
 			delete require.cache[resolvedPath];
 		}
 
-		storage.push('> require file', resolvedPath, '>>');
 		storage.push(chalk.gray(data.changed ? '√ file changed' : '! file not changed'), false, '>');
 		storage.indent('<<<');
 		return require(resolvedPath);

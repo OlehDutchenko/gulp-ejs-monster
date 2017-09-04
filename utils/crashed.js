@@ -89,7 +89,27 @@ function crashed (error, storage, renderOptions) {
 			try {
 				esprima.parseScript(fileContent);
 			} catch (err) {
-				messages.push('\n>>> esprima report:', chalk.gray(itemPath), chalk.white(err.toString()));
+				messages.push(
+					'\n>>> esprima report:',
+					chalk.gray(itemPath),
+					chalk.white(err.toString())
+				);
+			}
+		}
+
+		// json-lint test
+		if (/\.json$/.test(itemPath)) {
+			let JSONLint = require('json-lint');
+			let lint = JSONLint(fileContent);
+
+			if (lint.error) {
+				messages.push(
+					'\n>>> json-lint report:',
+					chalk.gray(itemPath),
+					chalk.white(lint.error),
+					chalk.white(`Line ${lint.line}`),
+					chalk.white(`Character ${lint.character}`)
+				);
 			}
 		}
 	});

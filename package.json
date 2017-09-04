@@ -35,6 +35,7 @@
     "gulp-not-supported-file": "^1.2.0",
     "gulp-util": "^3.0.8",
     "js-beautify": "^1.6.14",
+    "json-lint": "^0.1.0",
     "lodash": "^4.5.0",
     "through2": "^2.0.3"
   },

@@ -18,12 +18,14 @@
 
 ## Содержание
 
+1. [Блогодарность](#Блогодарность)
 1. [Для чего был создан этот плагин?](#Для-чего-был-создан-этот-плагин)
 1. [Пример использования плагина](#Пример-использования-плагина)
 1. [gulpEjsMonster()](#gulpejsmonster)
 	- [Свойства плагина](#Свойства-плагина)
 	- [Методы плагина](#Методы-плагина)
 	- [Параметры плагина](#Параметры-плагина)
+	- [Отчеты о ошибках рендера](#Отчеты-о-ошибках-рендера)
 1. [locals API](#locals-api)
 	- [Свойства](#Свойства)
 	- [Методы](#Методы)
@@ -31,9 +33,19 @@
 
 ---
 
+## Блогодарность
+
+Прежде всего хотим выразит благодарность людям которые привели нас к использованию шаблонизатора [`ejs`](https://www.npmjs.com/package/ejs) и созданию на его основе `gulp-ejs-monster`
+
+- [Matthew Eernisse (mde)](https://github.com/mde) - за создание и поддержку [`ejs`](https://github.com/mde/ejs)(http://ejs.co), а также сообщество `ejs`, которое ему в этом помогает )))
+- [Tom Carden (RandomEtc)](https://github.com/RandomEtc) - за создание проекта [`ejs-locals`](https://github.com/RandomEtc/ejs-locals), с которого мы взали идею реализации `gulp-ejs-monster`
+- [Ryan Zimmerman (RyanZim)](https://github.com/RyanZim) - за создание [`EJS-Lint`](https://github.com/RyanZim/EJS-Lint)
+- [Ariya Hidayat (ariya)](https://github.com/ariya) -   [`jquery/esprima`](https://github.com/jquery/esprima)
+- [Corey Hart (codenothing)](https://github.com/codenothing) -   [`jsonlint`](https://github.com/codenothing/jsonlint)
+
 ## Для чего был создан этот плагин?
 
-[`ejs`](https://www.npmjs.com/package/ejs) - это универсальный шаблонизатор, который позволяет создавать любую разметку, любой сложности. Чем лучше Ваше познания JavaScript - тем больше перед Вами открывается возможностей с ejs.
+[`ejs`](https://www.npmjs.com/package/ejs)(http://ejs.co) - это универсальный шаблонизатор, который позволяет создавать любую разметку, любой сложности. Чем лучше Ваше познания JavaScript - тем больше перед Вами открывается возможностей с ejs.
 
 Уже существует много других плагинов для `ejs`. Но мы также решили создать свой, как надстройку к шаблонизатору + прокачав его небольшим набором "стероидов" ))).
 
@@ -218,7 +230,7 @@ h1{color:red}
 
 ### Методы плагина
 
-#### `gulpEjsMonster.preventCrash`
+#### `gulpEjsMonster.preventCrash()`
 
 Метод который при ошибке вызовет событие `end` чтобы предотвратить _"падение"_ текущего процесса `gulp` задачи. 
 
@@ -440,6 +452,60 @@ gulp.task('ejs-watch', function() {
 });
 
 ```
+
+### Отчеты о ошибках рендера
+
+Мы также сделали упор на вывод максимальных отчетов о ошибках которые могут возникнуть при рендере страниц, чтобы Вы могли понять что погло не так
+
+При сбое Вы будете получать группу отчетов:
+
+#### render history
+
+История рендер текущей страницы, при помоще которой вы сможете отследить последовательность действий плагина
+
+```bash
+Render history:
+Start
+render view - C:\Wezom\NodeModules\gulp-ejs-monster\examples\src\index.ejs
+    > set layout - C:\Wezom\NodeModules\gulp-ejs-monster\examples\src\_layouts\base.ejs
+    > render widget - C:\Wezom\NodeModules\gulp-ejs-monster\examples\src\_widgets\demo.ejs
+      caching new file content
+      √ file changed
+      ! render file content
+    > render widget - C:\Wezom\NodeModules\gulp-ejs-monster\examples\src\_widgets\demo.ejs
+      getting file content from cache
+      ! file not changed
+      ! render file content
+    > require node module "lodash"
+      caching new file content
+    > require file - C:\Wezom\NodeModules\gulp-ejs-monster\examples\src\_requires\data.js
+      √ file changed
+      caching new file content
+    > require file - C:\Wezom\NodeModules\gulp-ejs-monster\examples\src\_requires\component.js
+        → CRASH...
+```
+
+#### ejs report
+
+Родной `ejs` отчет о найденной ошибке
+
+> Наявность следующих отчетов будет зависить от самой ошибки и файла в котором она произошла
+
+#### fs report
+
+Если файл, к которому вы обращались, не был найден
+
+#### ejs-lint report
+
+Если ошибка в `*.ejs` файле - будет проведен линтинг плагином [`EJS-Lint`](https://github.com/RyanZim/EJS-Lint), для выявления возможных ошибок
+
+#### esprima report
+
+Если ошибка в `*.js` файле - будет проведен анализ плагином [`esprima`](https://github.com/jquery/esprima), для выявления возможных ошибок
+
+#### json-lint report
+
+Если ошибка в `*.json` файле - будет проведен линтинг плагином [`json-lint`](https://github.com/codenothing/jsonlint), для выявления возможных ошибок
 
 
 ---
