@@ -1,0 +1,25 @@
+<%- locals.setLayout('base.ejs') %>
+<h1>Index view</h1>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda dolore est ex facilis fuga laboriosam molestiae nihil perspiciatis porro quam quidem reiciendis repellendus repudiandae sint tempora ullam ut, vitae voluptates.</p>
+
+<%- locals.widget('demo.ejs') %>
+<%- locals.widget('demo.ejs', {widgetName: 'Custom'}) %>
+
+<%
+	let lodash = locals.requireNodeModule('lodash');
+	console.log(lodash.isPlainObject({}));
+
+	let data = locals.require('data.js');
+	console.log(data);
+
+	let list = locals.require('list.json');
+	console.log(list);
+
+	let component = locals.require('component.js').bind(locals);
+	component();
+%>
+
+<style><%- locals.include('style.css') %></style>
+
+<hr>

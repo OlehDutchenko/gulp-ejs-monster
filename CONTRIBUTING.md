@@ -1,13 +1,21 @@
 # Contributing Guidelines
 
 :back: [README.md](./README.md)
+|
+:us: English
+|
+:ru: [Русский язык](./CONTRIBUTING-RU.md)
 
 Contributions welcome!
 
 **Before spending lots of time on something, ask for feedback on your idea first!**
 
-Please search issues and pull requests before adding something new to avoid duplicating
+Please search [issues](https://github.com/dutchenkoOleg/gulp-ejs-monster/issues) and [pull requests](https://github.com/dutchenkoOleg/gulp-ejs-monster/pulls) before adding something new to avoid duplicating
 efforts and conversations.
+
+Also, you should read the [Change log](./CHANGELOG.md) and the [Contributor Covenant Code of Conduct](./CODE_OF_CONDUCT.md).
+
+---
 
 This project welcomes non-code contributions, too! The following types of contributions
 are welcome:
@@ -17,24 +25,9 @@ are welcome:
 - **Copy editing**: fix typos, clarify language, and improve the quality of the docs.
 - **Formatting**: help keep docs easy to read with consistent formatting.
 
-## Javascript Code Style
-
-[![happiness][happiness-image]][happiness-url]
-
-This repository uses [`happiness`][happiness-url] to maintain code style and consistency,
-and to avoid style arguments.  
- ***So you also need to follow this code styles!*** 
- 
- Run `npm test` for check outs.
-
-[happiness-image]: https://cdn.rawgit.com/JedWatson/happiness/master/badge.svg
-[happiness-url]: https://github.com/JedWatson/happiness
-
 ## Project Governance
 
-Individuals making significant and valuable contributions are given commit-access to the
-project to contribute as they see fit. This project is more like an open wiki than a
-happiness guarded open source project.
+Individuals making significant and valuable contributions are given commit-access to the project to contribute as they see fit.
 
 ### Rules
 
@@ -47,11 +40,24 @@ There are a few basic ground-rules for contributors:
 4. **Pull requests** are *encouraged* for all contributions to solicit feedback, but left to
    the discretion of the contributor.
 
-### Releases
+#### Javascript Code Style
+
+[![happiness][happiness-image]][happiness-url]
+
+This repository uses [`happiness`][happiness-url] to maintain code style and consistency,
+and to avoid style arguments.  
+ ***So you also need to follow this code styles!*** 
+ 
+ Run `npm run happiness` for check outs.
+
+[happiness-image]: https://cdn.rawgit.com/JedWatson/happiness/master/badge.svg
+[happiness-url]: https://github.com/JedWatson/happiness
+
+#### Releases
 
 Declaring formal releases remains the prerogative of the project maintainer.
 
-### Changes to this arrangement
+#### Changes to this arrangement
 
 This is an experiment and feedback is welcome! This document may also be subject to pull-
 requests or changes by contributors where you believe you have something valuable to add
