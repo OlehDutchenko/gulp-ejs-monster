@@ -3,7 +3,7 @@
 ![npm](https://img.shields.io/badge/node-6.3.1-yellow.svg)
 ![es2015](https://img.shields.io/badge/ECMAScript-2015_(ES6)-blue.svg)
 ![license](https://img.shields.io/badge/License-MIT-orange.svg)
-[![Build Status](https://travis-ci.org/dutchenkoOleg/gulp-ejs-monster.svg?branch=v3)](https://travis-ci.org/dutchenkoOleg/gulp-ejs-monster)
+[![Build Status](https://travis-ci.org/dutchenkoOleg/gulp-ejs-monster.svg?branch=master)](https://travis-ci.org/dutchenkoOleg/gulp-ejs-monster)
 
 
 :us: [English](./README.md)
