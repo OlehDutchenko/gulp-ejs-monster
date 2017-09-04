@@ -12,12 +12,234 @@
 
 [![js happiness style](https://cdn.rawgit.com/JedWatson/happiness/master/badge.svg)](https://github.com/JedWatson/happiness)
 
+---
+
+## Для чего был создан этот плагин?
+
+[`ejs`](https://www.npmjs.com/package/ejs) - это универсальный шаблонизатор, который позволяет создавать любую разметку, любой сложности. Чем лучше Ваше познания JavaScript - тем больше перед Вами открывается возможностей с ejs.
+
+Уже существует много других плагинов для `ejs`. Но мы также решили создать свой, как надстройку к шаблонизатору + прокачав его небольшим набором "стероидов" ))).
+
+Также, основной упор плагина `gulp-ejs-monster` - был сделан на оптимизацию и скорость рендера.
+
+По умолчанию `ejs` использует JavaScript конструкцию [`with (expression)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with) для добавления области видимости - это дает свои преимущества для работы с шаблонизатором, но имеет свою цену - скорость поиска переменных увеличивается - что скозывается на скорости рендера страниц. Это особенно заметно на больших проектах.
+
+Поэтому `gulp-ejs-monster` принудительно отключает родные параметры `ejs` для того чтобы работать в строгом режиме. Что дает значительный прирост к скорости рендера.
+
+Список константных значений от `gulp-ejs-monster` для `ejs`:
+
+```json
+{
+    "strict": true,
+    "_with": false,
+    "debug": false,
+    "rmWhitespace": false,
+    "client": false
+}
+```
+
+Такой подход, также имеет свою цену - теперь для работы Вам доступен только один глобальный, без всяких "проксируемых" свойств (которые раньше имитировала конструкция `with`). 
+
+
+> Если этот подход к работе с `ejs` шаблонизатором Вас не устраивает, Вы можете не читать дальше и не создавать запросов, так менять его мы не намерены )))
+
+## Как его использовать
+
+### Установка
+
+```bash
+npm i --save-dev gulp-ejs-monster
+# or yarn cli
+yarn add --dev gulp-ejs-monster
+```
+
+### Gulp задача
+
+```js
+const gulp = require('gulp');
+const gulpEjsMonster = require('gulp-ejs-monster');
+
+gulp.task('ejs', function() {
+    return gulp.src('./src/ejs/*.ejs')
+        .pipe(gulpEjsMonster({/* plugin options */}))
+        .pipe(gulp.dest('./dist/'));
+});
+```
+
+### EJS разметка
+
+Пример структуры проекта
+
+```js
+ejs/
+    layouts/
+        base.ejs
+    widgets/
+        news-list.ejs
+    includes/
+        critical.css
+    requires/
+        news-list.json
+    index.ejs
+    news.ejs    
+```
+
+#### Лейауты
+
+###### layouts/base.ejs
+
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title><%- locals.blocks.title %></title>
+        <style><%- locals.include('includes/critical.css') %></style>
+    </head>
+    <body>
+        <%- locals.blocks.header %>
+        <%- locals.body %>
+    </body>
+</html>
+```
+
+#### Страницы рендера
+
+###### index.ejs
+
+```html
+<% locals.setLayout('layouts/base.ejs') -%>
+<% locals.block('title', 'Index view') -%>
+
+<h1>Index view</h1>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+<hr>
+```
+
+###### news.ejs
+
+```html
+<% locals.setLayout('layouts/base.ejs') -%>
+<% locals.block('title', 'Last News') -%>
+<% let newsList = locals.require('requires/news-list.json') -%>
+
+<h1>Last News</h1>
+<%- locals.widget('widgets/news-list.ejs', {list: newsList}) %>
+<hr>
+```
+
+#### Исполняемые файлы
+
+###### requires/news-list.json
+
+```json
+[
+    {
+        "title": "News title 1",
+        "description": "Lorem ipsum dolor sit ....",
+        "href": "news-page.html"
+    }, {
+        "title": "News title 2",
+        "description": "Lorem ipsum dolor sit ....",
+        "href": "news-page.html"
+    }, {
+        "title": "News title 3",
+        "description": "Lorem ipsum dolor sit ....",
+        "href": "news-page.html"
+    }
+]
+```
+
+#### Текстовые файлы
+
+###### includes/critical.css
+
+```css
+html{font-family:sans-serif}
+body{margin:0}
+h1{color:red}
+```
+
+#### Widgets
+
+###### widgets/news-list.ejs
+
+```html
+<%
+	let {
+		list = []
+	} = locals.entry;
+	
+	if (!list.length) {
+		return  'No news yet :((';
+	}
+-%>
+<ul class="news-list">
+	<% list.forEach(item => { -%>
+		<li class="news-list__item">
+			<div class="news-item">
+				<div class="news-item__title"><%- item.title %></div>
+				<div class="news-item__description">
+					<p><%- item.description %></p>
+					<p><a href="<%- item.href %>">Read more</a></p>
+				</div>
+			</div>
+		</li>
+	<% }); -%>
+</ul>
+```
 
 ---
 
-## Параметры
+## Свойства плагина
 
-### `layouts` 
+#### `gulpEjsMonster.pluginName`
+
+Имя плагина.
+
+## Методы плагина
+
+#### `gulpEjsMonster.preventCrash`
+
+Метод который при ошибке вызовет событие `end` чтобы предотвратить _"падение"_ текущего процесса `gulp` задачи. 
+
+###### Пример использования
+
+```js
+const gulp = require('gulp');
+const gulpEjsMonster = require('gulp-ejs-monster');
+
+gulp.task('ejs', function() {
+    return gulp.src('./src/ejs/*.ejs')
+        .pipe(gulpEjsMonster({/* plugin options */}).on('error', gulpEjsMonster.preventCrash))
+        .pipe(gulp.dest('./dist/'));
+});
+```
+
+## Параметры плагина
+
+Небольшой совет - чтобы ускорить переработку и подготовку параметров плагина - используйте созданый объект с сохранением в переменную, которую потом Вы сможете указвать при вызове.  
+В таком случае, за счет сохранения ссылок на внешний объект, параметры не будут пере-подготавливаться. А также появляется возможность сохранения полученных данных (в объекте `locals`) с предыдущей страницы рендера в последующих.
+
+###### Пример использования
+
+```js
+const gulp = require('gulp');
+const gulpEjsMonster = require('gulp-ejs-monster');
+
+const options = {/* plugin options */};
+ // save as variable
+
+gulp.task('ejs', function() {
+    return gulp.src('./src/ejs/*.ejs')
+        .pipe(gulpEjsMonster(options).on('error', gulpEjsMonster.preventCrash))
+        .pipe(gulp.dest('./dist/'));
+});
+```
+
+Далее Вы можете ознакомится со списком всех доступных параметров.
+
+#### `layouts` 
 
 _тип данных_ `string`
 |
@@ -25,7 +247,7 @@ _по умолчанию_ `process.cwd()`
 
 Относительный путь от текущей рабочей директории к директории с лейаутами.
 
-### `widgets` 
+#### `widgets` 
 
 _тип данных_ `string`
 |
@@ -33,7 +255,7 @@ _по умолчанию_ `process.cwd()`
 
 Относительный путь от текущей рабочей директории к директории с виджетами.
 
-### `requires` 
+#### `requires` 
 
 _тип данных_ `string`
 |
@@ -41,7 +263,7 @@ _по умолчанию_ `process.cwd()`
 
 Относительный путь от текущей рабочей директории к директории с js/json файлами, которые Вы сможете подключать как исполняемые файлы, используя експорт CommonJS Модулей.
 
-### `includes` 
+#### `includes` 
 
 _тип данных_ `string`
 |
@@ -49,7 +271,7 @@ _по умолчанию_ `process.cwd()`
 
 Относительный путь от текущей рабочей директории к директории c любыми текстовыми файлами, с которых Вы сможете подключать тектовый контент как есть.
 
-### `extname` 
+#### `extname` 
 
 _тип данных_ `string`
 |
@@ -58,7 +280,7 @@ _по умолчанию_ `'.html'`
 Расширение итоговых файлов рендера.  
 Разрешается не указывать . (точку) в начале значения, пример `'php' => '.php'`
 
-### `delimiter` 
+#### `delimiter` 
 
 _тип данных_ `string` 
 |
@@ -69,7 +291,7 @@ _допустимые значения_ `['%', '&', '$', '?']`
 Символ для использования с угловыми скобками для открытия / закрытия.  
 Если указаннное свойство не соответствует допустимому - будет утановлено значение по умолчанию! 
 
-### `localsName`
+#### `localsName`
 
 _тип данных_ `string` 
 |
@@ -78,7 +300,7 @@ _по умолчанию_ `'locals'`
 Имя, которое будет использоваться для объекта, хранящего локальные переменные. Вы можете заменить это значение на свое и в дальнейшем использовать его внутри шаблонизатора.   
 Соответствено значение должно иметь корректное имя JavaScript переменной!
 
-### `locals`
+#### `locals`
 
 _тип данных_ `Object` 
 |
@@ -88,7 +310,7 @@ _по умолчанию_ `{}`
 
 Важно знать, что плагин уже имеет определенный набор свойств и методов, которые будут добавлены к этому объекту. Поэтому чтобы не было конфликтов и перезаписей - ознакомтесь с [locals API](#locals-api).
 
-### `compileDebug`
+#### `compileDebug`
 
 _тип данных_ `boolean` 
 |
@@ -105,7 +327,7 @@ _по умолчанию_ `false`
 > повторного прохода, при котором, к примеру уже могут быть переопределены какие-то значение и тд.  
 > Если это происходит - запустите сразу задачу с включенным параметром `compileDebug` 
 
-### `showHistory`
+#### `showHistory`
 
 _тип данных_ `boolean` 
 |
@@ -113,7 +335,7 @@ _по умолчанию_ `false`
 
 Выводит историю рендера после завершения работы с каждой страницей.
 
-### `escape`
+#### `escape`
 
 _тип данных_ `function` 
 |
@@ -127,7 +349,7 @@ Name | Type | Description
 
 Собственная функция экранирования, используемая с конструкцией `<%=`, которая должна возвращать строку.
 
-### `afterRender`
+#### `afterRender`
 
 _тип данных_ `function` 
 |
@@ -141,28 +363,27 @@ Name | Type | Description
 --- | --- | ---
 `markup` | `string` | Итоговая разметка страницы
 `file` | `Object` | Текущий файл рендера
-`sources` | `Array.<string>` | Пути всех подключенных файлов в процессе ренедра текущего файла, включая путь к текущей странице (первый в списке)
+`sources` | `Array.<string>` | Пути всех подключенных файлов в процессе рендера текущего файла, включая путь к текущей странице (первый в списке)
 
-###### Модификация разметки
 
-Используя метод `afterRender` Вы можете изменить разметку, к примеру отформатировать при помощи [`js-beautify`](https://github.com/beautify-web/js-beautify) и вернуть новый результат использая `return`.
+Используя метод `afterRender` Вы можете изменить разметку, к примеру отформатировать при помощи [`js-beautify`](https://github.com/beautify-web/js-beautify) и вернуть новый результат использая `return` или использовать метод для установки вотчей на зависимости для каждой страницы отдельно.
 
 ###### Пример форматирования разметки
 
 ```js
 const gulp = require('gulp');
-const ejsMonster = require('gulp-ejs-monster');
+const gulpEjsMonster = require('gulp-ejs-monster');
 const jsBeautify = require('js-beautify').html;
 
 const options = {
     afterRender (markup) {
         return jsBeautify.html(markup, /* jsBeautify options */);
     }
-}
+};
 
 gulp.task('ejs', function() {
     return gulp.src('./src/ejs/*.ejs')
-        .pipe(ejsMonster(options))
+        .pipe(gulpEjsMonster(options).on('error', gulpEjsMonster.preventCrash))
         .pipe(gulp.dest('./dist/'));
 });
 ```
@@ -170,11 +391,11 @@ gulp.task('ejs', function() {
 ###### Пример установки вотчей на зависимые файлы
 
 ```js
-const gulp = require('gulp'); // gulp#4.x
-const ejsMonster = require('gulp-ejs-monster');
-const watchAndTouch = require('watch-and-touche');
+const gulp = require('gulp');
+const gulpEjsMonster = require('gulp-ejs-monster');
+const gulpWatchAndTouch = require('gulp-watch-and-touch');
 
-const ejsFileWatcher = watchAndTouch(gulp);
+const ejsFileWatcher = gulpWatchAndTouch(gulp);
 const watchTask = true;
 
 const options = {
@@ -182,16 +403,16 @@ const options = {
         if (watchTask) {
             let filePath = sources.shift(); // remove path of current view
             let newImports = ejsFileWatcher(filePath, filePath, sources);
-            if (newImports && argv.flags.verbose) {
+            if (newImports) {
                 console.log(`${file.stem} has new imports`);
             }
         }
     }
-}
+};
 
 gulp.task('ejs', function() {
     return gulp.src('./src/ejs/*.ejs')
-        .pipe(ejsMonster(options).on('error', ejsMonster.preventCrash))
+        .pipe(gulpEjsMonster(options).on('error', gulpEjsMonster.preventCrash))
         .pipe(gulp.dest('./dist/'));
 });
 
@@ -217,7 +438,7 @@ _тип данных_ `string`
 
 ###### Пример использования
 
-```markup
+```html
 <!-- view index.ejs -->
 <% locals.setLayout('base.ejs') %>
 
@@ -225,7 +446,7 @@ _тип данных_ `string`
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 ```
 
-```markup
+```html
 <!-- layout base.ejs -->
 <!doctype html>
 <html lang="en">
@@ -248,21 +469,21 @@ _тип данных_ `Object`
 
 ###### Пример использования
 
-```markup
+```html
 <!-- view index.ejs -->
 <% locals.setLayout('base.ejs') %>
 <% locals.block('title', 'Index view') %>
 <% locals.block('header', '<h1>Index view header</h1>') %>
 ```
 
-```markup
+```html
 <!-- view news.ejs -->
 <% locals.setLayout('base.ejs') %>
 <% locals.block('title', 'Last News') %>
 <% locals.block('header', '<h1>News view header</h1>') %>
 ```
 
-```markup
+```html
 <!-- layout base.ejs -->
 <!doctype html>
 <html lang="en">
@@ -286,13 +507,13 @@ _тип данных_ `Object`
  
 ###### Пример использования
 
-```markup
+```html
 <!-- view index.ejs -->
 <%- locals.widget('test.ejs') %>
 <%- locals.widget('test.ejs', {title: 'Custom title'}) %>
 ```
 
-```markup
+```html
 <!-- widget test.ejs -->
 <% let title = locals.entry.title || 'Default title'; %>
 <h1><%- title) %></h1>
@@ -300,7 +521,7 @@ _тип данных_ `Object`
 
 ###### Пример с используванием деструктуризации es6
 
-```markup
+```html
 <!-- widget test.ejs -->
 <% let {title = 'Default title'} = locals.entry; %>
 <h1><%- title) %></h1>
@@ -370,7 +591,7 @@ _Кеширование результата рендера_ позволит з
 
 ###### Пример использования
 
-```markup
+```html
 <!-- cache at first render -->
 <%- locals.widget('big-rendering-markup.ejs', {/*data*/}, true) %>
 
@@ -505,7 +726,7 @@ Name | Type | Attributes | Default | Description
 
 ###### Пример использования
 
-```markup
+```html
 <!-- include css file -->
 <style><%- locals.include('critical.css') %></style>
 ```
@@ -568,7 +789,7 @@ function extendLocals (locals) {
 module.exports = extendLocals;
 ```
 
-```md
+```markdown
 # icludes/about-us.md
 
 [Markdown-Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
@@ -590,7 +811,7 @@ Alt-H2
 
 ```
 
-```markup
+```html
 <!-- view index.ejs -->
 <% locals.setLayout('base.ejs'); -%>
 <% locals.require('extend-locals.js')(locals); -%>
