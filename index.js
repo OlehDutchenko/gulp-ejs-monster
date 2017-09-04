@@ -13,7 +13,6 @@
 // ----------------------------------------
 
 // modules
-const path = require('path');
 const ejs = require('ejs');
 const chalk = require('chalk');
 const lodash = require('lodash');
@@ -166,14 +165,6 @@ function gulpEjsMonster (opts = {}) {
 					delete data.layout;
 
 					return renderFile(layoutPath);
-				}
-
-				// format markup
-				if (options.beautify) {
-					let beautifyPath = path.join(__dirname, './utils/beautify');
-					let beautify = require(beautifyPath);
-
-					markup = beautify(markup);
 				}
 
 				// after render

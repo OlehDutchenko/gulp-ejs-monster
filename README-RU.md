@@ -17,7 +17,7 @@
 
 ## Параметры
 
-#### `layouts` 
+### `layouts` 
 
 _тип данных_ `string`
 |
@@ -25,7 +25,7 @@ _по умолчанию_ `process.cwd()`
 
 Относительный путь от текущей рабочей директории к директории с лейаутами.
 
-#### `widgets` 
+### `widgets` 
 
 _тип данных_ `string`
 |
@@ -33,7 +33,7 @@ _по умолчанию_ `process.cwd()`
 
 Относительный путь от текущей рабочей директории к директории с виджетами.
 
-#### `requires` 
+### `requires` 
 
 _тип данных_ `string`
 |
@@ -41,7 +41,7 @@ _по умолчанию_ `process.cwd()`
 
 Относительный путь от текущей рабочей директории к директории с js/json файлами, которые Вы сможете подключать как исполняемые файлы, используя експорт CommonJS Модулей.
 
-#### `includes` 
+### `includes` 
 
 _тип данных_ `string`
 |
@@ -49,7 +49,7 @@ _по умолчанию_ `process.cwd()`
 
 Относительный путь от текущей рабочей директории к директории c любыми текстовыми файлами, с которых Вы сможете подключать тектовый контент как есть.
 
-#### `extname` 
+### `extname` 
 
 _тип данных_ `string`
 |
@@ -58,7 +58,7 @@ _по умолчанию_ `'.html'`
 Расширение итоговых файлов рендера.  
 Разрешается не указывать . (точку) в начале значения, пример `'php' => '.php'`
 
-#### `delimiter` 
+### `delimiter` 
 
 _тип данных_ `string` 
 |
@@ -69,7 +69,7 @@ _допустимые значения_ `['%', '&', '$', '?']`
 Символ для использования с угловыми скобками для открытия / закрытия.  
 Если указаннное свойство не соответствует допустимому - будет утановлено значение по умолчанию! 
 
-#### `localsName`
+### `localsName`
 
 _тип данных_ `string` 
 |
@@ -78,7 +78,7 @@ _по умолчанию_ `'locals'`
 Имя, которое будет использоваться для объекта, хранящего локальные переменные. Вы можете заменить это значение на свое и в дальнейшем использовать его внутри шаблонизатора.   
 Соответствено значение должно иметь корректное имя JavaScript переменной!
 
-#### `locals`
+### `locals`
 
 _тип данных_ `Object` 
 |
@@ -88,7 +88,7 @@ _по умолчанию_ `{}`
 
 Важно знать, что плагин уже имеет определенный набор свойств и методов, которые будут добавлены к этому объекту. Поэтому чтобы не было конфликтов и перезаписей - ознакомтесь с [locals API](#locals-api).
 
-#### `compileDebug`
+### `compileDebug`
 
 _тип данных_ `boolean` 
 |
@@ -105,7 +105,7 @@ _по умолчанию_ `false`
 > повторного прохода, при котором, к примеру уже могут быть переопределены какие-то значение и тд.  
 > Если это происходит - запустите сразу задачу с включенным параметром `compileDebug` 
 
-#### `showHistory`
+### `showHistory`
 
 _тип данных_ `boolean` 
 |
@@ -113,14 +113,93 @@ _по умолчанию_ `false`
 
 Выводит историю рендера после завершения работы с каждой страницей.
 
-#### `escape`
+### `escape`
 
 _тип данных_ `function` 
 |
 _по умолчанию_ `undefined`
 
-Собственная функция экранирования, используемая с конструкцией `<%=`
+###### Параметры
 
+Name | Type | Description
+--- | --- | ---
+`markup` | `string` | Разметка внутри конструкции
+
+Собственная функция экранирования, используемая с конструкцией `<%=`, которая должна возвращать строку.
+
+### `afterRender`
+
+_тип данных_ `function` 
+|
+_по умолчанию_ `undefined`
+
+Метод который будет вызван после рендера страницы с ее лейаутами.
+
+###### Параметры
+
+Name | Type | Description
+--- | --- | ---
+`markup` | `string` | Итоговая разметка страницы
+`file` | `Object` | Текущий файл рендера
+`sources` | `Array.<string>` | Пути всех подключенных файлов в процессе ренедра текущего файла, включая путь к текущей странице (первый в списке)
+
+###### Модификация разметки
+
+Используя метод `afterRender` Вы можете изменить разметку, к примеру отформатировать при помощи [`js-beautify`](https://github.com/beautify-web/js-beautify) и вернуть новый результат использая `return`.
+
+###### Пример форматирования разметки
+
+```js
+const gulp = require('gulp');
+const ejsMonster = require('gulp-ejs-monster');
+const jsBeautify = require('js-beautify').html;
+
+const options = {
+    afterRender (markup) {
+        return jsBeautify.html(markup, /* jsBeautify options */);
+    }
+}
+
+gulp.task('ejs', function() {
+    return gulp.src('./src/ejs/*.ejs')
+        .pipe(ejsMonster(options))
+        .pipe(gulp.dest('./dist/'));
+});
+```
+
+###### Пример установки вотчей на зависимые файлы
+
+```js
+const gulp = require('gulp'); // gulp#4.x
+const ejsMonster = require('gulp-ejs-monster');
+const watchAndTouch = require('watch-and-touche');
+
+const ejsFileWatcher = watchAndTouch(gulp);
+const watchTask = true;
+
+const options = {
+    afterRender (markup, file, sources) {
+        if (watchTask) {
+            let filePath = sources.shift(); // remove path of current view
+            let newImports = ejsFileWatcher(filePath, filePath, sources);
+            if (newImports && argv.flags.verbose) {
+                console.log(`${file.stem} has new imports`);
+            }
+        }
+    }
+}
+
+gulp.task('ejs', function() {
+    return gulp.src('./src/ejs/*.ejs')
+        .pipe(ejsMonster(options).on('error', ejsMonster.preventCrash))
+        .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('ejs-watch', function() {
+    gulp.watch('./src/ejs/*.ejs', gulp.series('ejs')); // gulp#4.x
+});
+
+```
 
 
 ---
@@ -480,7 +559,8 @@ function extendLocals (locals) {
         locals.com = {};
     }
   
-    locals.com.md2html = locals.require('components/md2html.js')(locals);
+    locals.com.md2html = locals.com.md2html || locals.require('components/md2html.js')(locals);
+
     // set other components inside render
     // ...
 }
@@ -516,7 +596,7 @@ Alt-H2
 <% locals.require('extend-locals.js')(locals); -%>
 <div class="container">
     <article class="wysiwyg">
-        <%- locals.com.md2html('about-us.md'); %>
+        <%- locals.com.md2html('about-us.md') %>
     </article>
 </div>
 ```
@@ -553,7 +633,9 @@ Name | Type | Attributes | Default | Description
 ...
 <% locals.block(headers, '<h1>Lorem</h1>', 'prepend') %>
 
-// => ['<h1>Lorem</h1>', '<h2>Ipsum</h2>', '<h3>Dolor</h3>'].join('\n');
+...
+
+<%- locals.blocks.header %> // => ['<h1>Lorem</h1>', '<h2>Ipsum</h2>', '<h3>Dolor</h3>'].join('\n');
 ```
 
 ---
