@@ -24,7 +24,7 @@ const params = require('./params');
 // Private
 // ----------------------------------------
 
-const ejsLintRegExp = /(If the above error is not helpful, you may want to try EJS-Lint:)(.|\n)*(https:\/\/github\.com\/RyanZim\/EJS\-Lint)/;
+const ejsLintRegExp = /(If the above error is not helpful, you may want to try EJS-Lint:)(.|\n)*(https:\/\/github\.com\/RyanZim\/EJS-Lint)/;
 const filenameRegExp = new RegExp(`(\\s+\\d+\\|\\s${params.newline})(.+)`, 'g');
 const filenameRegExpIn = new RegExp(params.newline, 'g');
 
