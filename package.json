@@ -1,6 +1,6 @@
 {
   "name": "gulp-ejs-monster",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Gulp plugin for ejs with steroids",
   "main": "index.js",
   "scripts": {

@@ -11,7 +11,13 @@
 
 ---
 
-## 3.0.2
+## 3.0.4 [2017-09-04]
+
+Fix typo
+
+---
+
+## 3.0.2 [2017-09-04]
 
 New version has full new work with backward incompatibility with the previous version. If You looking for previous version use `npm install gulp-ejs-monster@0.x`  
 

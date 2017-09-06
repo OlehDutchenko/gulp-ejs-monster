@@ -70,7 +70,7 @@ List of constant values from `gulp-ejs-monster` for `ejs`:
 This approach also has its price - now only one global object is available for you, without any "proxy" properties (which the `with` design used to imitate).
 
 
-> If this approach to working with template templates `ejs` does not suit you, you can not read further and do not create pulls, since we do not intend to change it)))
+> If this approach to working with template engine `ejs` does not suit you, you can not read further and do not create pulls, since we do not intend to change it)))
 
 ## Example of using the plugin
 
@@ -806,7 +806,7 @@ Name | Type | Attributes | Default | Description
 - _data type_: `Object`
 - _description_: The object has a set of properties
 	- `fileChanged` - flag, if the file is changed.
-	- `mtime` - The date of the last modification of the file, if caching is disabled - is always equal to `1`
+	- `mtime` - The date of the last modification of the file
 	- `content` - the content of the file
 	- `toString()` - own method of casting to a string that returns `this.content`, so if you execute the method in the context of the insertion in the markup - the result will immediately be the content of the file.
 
