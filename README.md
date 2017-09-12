@@ -635,7 +635,7 @@ Regardless of the current widget, the include, layout and so on.
 _data type_ `boolean` 
 
 Flag, whether the file changed after the last access to it.  
-The property is available inside the widgets and for the connected files. On the main render pages and their layouts, the property is also available, but for them it will always be `true`.
+The property is available inside the widgets. On the main render pages and their layouts, the property is also available, but for them it will always be `true`.
 
 ### Methods
 
@@ -805,7 +805,7 @@ Name | Type | Attributes | Default | Description
 
 - _data type_: `Object`
 - _description_: The object has a set of properties
-	- `fileChanged` - flag, if the file is changed.
+	- `changed` - flag, if the file is changed.
 	- `mtime` - The date of the last modification of the file
 	- `content` - the content of the file
 	- `toString()` - own method of casting to a string that returns `this.content`, so if you execute the method in the context of the insertion in the markup - the result will immediately be the content of the file.
@@ -844,7 +844,7 @@ function createMd2HtmlComponent (locals) {
      */
     function md2html (filePath, options = {}) {
         let mdFile = locals.include(filePath);
-        if (mdFile.fileChanged) {
+        if (mdFile.changed) {
             let markedOptions = lodash.merge({}, defaultOptions, options);
             // rewrite cached file content until it not changed
             mdFile.content =  marked(mdFile.content, markedOptions);

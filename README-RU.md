@@ -636,7 +636,7 @@ _тип данных_ `string`
 _тип данных_ `boolean` 
 
 Флаг, изменился ли файл после последнего обращения к нему.   
-Свойство доступно внутри виджетов и для подключаемых файлов. На основных страницах рендера и их лейаутах, свойство также доступно, но для них оно всегда будет равно `true`.
+Свойство доступно внутри виджетов. На основных страницах рендера и их лейаутах, свойство также доступно, но для них оно всегда будет равно `true`.
 
 ### Методы
 
@@ -806,7 +806,7 @@ Name | Type | Attributes | Default | Description
 
 - _тип_: `Object`
 - _описание_: Объект имеет набор свойств
-	- `fileChanged` - флаг, изменен ли файл
+	- `changed` - флаг, изменен ли файл
 	- `mtime` - Дата последней модификации файла
 	- `content` - Строка с контентом файла
 	- `toString()` - собственный метод приведения в строку, который возвращает `this.content`, таким образом если выполнить метод в контексте вставки в разметку - результатом будет сразу контент файла.
@@ -845,7 +845,7 @@ function createMd2HtmlComponent (locals) {
      */
     function md2html (filePath, options = {}) {
         let mdFile = locals.include(filePath);
-        if (mdFile.fileChanged) {
+        if (mdFile.changed) {
             let markedOptions = lodash.merge({}, defaultOptions, options);
             // rewrite cached file content until it not changed
             mdFile.content =  marked(mdFile.content, markedOptions);

@@ -11,6 +11,12 @@
 
 ---
 
+## 3.0.7 [2017-09-12]
+
+- Fix README description
+
+---
+
 ## 3.0.6 [2017-09-11]
 
 - Clear console logs
