@@ -79,11 +79,9 @@ function createWidgetMethod (options, storage) {
 		let markup;
 
 		if (cacheRenderResult && !data.changed && data.cachedRenderResult) {
-			console.log(8);
 			storage.push(chalk.gray('! get cached render result'));
 			markup = data.cachedRenderResult;
 		} else {
-			console.log(7);
 			storage.push(chalk.gray('! render file content'));
 			markup = ejs.render(data.content, this, lodash.merge(ejsOptions, {filename: params.newline + filePath}));
 			if (cacheRenderResult) {
@@ -91,9 +89,6 @@ function createWidgetMethod (options, storage) {
 				data.cachedRenderResult = markup;
 			}
 		}
-		console.log('++++');
-		console.log(markup);
-		console.log('-----');
 
 		// return remembered
 		this.fileChanged = fileChanged;
