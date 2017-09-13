@@ -77,7 +77,7 @@ function createBlockMethod (blocks, storage) {
  */
 createBlockMethod.clearAllBlocks = function (blocks) {
 	for (let key in blocks) {
-		delete this[key];
+		delete blocks[key];
 	}
 };
 

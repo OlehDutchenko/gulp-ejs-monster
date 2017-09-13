@@ -11,6 +11,12 @@
 
 ---
 
+## 3.0.8 [2017-09-13]
+
+- Fix `clearAllBlocks` inner method
+
+---
+
 ## 3.0.7 [2017-09-12]
 
 - Fix README description
