@@ -19,6 +19,7 @@ const lodash = require('lodash');
 const through2 = require('through2');
 const gutil = require('gulp-util');
 const notSupportedFile = require('gulp-not-supported-file');
+const rewrite = require('rewrite-ext');
 
 // data
 const pkg = require('./package.json');
@@ -183,7 +184,11 @@ function gulpEjsMonster (opts = {}) {
 
 				// change file data
 				file.contents = Buffer.from(markup);
-				file.extname = options.extname;
+				if (file.extname) {
+					file.extname = options.extname;
+				} else {
+					file.path = rewrite(file.path, options.extname);
+				}
 
 				// all done - go out
 				return cb(null, file);
