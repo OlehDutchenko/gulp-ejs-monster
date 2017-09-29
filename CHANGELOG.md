@@ -11,6 +11,12 @@
 
 ---
 
+## 3.0.9 [2017-09-29]
+
+- [fix file extname for Gulp 3](https://github.com/dutchenkoOleg/gulp-ejs-monster/pull/4)
+
+---
+
 ## 3.0.8 [2017-09-13]
 
 - Fix `clearAllBlocks` inner method
