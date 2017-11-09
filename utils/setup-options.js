@@ -135,6 +135,7 @@ function setupOptions (opts = {}) {
 	setMethods(options, 'afterRender', opts.afterRender);
 	options.extname = setExtname(opts.extname);
 	options.showHistory = !!opts.showHistory;
+	options.showHistoryOnCrash = !!opts.showHistoryOnCrash;
 	options.locals = lodash.merge({}, opts.locals);
 
 	options.__UNIQUE_KEY__ = `ui-key-${new Date().getTime()}`;

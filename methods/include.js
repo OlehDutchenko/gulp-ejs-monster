@@ -3,7 +3,7 @@
 /**
  * @module
  * @author Oleg Dutchenko <dutchenko.o.dev@gmail.com>
- * @version 1.0.0
+ * @version 3.1.0
  * @requires utils/file-cache
  */
 
@@ -35,15 +35,21 @@ function createIncludeMethod (options, storage) {
 	/**
 	 * include method
 	 * @param {string} filePath - relative path to the file, without extension
+	 * @param {string} relativeFolderPath - starts relative path from custom folder
 	 * @returns {Object}
 	 * @memberOf locals
 	 * @sourceCode
 	 */
-	function include (filePath) {
+	function include (filePath, relativeFolderPath) {
 		if (!filePath || typeof filePath !== 'string') {
 			throw new Error('include without filePath');
 		}
-		filePath = path.join(folder, filePath);
+
+		if (relativeFolderPath) {
+			filePath = path.join(relativeFolderPath, filePath);
+		} else {
+			filePath = path.join(folder, filePath);
+		}
 		storage.push('> include file', filePath, '>>');
 
 		// get data

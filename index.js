@@ -5,7 +5,7 @@
  * The project is inspired by [ejs-locals](https://github.com/RandomEtc/ejs-locals)
  * @module
  * @author Oleg Dutchenko <dutchenko.o.dev@gmail.com>
- * @version 3.0.0
+ * @version 3.1.0
  */
 
 // ----------------------------------------

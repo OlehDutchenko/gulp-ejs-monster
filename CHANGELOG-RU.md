@@ -11,6 +11,13 @@
 
 ---
 
+## 3.1.0 [2017-11-09]
+
+- Добавлен параметр для управления вывода истории рендера при ошибках [showHistoryOnCrash]()
+- Добавлен опциональный аргмент `relativeFolderPath` в методы `locals.require`, `locals.include`, `locals.widget`
+
+---
+
 ## 3.0.9 [2017-09-29]
 
 - [Небольшое исправление для gulp 3 версии, так как на выходе получали .ejs файлы](https://github.com/dutchenkoOleg/gulp-ejs-monster/pull/4)

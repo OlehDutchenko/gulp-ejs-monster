@@ -3,7 +3,7 @@
 /**
  * @module
  * @author Oleg Dutchenko <dutchenko.o.dev@gmail.com>
- * @version 3.0.0
+ * @version 3.0.9
  */
 
 // ----------------------------------------

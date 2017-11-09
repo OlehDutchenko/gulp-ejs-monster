@@ -4,7 +4,7 @@
  * Getting information about error
  * @module
  * @author Oleg Dutchenko <dutchenko.o.dev@gmail.com>
- * @version 3.0.0
+ * @version 3.1.0
  */
 
 // ----------------------------------------
@@ -55,12 +55,12 @@ function crashed (error, storage, renderOptions) {
 		errorMessage = errorMessage.replace(filenameRegExpIn, '');
 	}
 
-	let messages = [
-		'\n>>> render history:',
-		chalk.white(storage.print()),
-		'\n>>> ejs report:',
-		chalk.white(errorMessage)
-	];
+	let messages = [];
+
+	if (renderOptions.showHistoryOnCrash) {
+		messages.push('\n>>> render history:', chalk.white(storage.print()));
+	}
+	messages.push('\n>>> ejs report:', chalk.white(errorMessage));
 
 	storage.paths.forEach(itemPath => {
 		if (!fs.existsSync(itemPath)) {

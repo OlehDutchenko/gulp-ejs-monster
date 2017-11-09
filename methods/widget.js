@@ -3,7 +3,7 @@
 /**
  * @module
  * @author Oleg Dutchenko <dutchenko.o.dev@gmail.com>
- * @version 3.0.0
+ * @version 3.1.0
  */
 
 // ----------------------------------------
@@ -43,20 +43,34 @@ function createWidgetMethod (options, storage) {
 	/**
 	 * widget method
 	 * @param {string} filePath - relative path to the file, with extension
+	 * @param {string} [relativeFolderPath] - starts relative path from custom folder
 	 * @param {Object} [entry={}] - entry data for widget
 	 * @param {boolean} [cacheRenderResult] - cache render result
 	 * @returns {string} ejs rendered markup
 	 * @memberOf locals
 	 * @sourceCode
 	 */
-	function widget (filePath, entry = {}, cacheRenderResult) {
+	function widget (filePath, relativeFolderPath, entry = {}, cacheRenderResult) {
 		if (!filePath || typeof filePath !== 'string') {
 			throw new Error('widget without filePath');
 		}
 		if (!/\.ejs$/.test(filePath)) {
 			throw new Error(`widget is not a *.ejs file → "${filePath}"`);
 		}
-		filePath = path.join(folder, filePath);
+
+		if (typeof relativeFolderPath !== 'string') {
+			if (typeof entry === 'boolean') {
+				cacheRenderResult = entry;
+			}
+			entry = lodash.cloneDeep(relativeFolderPath);
+			relativeFolderPath = false;
+		}
+
+		if (relativeFolderPath) {
+			filePath = path.join(relativeFolderPath, filePath);
+		} else {
+			filePath = path.join(folder, filePath);
+		}
 		storage.push('> render widget', filePath, '>>');
 
 		// remember prev status

@@ -3,7 +3,7 @@
 /**
  * @module
  * @author Oleg Dutchenko <dutchenko.o.dev@gmail.com>
- * @version 3.0.0
+ * @version 3.1.0
  */
 
 // ----------------------------------------
@@ -35,14 +35,20 @@ function createRequireMethod (options, storage) {
 
 	/**
 	 * require method
-	 * @param {string} filePath - relative path to the file or package name
+	 * @param {string} filePath - relative path to the file
+	 * @param {string} relativeFolderPath - starts relative path from custom folder
 	 * @returns {*}
 	 * @method require
 	 * @memberOf locals
 	 * @sourceCode
 	 */
-	function requireFile (filePath) {
-		let resolvedPath = path.join(folder, filePath);
+	function requireFile (filePath, relativeFolderPath) {
+		let resolvedPath = '';
+		if (relativeFolderPath) {
+			resolvedPath = path.join(relativeFolderPath, filePath);
+		} else {
+			resolvedPath = path.join(folder, filePath);
+		}
 
 		storage.push('> require file', resolvedPath, '>>');
 		let data = cached(resolvedPath, true);
