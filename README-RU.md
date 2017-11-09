@@ -650,7 +650,7 @@ Name | Type | Description
 --- | --- | ---
 `filePath` | `string` | Путь к файлу (с расширением) относительно директории указанной в параметре [layouts](#layouts)
 
-#### locals.widget (filePath _[, entry] [, cacheRenderResult]_) → `string`
+#### locals.widget (filePath _[, relativeFolderPath] [, entry] [, cacheRenderResult]_) → `string`
 
 Подключение виджета разметки.
 
@@ -659,7 +659,8 @@ Name | Type | Description
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
 `filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [widgets](#widgets)
-`entry` | `Object` | &lt;optional> | `{}` | Входящие данные, которые передаются внутрь виджета
+`relativeFolderPath` | `string` | &lt;optional> |  | Относительный путь от которого следует подключать указанный файл, игнорируя параметр [widgets](#widgets), Если параметр не равен строке, то он воспринимается как `entry`
+`entry` | `Object` | &lt;optional> | `{}` | Входящие данные, которые передаются внутрь виджета, Если параметр `relativeFolderPath` не равен строке и третий параметр равен логическому значению, то он воспринимается как `cacheRenderResult`
 `cacheRenderResult` | `boolean` | &lt;optional> | `false` | Кешировать результат рендера разметки.
 
 ###### Возвращает
@@ -717,7 +718,7 @@ Name | Type | Description
 %>
 ```
 
-#### locals.require (filePath) → `*`
+#### locals.require (filePath _[, relativeFolderPath]_) → `*`
 
 Подключение собственных исполняемых js/json файлов с поддержкой CommonJS для экспорта.
 
@@ -726,6 +727,7 @@ Name | Type | Description
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
 `filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [requires](#requires)
+`relativeFolderPath` | `string` | &lt;optional> |  | Относительный путь от которого следует подключать указанный файл, игнорируя параметр [requires](#requires)
 
 ###### Возвращает
 
@@ -792,7 +794,7 @@ function componentWrapper (locals) {
 module.exports = componentWrapper;
 ```
 
-#### locals.include (filePath) → `Object`
+#### locals.include (filePath _[, relativeFolderPath]_) → `Object`
 
 Включает текстовый контент файла в Вашу разметку как есть.
 
@@ -801,6 +803,7 @@ module.exports = componentWrapper;
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
 `filePath` | `string` |  |  | Путь к файлу (с расширением) относительно директории указанной в параметре [includes](#includes)
+`relativeFolderPath` | `string` | &lt;optional> |  | Относительный путь от которого следует подключать указанный файл, игнорируя параметр [includes](#includes)
 
 ###### Возвращает
 

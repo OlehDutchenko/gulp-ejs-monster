@@ -649,7 +649,7 @@ Name | Type | Description
 --- | --- | ---
 `filePath` | `string` | The path to the file (with the extension) relative to the directory specified in the parameter[layouts](#layouts)
 
-#### locals.widget (filePath _[, entry] [, cacheRenderResult]_) → `string`
+#### locals.widget (filePath _[, relativeFolderPath] [, entry] [, cacheRenderResult]_) → `string`
 
 Connecting the markup widget.
 
@@ -658,7 +658,8 @@ Connecting the markup widget.
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
 `filePath` | `string` |  |  | The path to the file (with the extension) relative to the directory specified in the parameter [widgets](#widgets)
-`entry` | `Object` | &lt;optional> | `{}` | Incoming data that is passed to the widget
+`relativeFolderPath` | `string` | &lt;optional> |  | The relative path from which to connect the specified file, ignoring the [widgets](#widgets), If the parameter is not equal to a string, then it is perceived as `entry`
+`entry` | `Object` | &lt;optional> | `{}` | Incoming data that is passed to the widget, If the parameter `relativeFolderPath` is not equal to a string and the third parameter is equal to the logical value, then it is perceived as `cacheRenderResult`
 `cacheRenderResult` | `boolean` | &lt;optional> | `false` | Cache the result of the renderer.
 
 ###### Returns
@@ -716,7 +717,7 @@ Name | Type | Description
 %>
 ```
 
-#### locals.require (filePath) → `*`
+#### locals.require (filePath _[, relativeFolderPath]_) → `*`
 
 Connect your own executable js/json files with CommonJS support for export.
 
@@ -725,6 +726,7 @@ Connect your own executable js/json files with CommonJS support for export.
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
 `filePath` | `string` |  |  | The path to the file (with the extension) relative to the directory specified in the parameter [requires](#requires)
+`relativeFolderPath` | `string` | &lt;optional> |  | The relative path from which to connect the specified file, ignoring the [requires](#requires)
 
 ###### Returns
 
@@ -791,7 +793,7 @@ function componentWrapper (locals) {
 module.exports = componentWrapper;
 ```
 
-#### locals.include (filePath) → `Object`
+#### locals.include (filePath _[, relativeFolderPath]_) → `Object`
 
 Includes the text content of the file in your markup as is.
 
@@ -800,6 +802,7 @@ Includes the text content of the file in your markup as is.
 Name | Type | Attributes | Default | Description
 --- | --- | --- | --- | ---
 `filePath` | `string` |  |  | The path to the file (with the extension) relative to the directory specified in the parameter [includes](#includes)
+`relativeFolderPath` | `string` | &lt;optional> |  | The relative path from which to connect the specified file, ignoring the [includes](#includes)
 
 ###### Returns
 
