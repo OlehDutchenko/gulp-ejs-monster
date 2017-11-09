@@ -13,8 +13,8 @@
 
 ## 3.1.0 [2017-11-09]
 
-- Добавлен параметр для управления вывода истории рендера при ошибках [showHistoryOnCrash]()
-- Добавлен опциональный аргмент `relativeFolderPath` в методы `locals.require`, `locals.include`, `locals.widget`
+- Добавлен параметр для управления вывода истории рендера при ошибках [showHistoryOnCrash](./README-RU.md#showHistoryOnCrash)
+- Добавлен опциональный аргумент `relativeFolderPath` в методы [`locals.require`](./README-RU.md#localsrequire-filepath--relativefolderpath--), [`locals.include`](./README-RU.md#localsinclude-filepath--relativefolderpath--object) и [`locals.widget`](./README-RU.md#localswidget-filepath--relativefolderpath--entry--cacherenderresult--string)
 
 ---
 

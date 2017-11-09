@@ -11,6 +11,13 @@
 
 ---
 
+## 3.1.0 [2017-11-09]
+
+- Added a parameter to control the output of the rendered history on errors [showHistoryOnCrash](./README.md#showHistoryOnCrash)
+- Added optional argument `relativeFolderPath` in [`locals.require`](./README.md#localsrequire-filepath--relativefolderpath--), [`locals.include`](./README.md#localsinclude-filepath--relativefolderpath--object) and [`locals.widget`](./README.md#localswidget-filepath--relativefolderpath--entry--cacherenderresult--string) methods
+
+---
+
 ## 3.0.9 [2017-09-29]
 
 - [fix file extname for Gulp 3](https://github.com/dutchenkoOleg/gulp-ejs-monster/pull/4)

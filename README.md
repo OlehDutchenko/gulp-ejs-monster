@@ -365,6 +365,14 @@ _default_ `false`
 
 Displays the render history after completing work with each page.
 
+#### `showHistoryOnCrash`
+
+_data type_ `boolean` 
+|
+_default_ `false`
+
+Displays the render history on error.
+
 #### `escape`
 
 _data type_ `function` 
@@ -460,6 +468,9 @@ If you fail, you will receive a report group:
 #### render history
 
 The rendering history of the current page, with the help of which you can track the sequence of plug-in actions
+
+> _**Note!** since 3.1.0_  
+> The history is displayed only when the [showHistoryOnCrash](#showHistoryOnCrash) parameter is turned on 
 
 ```bash
 Render history:
