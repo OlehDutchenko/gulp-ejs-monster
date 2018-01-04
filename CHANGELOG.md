@@ -10,7 +10,7 @@
 > _This project adheres to [Semantic Versioning](http://semver.org/)._
 
 
-### 3.1.1 [2018-01-04]
+### 3.1.2 [2018-01-04]
 
 Remove [deprecated `gulp-util`](https://github.com/gulpjs/gulp-util) from dependencies
 
