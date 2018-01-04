@@ -9,6 +9,11 @@
 > _All notable changes to this project will be documented in this file._  
 > _This project adheres to [Semantic Versioning](http://semver.org/)._
 
+
+### 3.1.1 [2018-01-04]
+
+Remove [deprecated `gulp-util`](https://github.com/gulpjs/gulp-util) from dependencies
+
 ---
 
 ## 3.1.0 [2017-11-09]

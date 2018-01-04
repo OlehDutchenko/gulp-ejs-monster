@@ -1,6 +1,6 @@
 {
   "name": "gulp-ejs-monster",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Gulp plugin for ejs with steroids",
   "main": "index.js",
   "scripts": {
@@ -32,16 +32,16 @@
     "ejs": "^2.5.7",
     "ejs-lint": "^0.3.0",
     "esprima": "^4.0.0",
-    "gulp-not-supported-file": "^1.2.1",
-    "gulp-util": "^3.0.8",
+    "gulp-not-supported-file": "^1.2.5",
     "json-lint": "^0.1.0",
     "lodash": "^4.5.0",
+    "plugin-error": "^0.1.2",
     "rewrite-ext": "^1.0.0",
     "through2": "^2.0.3"
   },
   "devDependencies": {
     "del": "^3.0.0",
-    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp": "^4.0.0",
     "gulp-jsdoc3": "^1.0.1",
     "gulp-mocha": "^4.3.1",
     "happiness": "^10.0.2",

@@ -5,7 +5,7 @@
  * The project is inspired by [ejs-locals](https://github.com/RandomEtc/ejs-locals)
  * @module
  * @author Oleg Dutchenko <dutchenko.o.dev@gmail.com>
- * @version 3.1.0
+ * @version 3.1.2
  */
 
 // ----------------------------------------
@@ -17,7 +17,7 @@ const ejs = require('ejs');
 const chalk = require('chalk');
 const lodash = require('lodash');
 const through2 = require('through2');
-const gutil = require('gulp-util');
+const PluginError = require('plugin-error');
 const notSupportedFile = require('gulp-not-supported-file');
 const rewrite = require('rewrite-ext');
 
@@ -48,7 +48,7 @@ const createBlockMethod = require('./methods/block');
  * @param {Object} [options={}]
  * @return {PluginError}
  */
-const pluginError = (data, options) => new gutil.PluginError(pkg.name, data, options);
+const pluginError = (data, options) => new PluginError(pkg.name, data, options);
 
 /**
  * History storage
