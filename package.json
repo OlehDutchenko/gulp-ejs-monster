@@ -1,6 +1,6 @@
 {
   "name": "gulp-ejs-monster",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Gulp plugin for ejs with steroids",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,11 @@
     "mocha": "gulp test-setup-options",
     "test": "npm run happiness && npm run mocha"
   },
+  "files": [
+    "methods",
+    "utils",
+    "index"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dutchenkoOleg/gulp-ejs-monster.git"
@@ -34,7 +39,7 @@
     "esprima": "^4.0.0",
     "gulp-not-supported-file": "^1.2.5",
     "json-lint": "^0.1.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "plugin-error": "^0.1.2",
     "rewrite-ext": "^1.0.0",
     "through2": "^2.0.3"
