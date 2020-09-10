@@ -42,7 +42,8 @@
     "lodash": "^4.17.15",
     "plugin-error": "^0.1.2",
     "rewrite-ext": "^1.0.0",
-    "through2": "^2.0.3"
+    "through2": "^2.0.3",
+    "yargs-parser": "^13.1.2"
   },
   "devDependencies": {
     "del": "^3.0.0",
@@ -52,6 +53,7 @@
     "gulp-mocha": "^6.0.0",
     "happiness": "^10.0.2",
     "jsdoc-simple-theme": "^1.1.0",
+    "lodash.template": "^4.5.0",
     "snazzy": "^7.0.0",
     "yargs": "^15.3.1"
   }
