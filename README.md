@@ -70,7 +70,7 @@ List of constant values from `gulp-ejs-monster` for `ejs`:
 This approach also has its price - now only one global object is available for you, without any "proxy" properties (which the `with` design used to imitate).
 
 
-> If this approach to working with template engine `ejs` does not suit you, you can not read further and do not create pulls, since we do not intend to change it)))
+> If this approach to working with template engine `ejs` does not suit you, you may no read further and do not create PRs, since we do not intend to change it)))
 
 ## Example of using the plugin
 
