@@ -4,11 +4,6 @@
 ![es2015](https://img.shields.io/badge/ECMAScript-2015_(ES6)-blue.svg)
 ![license](https://img.shields.io/badge/License-MIT-orange.svg)
 [![Build Status](https://travis-ci.org/dutchenkoOleg/gulp-ejs-monster.svg?branch=master)](https://travis-ci.org/dutchenkoOleg/gulp-ejs-monster)
- 
- 
-:us: English
-|
-:ru: [Русский язык](https://github.com/dutchenkoOleg/gulp-ejs-monster/blob/master/README-RU.md)
 
 > _Gulp plugin for [ejs](http://ejs.co/) with steroids. The project is inspired by [ejs-locals](https://github.com/RandomEtc/ejs-locals)_
 
@@ -110,7 +105,7 @@ ejs/
     requires/
         news-list.json
     index.ejs
-    news.ejs    
+    news.ejs
 ```
 
 #### Layouts
@@ -198,7 +193,7 @@ h1{color:red}
     let {
         list = []
     } = locals.entry;
-    
+
     if (!list.length) {
         return  'No news yet :((';
     }
@@ -249,7 +244,7 @@ gulp.task('ejs', function() {
 
 ### Plugin options
 
-A little bit of advice - in order to speed up the processing and preparation of the plugin's parameters - use the created object with saving to a variable, which you can then specify when you call.  
+A little bit of advice - in order to speed up the processing and preparation of the plugin's parameters - use the created object with saving to a variable, which you can then specify when you call.
 In this case, by storing references to an external object, the parameters will not be re-prepared. And also it is possible to save the received data (in the object `locals`) from the previous page of the render to the next.
 
 ###### Example of use
@@ -269,7 +264,7 @@ gulp.task('ejs', function() {
 
 Then you can see a list of all available options.
 
-#### `layouts` 
+#### `layouts`
 
 _data type_ `string`
 |
@@ -277,7 +272,7 @@ _default_ `process.cwd()`
 
 The relative path from the current working directory to the directory with layouts.
 
-#### `widgets` 
+#### `widgets`
 
 _data type_ `string`
 |
@@ -285,7 +280,7 @@ _default_ `process.cwd()`
 
 The relative path from the current working directory to the directory with widgets.
 
-#### `requires` 
+#### `requires`
 
 _data type_ `string`
 |
@@ -293,7 +288,7 @@ _default_ `process.cwd()`
 
 Relative path from the current working directory to the directory with js/json files, which you can connect as executable files, using the CommonJS export modules.
 
-#### `includes` 
+#### `includes`
 
 _data type_ `string`
 |
@@ -301,38 +296,38 @@ _default_ `process.cwd()`
 
 The relative path from the current working directory to the directory c with any text files from which you can connect the content as it is.
 
-#### `extname` 
+#### `extname`
 
 _data type_ `string`
 |
 _default_ `'.html'`
 
-Extend the resulting render files.  
+Extend the resulting render files.
 It is allowed not to specify. (dot) at the beginning of the value, example `'php' => '.php'`
 
-#### `delimiter` 
+#### `delimiter`
 
-_data type_ `string` 
+_data type_ `string`
 |
 _default_ `'%'`
 |
 _допустимые значения_ `['%', '&', '$', '?']`
 
-Symbol for use with angle brackets for opening / closing.  
+Symbol for use with angle brackets for opening / closing.
 If the specified property does not match the valid value, the value default will be set!
 
 #### `localsName`
 
-_data type_ `string` 
+_data type_ `string`
 |
 _default_ `'locals'`
 
-The name that will be used for the object that holds the local variables. You can replace this value with your own and later use it inside the template.  
+The name that will be used for the object that holds the local variables. You can replace this value with your own and later use it inside the template.
 The corresponding value must have a valid JavaScript variable name!
 
 #### `locals`
 
-_data type_ `Object` 
+_data type_ `Object`
 |
 _default_ `{}`
 
@@ -342,7 +337,7 @@ It is important to know that the plug-in already has a certain set of properties
 
 #### `compileDebug`
 
-_data type_ `boolean` 
+_data type_ `boolean`
 |
 _default_ `false`
 
@@ -353,13 +348,13 @@ It is important to know that if an error occurs, the plugin will not be able to 
 
 If you use the watch task for the render - after correcting the error, the parameter will again have the same value.
 
-> In very specific situations, the re-renderer may not correctly detect errors,  
-> because of a repeated pass, in which, for example, some value can be overridden, and so on.  
+> In very specific situations, the re-renderer may not correctly detect errors,
+> because of a repeated pass, in which, for example, some value can be overridden, and so on.
 > If this happens - run the task immediately with the enabled parameter `compileDebug`
 
 #### `showHistory`
 
-_data type_ `boolean` 
+_data type_ `boolean`
 |
 _default_ `false`
 
@@ -367,7 +362,7 @@ Displays the render history after completing work with each page.
 
 #### `showHistoryOnCrash`
 
-_data type_ `boolean` 
+_data type_ `boolean`
 |
 _default_ `false`
 
@@ -375,7 +370,7 @@ Displays the render history on error.
 
 #### `escape`
 
-_data type_ `function` 
+_data type_ `function`
 |
 _default_ `undefined`
 
@@ -389,7 +384,7 @@ Your own escaping function used with the `<% =` construct, which must return a s
 
 #### `afterRender`
 
-_data type_ `function` 
+_data type_ `function`
 |
 _default_ `undefined`
 
@@ -469,8 +464,8 @@ If you fail, you will receive a report group:
 
 The rendering history of the current page, with the help of which you can track the sequence of plug-in actions
 
-> _**Note!** since 3.1.0_  
-> The history is displayed only when the [showHistoryOnCrash](#showHistoryOnCrash) parameter is turned on 
+> _**Note!** since 3.1.0_
+> The history is displayed only when the [showHistoryOnCrash](#showHistoryOnCrash) parameter is turned on
 
 ```bash
 Render history:
@@ -527,9 +522,9 @@ If the error is in the `* .json` file - it will lint file by [`json-lint`](https
 
 #### locals.body
 
-_data type_ `string` 
+_data type_ `string`
 
-Content of the current page, for insertion inside the layouts.    
+Content of the current page, for insertion inside the layouts.
 Accordingly, the property is available only within the layouts!
 
 ###### Example of use
@@ -559,7 +554,7 @@ Accordingly, the property is available only within the layouts!
 
 #### locals.blocks
 
-_data type_ `Object` 
+_data type_ `Object`
 
 List of assembled blocks that are created using the method [`locals.block()`](#localsblock-blockname-markup--mtd---block)
 
@@ -597,11 +592,11 @@ List of assembled blocks that are created using the method [`locals.block()`](#l
 
 #### locals.entry
 
-_data type_ `Object` 
+_data type_ `Object`
 
-Incoming properties for the current widget.  
+Incoming properties for the current widget.
 Accordingly, the property is available only inside the widgets!
- 
+
 ###### Example of use
 
 ```html
@@ -627,25 +622,25 @@ Accordingly, the property is available only inside the widgets!
 
 #### locals.viewName
 
-_data type_ `string` 
+_data type_ `string`
 
-The name of the current rendering page (without the extension).  
+The name of the current rendering page (without the extension).
 Regardless of the current widget, the include, layout and so on.
 
 
 #### locals.viewPath
 
-_data type_ `string` 
+_data type_ `string`
 
-Absolute path to the current render page in your file system.  
+Absolute path to the current render page in your file system.
 Regardless of the current widget, the include, layout and so on.
 
 
 #### locals.fileChanged
 
-_data type_ `boolean` 
+_data type_ `boolean`
 
-Flag, whether the file changed after the last access to it.  
+Flag, whether the file changed after the last access to it.
 The property is available inside the widgets. On the main render pages and their layouts, the property is also available, but for them it will always be `true`.
 
 ### Methods
@@ -678,13 +673,13 @@ Name | Type | Attributes | Default | Description
 - _data type_: `string`
 - _description_: rendering ejs markup
 
-Inside the widget, you can accept incoming data from the [`locals.entry`](#localsentry). 
+Inside the widget, you can accept incoming data from the [`locals.entry`](#localsentry).
 
 _Caching the result of the renderer_ will allow you to store the received string as ***ready static markup*** and insert it on subsequent calls on the page without compilation. To do this in the next widgets, you must also specify `cacheRenderResult`. Otherwise, the render will be performed again for the current call.
 
 If you change the file of the widget itself (change the modification date), the cache will be reset.
 
-This approach can also be used for several pages in the overall rendering task.  
+This approach can also be used for several pages in the overall rendering task.
 For example - the first page, `index.ejs`, render the block of code, a `news.ejs`, which goes after, will already take the cached result.
 
 ###### Example of use
@@ -761,11 +756,11 @@ Variant 1. Bind the context for the method
 function component (message) {
 	console.log(this);
 	console.log(message);
-	
+
 	// require another components and files
 	let anotherComponent = this.require('another-component.js').bind(this);
 	let data = this.require('config.json');
-	
+
 	// ...
 }
 
@@ -790,14 +785,14 @@ function componentWrapper (locals) {
 	function component (message) {
 		console.log(locals);
 		console.log(message);
-		
+
 		// require another components and files
 		let anotherComponent = locals.require('another-component.js')(locals);
 		let data = this.require('config.json');
-		
+
 		// ...
 	}
-	
+
 	return component;
 }
 
@@ -865,7 +860,7 @@ function createMd2HtmlComponent (locals) {
         }
         return mdFile;
     }
-    
+
     return md2html;
 }
 
@@ -879,7 +874,7 @@ function extendLocals (locals) {
     if (!locals.hasOwnProperty('com')) {
         locals.com = {};
     }
-  
+
     locals.com.md2html = locals.com.md2html || locals.require('components/md2html.js')(locals);
 
     // set other components inside render
@@ -939,7 +934,7 @@ Name | Type | Attributes | Default | Description
 - _data type_: `string`
 - _description_: Value of the block
 
-When specifying a value for a block, an array is formed, which, when printed, is joined to a string.  
+When specifying a value for a block, an array is formed, which, when printed, is joined to a string.
 Methods for specifying a value for a block:
 
 - `'replace'` - replace the previous value if it was. If not then just assign a new value.
@@ -964,7 +959,6 @@ Methods for specifying a value for a block:
 
 ## Project Info
 
-* [Change log](https://github.com/dutchenkoOleg/gulp-ejs-monster/blob/master/CHANGELOG.md)
 * [Contributing Guidelines](https://github.com/dutchenkoOleg/gulp-ejs-monster/blob/master/CONTRIBUTING.md)
 * [Contributor Covenant Code of Conduct](https://github.com/dutchenkoOleg/gulp-ejs-monster/blob/master/CODE_OF_CONDUCT.md)
 * [License MIT](https://github.com/dutchenkoOleg/gulp-ejs-monster/blob/master/LICENSE)

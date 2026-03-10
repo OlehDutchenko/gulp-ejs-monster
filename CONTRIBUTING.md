@@ -1,11 +1,5 @@
 # Contributing Guidelines
 
-:back: [README.md](./README.md)
-|
-:us: English
-|
-:ru: [Русский язык](./CONTRIBUTING-RU.md)
-
 Contributions welcome!
 
 **Before spending lots of time on something, ask for feedback on your idea first!**
@@ -45,9 +39,9 @@ There are a few basic ground-rules for contributors:
 [![happiness][happiness-image]][happiness-url]
 
 This repository uses [`happiness`][happiness-url] to maintain code style and consistency,
-and to avoid style arguments.  
- ***So you also need to follow this code styles!*** 
- 
+and to avoid style arguments.
+ ***So you also need to follow this code styles!***
+
  Run `npm run happiness` for check outs.
 
 [happiness-image]: https://cdn.rawgit.com/JedWatson/happiness/master/badge.svg
